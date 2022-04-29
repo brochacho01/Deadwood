@@ -52,7 +52,7 @@ class Board
     }
 
     //Verify a move was valid
-    public boolean verifyMove(Player p, int[][] map, int location)
+    public boolean verifyMove(Player p, int[][] map)
     {
         return true;
     }
