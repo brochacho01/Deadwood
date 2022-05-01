@@ -18,11 +18,6 @@ class Board
         return;
     }
 
-    public void setDay(int day)
-    {
-        this.day = day;
-    }
-
     public Player[] getPlayers()
     {
         return players;
