@@ -18,7 +18,7 @@ class Board
         return;
     }
 
-    public Player[] getPlayers()
+    public Player[] getPlayers() 
     {
         return players;
     }
