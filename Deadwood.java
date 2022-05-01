@@ -10,8 +10,8 @@ class Deadwood {
 
     // Setup the game
     public void setupGame() {
-        // int players = 0;
-        board.setDay(0);
+        // getPlayers
+        day = 0;
         board.randomizePlayers();
         board.setBoard();
         // beginDay

@@ -15,7 +15,7 @@ class Player
         return;
     }
     //End the player's turn
-    public void endTurn()
+    public void endTurn() 
     {
         return;
     }
