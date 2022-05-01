@@ -8,6 +8,12 @@ class Player
     private int credits;
     private int rehearsalTokens;
 
+    //Have the player take their turn
+    public void takeTurn()
+    {
+        //Do stuff like move, act, etc...
+        return;
+    }
     //End the player's turn
     public void endTurn()
     {
