@@ -1,10 +1,14 @@
+import javax.xml.parsers.ParserConfigurationException;
+
 class Deadwood {
     // This will contain our system logic
     private Board board;
     private int day;
     private int maxDays;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParserConfigurationException {
+        XMLParse xml = new XMLParse();
+        xml.parseBoard();
         System.out.println("Hello world");
     }
 
