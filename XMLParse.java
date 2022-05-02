@@ -19,25 +19,13 @@ class XMLParse
         for (int i = 0; i < sets.getLength(); i++)
         {
             Node set = sets.item(i);
-            String name = set.getAttributes().getNamedItem("name").getNodeValue();
-            NodeList children = set.getChildNodes();
+            String setName = set.getAttributes().getNamedItem("name").getNodeValue();
+            NodeList children = ((Element)set).getElementsByTagName("neighbor");
+            System.out.println(children.getLength());
             for(int j = 0; j < children.getLength(); j++)
             {
-                Node sub = children.item(j);
-                if("neighbors".equals(sub.getNodeName()));
-                {
-                    NodeList neighbors = sub.getChildNodes();
-                    int numNeighbors = neighbors.getLength();
-                    System.out.println(numNeighbors);
-                    String[] names = new String[numNeighbors];
-                    for(int k = 0; k < numNeighbors; k++)
-                    {
-                        Node neighbor = neighbors.item(k);
-                        names[k] = neighbor.getAttributes().getNamedItem("name").getNodeValue();
-                        System.out.println(names[k]);
-                    }
-                    System.out.println("aa");
-                }
+                Node setChild = children.item(j);
+                System.out.println(setChild.getAttributes().getNamedItem("name").getNodeValue());
             }
         }
         return;
