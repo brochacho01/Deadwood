@@ -20,12 +20,13 @@ class XMLParse
         {
             Node set = sets.item(i);
             String setName = set.getAttributes().getNamedItem("name").getNodeValue();
-            NodeList children = ((Element)set).getElementsByTagName("neighbor");
-            System.out.println(children.getLength());
-            for(int j = 0; j < children.getLength(); j++)
+            NodeList neighbors = ((Element)set).getElementsByTagName("neighbor");
+            System.out.println(neighbors.getLength());
+            String[] neighborNames = new String[neighbors.getLength()];
+            for(int j = 0; j < neighbors.getLength(); j++)
             {
-                Node setChild = children.item(j);
-                System.out.println(setChild.getAttributes().getNamedItem("name").getNodeValue());
+                Node setChild = neighbors.item(j);
+                neighborNames[j] = setChild.getAttributes().getNamedItem("name").getNodeValue();
             }
         }
         return;
