@@ -4,7 +4,6 @@ class Board
     private Player[] players;
     private int activeSets;
     private int playerTurn;
-    private int[][] map;
 
     //Setup the board
     public void setBoard()
@@ -26,5 +25,6 @@ class Board
     public void setSets(Set[] sets)
     {
         this.sets = sets;
+        this.activeSets = sets.length;
     }
 }
