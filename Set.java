@@ -12,6 +12,11 @@ public class Set {
     private HashMap<Role, Integer> offCardRoles;
     // Every set has a scene card
     private SceneCard scene;
+    public boolean isFlipped;
+
+    public void flip() {
+
+    }
 
     // uses the HashMap of players, calculates their payout and calls setter to update player money/credits
     private void offCardPayout(){

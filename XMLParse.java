@@ -1,13 +1,48 @@
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 class XMLParse
 {
     //parse the deck
-    public void parseDeck()
+    public Deck parseDeck() throws ParserConfigurationException
     {
-        return;
+        ArrayList<SceneCard> cards = new ArrayList<SceneCard>();
+        Document d = getDocFromFile("cards.xml");
+        Element root = d.getDocumentElement();
+        NodeList cardNodes = root.getElementsByTagName("card");
+        for (int i = 0; i < cardNodes.getLength(); i++){
+            HashMap<Role,Integer> playersOnCard = new HashMap<Role,Integer>();
+            Node card = cardNodes.item(i);
+            // Get cardname
+            String cardName = card.getAttributes().getNamedItem("name").getNodeValue();
+            // Get sceneDescription
+            Node scene = card.getFirstChild().getNextSibling();
+            String sceneNumberS = scene.getAttributes().getNamedItem("number").getNodeValue();
+            int sceneNumber = Integer.parseInt(sceneNumberS);
+            String sceneDescription = scene.getTextContent();
+            sceneDescription = sceneDescription.replaceAll("[\\n\\t]", "");
+            // Get budget
+            String budgetS = card.getAttributes().getNamedItem("budget").getNodeValue();
+            int budget = Integer.parseInt(budgetS);
+            // need to get all the roles for each SceneCard
+            NodeList roles = ((Element)card).getElementsByTagName("part");
+            for(int j = 0; j < roles.getLength(); j++){
+                String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
+                Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
+                String roleDescription = roleDescriptionNode.getTextContent();
+                String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
+                int rank = Integer.parseInt(rankS);
+                Role r = new Role(roleName, roleDescription, rank);
+                playersOnCard.put(r, -1);
+            }
+            SceneCard s = new SceneCard(cardName, sceneNumber, sceneDescription, budget, playersOnCard);
+            cards.add(s);
+        }
+        Deck newDeck = new Deck(cards);
+        return newDeck;
     }
 
     //parse the board

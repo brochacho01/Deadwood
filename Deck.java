@@ -13,8 +13,8 @@ public class Deck {
     }
 
     // Creates an arrayList of SceneCards based on the number of players in the game
-    public ArrayList<SceneCard> createDeck(int numPlayers){
-        return cards;
+    public Deck(ArrayList<SceneCard> cards){
+        this.cards = cards;
     }
 
     // Deck deals a card to each set
