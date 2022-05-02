@@ -30,7 +30,17 @@ public class Set {
         
     }
 
-    
+    public Set(String name, String[] neighbors, int shotsLeft)
+    {
+        this.name = name;
+        this.neighbors = neighbors;
+        this.shotsLeft = shotsLeft;
+        offCardRoles = new HashMap<Role,Integer>();
+    }
 
-
+    public void addRole(Role r)
+    {
+        offCardRoles.put(r, -1);
+        return;
+    }
 }

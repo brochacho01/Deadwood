@@ -8,7 +8,7 @@ class Deadwood {
 
     public static void main(String[] args) throws ParserConfigurationException {
         XMLParse xml = new XMLParse();
-        xml.parseBoard();
+        Board b = xml.parseBoard();
         System.out.println("Hello world");
     }
 
