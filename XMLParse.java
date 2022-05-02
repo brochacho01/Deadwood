@@ -18,16 +18,33 @@ class XMLParse
         NodeList sets = root.getElementsByTagName("set");
         for (int i = 0; i < sets.getLength(); i++)
         {
+            Set s = new Set();
             Node set = sets.item(i);
             String setName = set.getAttributes().getNamedItem("name").getNodeValue();
+            // Get all of the neighbors
             NodeList neighbors = ((Element)set).getElementsByTagName("neighbor");
-            System.out.println(neighbors.getLength());
+            // Get all of the shots for each set
+            NodeList takes = ((Element)set).getElementsByTagName("take");
+            int shots = takes.getLength();
+            // Get all of the roles for each set, each node should contain a name, a level, area, and a line
+            NodeList roles = ((Element)set).getElementsByTagName("part");
+            // Extract all data from roles nodelist and assign to a new Role class
+            for(int j = 0; j < roles.getLength(); j++){
+                String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
+                Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
+                String roleDescription = roleDescriptionNode.getTextContent();
+                String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
+                int rank = Integer.parseInt(rankS);
+                Role r = new Role(roleName, roleDescription, rank);
+                System.out.println("DeezNutz");
+            }
+            // Store the name of all the neighbors of the current set in a string[]
             String[] neighborNames = new String[neighbors.getLength()];
             for(int j = 0; j < neighbors.getLength(); j++)
             {
                 Node setChild = neighbors.item(j);
                 neighborNames[j] = setChild.getAttributes().getNamedItem("name").getNodeValue();
-            }
+            }            
         }
         return;
     }
