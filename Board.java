@@ -22,4 +22,9 @@ class Board
     {
         return players;
     }
+
+    public void setSets(Set[] sets)
+    {
+        this.sets = sets;
+    }
 }
