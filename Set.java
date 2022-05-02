@@ -3,6 +3,8 @@ import java.util.HashMap;
 import java.util.HashMap;
 
 public class Set {
+    private String name;
+    private String[] neighbors;
     // Tracks how many shots are left on the set
     private int shotsLeft;
     // This hashMap stores all the roles on the sceneCard as the keys, and the value
