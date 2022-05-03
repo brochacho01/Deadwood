@@ -4,17 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class XMLParse
-{
-    //parse the deck
-    public Deck parseDeck() throws ParserConfigurationException
-    {
+class XMLParse {
+    // parse the deck
+    public Deck parseDeck() throws ParserConfigurationException {
         ArrayList<SceneCard> cards = new ArrayList<SceneCard>();
         Document d = getDocFromFile("cards.xml");
         Element root = d.getDocumentElement();
         NodeList cardNodes = root.getElementsByTagName("card");
-        for (int i = 0; i < cardNodes.getLength(); i++){
-            HashMap<Role,Integer> playersOnCard = new HashMap<Role,Integer>();
+        for (int i = 0; i < cardNodes.getLength(); i++) {
+            HashMap<Role, Integer> playersOnCard = new HashMap<Role, Integer>();
             Node card = cardNodes.item(i);
             // Get cardname
             String cardName = card.getAttributes().getNamedItem("name").getNodeValue();
@@ -28,8 +26,8 @@ class XMLParse
             String budgetS = card.getAttributes().getNamedItem("budget").getNodeValue();
             int budget = Integer.parseInt(budgetS);
             // need to get all the roles for each SceneCard
-            NodeList roles = ((Element)card).getElementsByTagName("part");
-            for(int j = 0; j < roles.getLength(); j++){
+            NodeList roles = ((Element) card).getElementsByTagName("part");
+            for (int j = 0; j < roles.getLength(); j++) {
                 String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
                 Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
                 String roleDescription = roleDescriptionNode.getTextContent();
@@ -45,35 +43,34 @@ class XMLParse
         return newDeck;
     }
 
-    //parse the board
-    public Board parseBoard() throws ParserConfigurationException
-    {   
+    // parse the board
+    public Board parseBoard() throws ParserConfigurationException {
         Board b = new Board();
         Document d = getDocFromFile("board.xml");
         Element root = d.getDocumentElement();
         NodeList setNodes = root.getElementsByTagName("set");
+        // Get sets
         Set[] sets = new Set[setNodes.getLength()];
-        for (int i = 0; i < setNodes.getLength(); i++)
-        {
+        for (int i = 0; i < setNodes.getLength(); i++) {
             Node set = setNodes.item(i);
             String setName = set.getAttributes().getNamedItem("name").getNodeValue();
             // Get all of the neighbors
-            NodeList neighbors = ((Element)set).getElementsByTagName("neighbor");
+            NodeList neighbors = ((Element) set).getElementsByTagName("neighbor");
             // Get all of the shots for each set
-            NodeList takes = ((Element)set).getElementsByTagName("take");
+            NodeList takes = ((Element) set).getElementsByTagName("take");
             int shots = takes.getLength();
-            // Get all of the roles for each set, each node should contain a name, a level, area, and a line
-            NodeList roles = ((Element)set).getElementsByTagName("part");
+            // Get all of the roles for each set, each node should contain a name, a level,
+            // area, and a line
+            NodeList roles = ((Element) set).getElementsByTagName("part");
             // Store the name of all the neighbors of the current set in a string[]
             String[] neighborNames = new String[neighbors.getLength()];
-            for(int j = 0; j < neighbors.getLength(); j++)
-            {
+            for (int j = 0; j < neighbors.getLength(); j++) {
                 Node setChild = neighbors.item(j);
                 neighborNames[j] = setChild.getAttributes().getNamedItem("name").getNodeValue();
             }
             Set s = new Set(setName, neighborNames, shots);
             // Extract all data from roles nodelist and assign to a new Role class
-            for(int j = 0; j < roles.getLength(); j++){
+            for (int j = 0; j < roles.getLength(); j++) {
                 String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
                 Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
                 String roleDescription = roleDescriptionNode.getTextContent();
@@ -84,16 +81,45 @@ class XMLParse
             }
             sets[i] = s;
         }
-        b.setSets(sets);
+        // Need to create our rooms that board will hold which includes the two rooms
+        // without sets
+        Room[] rooms = new Room[sets.length + 2];
+        for (int i = 0; i < sets.length; i++) {
+            rooms[i] = sets[i];
+        }
+        // Get trailer default info
+        NodeList trailerNL = root.getElementsByTagName("trailer");
+        Node trailer = trailerNL.item(0);
+        String trailerName = "Trailer";
+        NodeList trailerNeighbors = ((Element) trailer).getElementsByTagName("neighbor");
+        // Get office default info
+        NodeList officeNL = root.getElementsByTagName("office");
+        Node office = officeNL.item(0);
+        String officeName = "Office";
+        NodeList officeNeighbors = ((Element) office).getElementsByTagName("neighbor");
+        String[] trailerNeighborNames = new String[trailerNeighbors.getLength()];
+        String[] officeNeighborNames = new String[officeNeighbors.getLength()];
+        for(int i = 0; i < trailerNeighbors.getLength(); i++){
+            Node trailerNeighbor = trailerNeighbors.item(i);
+            Node officeNeighbor = officeNeighbors.item(i);
+            trailerNeighborNames[i] = trailerNeighbor.getAttributes().getNamedItem("name").getNodeValue();
+            officeNeighborNames[i] = officeNeighbor.getAttributes().getNamedItem("name").getNodeValue(); 
+        }
+
+        // Get office
+
+        // b.setSets(sets);
+        // Get trailer and upgrade office
+
         return b;
     }
 
-    public Document getDocFromFile(String filename) throws ParserConfigurationException{
+    public Document getDocFromFile(String filename) throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         DocumentBuilder db = dbf.newDocumentBuilder();
         Document doc = null;
 
-        try{
+        try {
             doc = db.parse(filename);
         } catch (Exception ex) {
             System.out.println("XML parse failure");
@@ -101,6 +127,5 @@ class XMLParse
         }
         return doc;
     }
-   
 
 }

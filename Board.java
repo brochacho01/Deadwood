@@ -1,6 +1,6 @@
 class Board
 {
-    private Set[] sets;
+    private Room[] rooms;
     private Player[] players;
     private int activeSets;
     private int playerTurn;
@@ -22,9 +22,10 @@ class Board
         return players;
     }
 
-    public void setSets(Set[] sets)
+    public void setSets(Room[] rooms)
     {
-        this.sets = sets;
-        this.activeSets = sets.length;
+        this.rooms = rooms;
+        // -2 because office and trailer aren't sets
+        this.activeSets = rooms.length - 2;
     }
 }
