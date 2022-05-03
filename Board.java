@@ -22,7 +22,7 @@ class Board
         return players;
     }
 
-    public void setSets(Room[] rooms)
+    public void setRooms(Room[] rooms)
     {
         this.rooms = rooms;
         // -2 because office and trailer aren't sets

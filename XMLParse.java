@@ -82,12 +82,7 @@ class XMLParse {
             }
             sets[i] = s;
         }
-        // Need to create our rooms that board will hold which includes the two rooms
-        // without sets
-        Room[] rooms = new Room[sets.length + 2];
-        for (int i = 0; i < sets.length; i++) {
-            rooms[i] = sets[i];
-        }
+        
         // Get trailer default info
         NodeList trailerNL = root.getElementsByTagName("trailer");
         Node trailer = trailerNL.item(0);
@@ -99,6 +94,7 @@ class XMLParse {
         NodeList officeNeighbors = ((Element) office).getElementsByTagName("neighbor");
         String[] trailerNeighborNames = new String[trailerNeighbors.getLength()];
         String[] officeNeighborNames = new String[officeNeighbors.getLength()];
+        // Create String arrays containing neighbors of trailer and office
         for(int i = 0; i < trailerNeighbors.getLength(); i++){
             Node trailerNeighbor = trailerNeighbors.item(i);
             Node officeNeighbor = officeNeighbors.item(i);
@@ -123,12 +119,19 @@ class XMLParse {
             }
         }
 
+        // create our trailer and office objects
         Trailer t = new Trailer("Trailer", trailerNeighborNames);
         Office o = new Office("Office", officeNeighborNames, officeUpgrades);
-        // Get office
+        // Need to create our rooms that board will hold which includes the two rooms
+        // without sets
+        Room[] rooms = new Room[sets.length + 2];
+        for (int i = 0; i < sets.length; i++) {
+            rooms[i + 2] = sets[i];
+        }
+        rooms[0] = t;
+        rooms[1] = o;
 
-        // b.setSets(sets);
-        // Get trailer and upgrade office
+        b.setRooms(rooms);
 
         return b;
     }
