@@ -1,3 +1,4 @@
+import javax.lang.model.util.ElementScanner6;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
 import java.io.File;
@@ -108,10 +109,22 @@ class XMLParse {
         int[][] officeUpgrades = new int[5][3];
         NodeList upgradeNodes = ((Element) office).getElementsByTagName("upgrade");
         
-
+        for(int i = 0; i < upgradeNodes.getLength(); i++)
+        {
+            Node upgradeNode = upgradeNodes.item(i);
+            if ("dollar".equals(upgradeNode.getAttributes().getNamedItem("currency").getNodeValue()))
+            {
+                officeUpgrades[(i % 5)][0] = (i % 5) + 2;
+                officeUpgrades[(i % 5)][1] = Integer.parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
+            }
+            else
+            {
+                officeUpgrades[(i % 5)][2] = Integer.parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
+            }
+        }
 
         Trailer t = new Trailer("Trailer", trailerNeighborNames);
-        Office o = new Office("Office", officeNeighborNames, upgrades);
+        Office o = new Office("Office", officeNeighborNames, officeUpgrades);
         // Get office
 
         // b.setSets(sets);
