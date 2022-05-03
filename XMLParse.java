@@ -90,7 +90,6 @@ class XMLParse {
         // Get trailer default info
         NodeList trailerNL = root.getElementsByTagName("trailer");
         Node trailer = trailerNL.item(0);
-        String trailerName = "Trailer";
         NodeList trailerNeighbors = ((Element) trailer).getElementsByTagName("neighbor");
         // Get office default info
         NodeList officeNL = root.getElementsByTagName("office");
@@ -105,7 +104,14 @@ class XMLParse {
             trailerNeighborNames[i] = trailerNeighbor.getAttributes().getNamedItem("name").getNodeValue();
             officeNeighborNames[i] = officeNeighbor.getAttributes().getNamedItem("name").getNodeValue(); 
         }
+        // Get office upgrades
+        int[][] officeUpgrades = new int[5][3];
+        NodeList upgradeNodes = ((Element) office).getElementsByTagName("upgrade");
+        
 
+
+        Trailer t = new Trailer("Trailer", trailerNeighborNames);
+        Office o = new Office("Office", officeNeighborNames, upgrades);
         // Get office
 
         // b.setSets(sets);
