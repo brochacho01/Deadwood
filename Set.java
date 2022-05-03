@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 import java.util.HashMap;
 
-public class Set {
+public class Set extends Room {
     private String name;
     private String[] neighbors;
     // Tracks how many shots are left on the set
@@ -15,36 +15,34 @@ public class Set {
     public boolean isFlipped;
 
     public void flip() {
+        isFlipped = !isFlipped;
+    }
+
+    // uses the HashMap of players, calculates their payout and calls setter to
+    // update player money/credits
+    private void offCardPayout() {
 
     }
 
-    // uses the HashMap of players, calculates their payout and calls setter to update player money/credits
-    private void offCardPayout(){
-    
-    }
-
-    private void removeSceneCard(){
+    private void removeSceneCard() {
 
     }
 
-    public void setShotCounters(int shotsLeft){
+    public void setShotCounters(int shotsLeft) {
 
     }
 
-    private void sceneWrap(){
-        
+    private void sceneWrap() {
+
     }
 
-    public Set(String name, String[] neighbors, int shotsLeft)
-    {
-        this.name = name;
-        this.neighbors = neighbors;
+    public Set(String name, String[] neighbors, int shotsLeft) {
+        super(name, neighbors);
         this.shotsLeft = shotsLeft;
-        offCardRoles = new HashMap<Role,Integer>();
+        offCardRoles = new HashMap<Role, Integer>();
     }
 
-    public void addRole(Role r)
-    {
+    public void addRole(Role r) {
         offCardRoles.put(r, -1);
         return;
     }
