@@ -3,21 +3,23 @@ import javax.xml.parsers.ParserConfigurationException;
 class Deadwood {
     // This will contain our system logic
     private static Board b;
+    private static Deck d;
     private static int day;
     private static int maxDays;
 
     public static void main(String[] args) throws ParserConfigurationException {
-        XMLParse xml = new XMLParse();
-        b = xml.parseBoard();
-        Deck d = xml.parseDeck();
+        
         //Print welcome message
         System.out.println("\n\n\n        :::       ::: :::::::::: :::        ::::::::   ::::::::    :::   :::   ::::::::::      ::::::::::: ::::::::                                                                     \n       :+:       :+: :+:        :+:       :+:    :+: :+:    :+:  :+:+: :+:+:  :+:                 :+:    :+:    :+:                                                                     \n      +:+       +:+ +:+        +:+       +:+        +:+    +:+ +:+ +:+:+ +:+ +:+                 +:+    +:+    +:+                                                                      \n     +#+  +:+  +#+ +#++:++#   +#+       +#+        +#+    +:+ +#+  +:+  +#+ +#++:++#            +#+    +#+    +:+                                                                       \n    +#+ +#+#+ +#+ +#+        +#+       +#+        +#+    +#+ +#+       +#+ +#+                 +#+    +#+    +#+                                                                        \n    #+#+# #+#+#  #+#        #+#       #+#    #+# #+#    #+# #+#       #+# #+#                 #+#    #+#    #+#                                                                         \n    ###   ###   ########## ########## ########   ########  ###       ### ##########          ###     ########                                                                           \n          :::::::::  ::::::::::     :::     :::::::::  :::       :::  ::::::::   ::::::::  :::::::::          :::::::: ::::::::::: :::    ::: ::::::::: ::::::::::: ::::::::   :::::::: \n         :+:    :+: :+:          :+: :+:   :+:    :+: :+:       :+: :+:    :+: :+:    :+: :+:    :+:        :+:    :+:    :+:     :+:    :+: :+:    :+:    :+:    :+:    :+: :+:    :+: \n        +:+    +:+ +:+         +:+   +:+  +:+    +:+ +:+       +:+ +:+    +:+ +:+    +:+ +:+    +:+        +:+           +:+     +:+    +:+ +:+    +:+    +:+    +:+    +:+ +:+         \n       +#+    +:+ +#++:++#   +#++:++#++: +#+    +:+ +#+  +:+  +#+ +#+    +:+ +#+    +:+ +#+    +:+        +#++:++#++    +#+     +#+    +:+ +#+    +:+    +#+    +#+    +:+ +#++:++#++   \n      +#+    +#+ +#+        +#+     +#+ +#+    +#+ +#+ +#+#+ +#+ +#+    +#+ +#+    +#+ +#+    +#+               +#+    +#+     +#+    +#+ +#+    +#+    +#+    +#+    +#+        +#+    \n     #+#    #+# #+#        #+#     #+# #+#    #+#  #+#+# #+#+#  #+#    #+# #+#    #+# #+#    #+#        #+#    #+#    #+#     #+#    #+# #+#    #+#    #+#    #+#    #+# #+#    #+#     \n    #########  ########## ###     ### #########    ###   ###    ########   ########  #########          ########     ###      ########  ######### ########### ########   ########       \n\n\n");
-        setupGame(b, d);
+        setupGame();
         System.out.println("Break line for debugging");
     }
 
     // Setup the game
-    public static void setupGame(Board b, Deck d) {
+    public static void setupGame() throws ParserConfigurationException {
+        XMLParse xml = new XMLParse();
+        b = xml.parseBoard();
+        d = xml.parseDeck();
         // getPlayers
         int numPlayers = View.getNumPlayers();
 
@@ -55,13 +57,17 @@ class Deadwood {
         day = day + 1;
         if (day > maxDays) {
             endGame();
+        } else {
+            // If not last day, deal new scenecards to each set
+            d.dealCards(b);
         }
         return;
     }
 
     // End a day
     public void endDay() {
-        return;
+        // setBoard moves all the players to the trailer as well as resetting all of the sets on the board
+        b.setBoard();
     }
 
     // controls the flow of turns, when not beginning/ending the day or game, the
