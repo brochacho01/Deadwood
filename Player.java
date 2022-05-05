@@ -1,5 +1,6 @@
 class Player
 {
+    private String name;
     private boolean hasRole;
     private int rank;
     private int location;
@@ -7,6 +8,38 @@ class Player
     private int balance;
     private int credits;
     private int rehearsalTokens;
+
+
+    //Constructor
+    public Player(int num, int i)
+    {
+        this.name = View.getName(i);
+        this.hasRole = false;
+        if(num > 6)
+        {
+            this.rank = 2;
+        }
+        else
+        {
+            this.rank = 1;
+        }
+        this.location = 0;
+        this.role = -1;
+        this.balance = 0;
+        if(num == 5)
+        {
+            this.credits = 2;
+        }
+        else if(num == 6)
+        {
+            this.credits = 4;
+        }
+        else
+        {
+            this.credits = 0;
+        }
+        this.rehearsalTokens = 0;
+    }
 
     //Have the player take their turn
     public void takeTurn()
@@ -23,7 +56,7 @@ class Player
     //Move the player
     public void move(boolean hasRole, int location)
     {
-        return;
+        this.location = location;
     }
 
     //Take an available role
@@ -48,5 +81,10 @@ class Player
     public void upgrade(int location, int balance, int credits, int rank)
     {
         return;
+    }
+
+    public void resetRole()
+    {
+        this.hasRole = false;
     }
 }

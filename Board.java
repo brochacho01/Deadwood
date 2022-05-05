@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Board
 {
     private Room[] rooms;
@@ -8,18 +10,33 @@ class Board
     //Setup the board
     public void setBoard()
     {
-        return;
+        for(int i = 0; i < players.length; i++)
+        {
+            players[i].resetRole();
+            players[i].move(false, 0);
+        }
     }
 
     //randomize the order of players
     public void randomizePlayers()
     {
-        return;
+        List<Player> playersList = Arrays.asList(players);
+		Collections.shuffle(playersList);
+		playersList.toArray(players);
     }
 
     public Player[] getPlayers() 
     {
         return players;
+    }
+
+    public void setPlayers(int num)
+    {
+        this.players = new Player[num];
+        for(int i = 0; i < num; i++)
+        {
+            players[i] = new Player(num, i+1);
+        }
     }
 
     public void setRooms(Room[] rooms)
