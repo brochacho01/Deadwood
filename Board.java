@@ -15,8 +15,14 @@ class Board
             //Reset the roles of players and move them to the trailers
             players[i].resetRole();
             players[i].move(false, 0);
+            }
+            // Need to also reset each set on the board
+            for(int j = 0; j < rooms.length; j++){
+                if(rooms[j] instanceof Set){
+                    ((Set) rooms[j]).reset();
+                }
+            }
         }
-    }
 
     //randomize the order of players
     public void randomizePlayers()
@@ -47,7 +53,7 @@ class Board
         // -2 because office and trailer aren't sets
         this.activeSets = rooms.length - 2;
     }
-    
+
     public Room[] getRooms(){
         return this.rooms;
     }
