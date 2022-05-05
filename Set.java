@@ -46,4 +46,8 @@ public class Set extends Room {
         offCardRoles.put(r, -1);
         return;
     }
+
+    public void setSceneCard(SceneCard card){
+        this.scene = card;
+    }
 }

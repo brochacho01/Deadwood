@@ -19,8 +19,18 @@ public class Deck {
     }
 
     // Deck deals a card to each set
-    public void dealCards() {
-
+    public void dealCards(Board b) {
+        Room[] rooms = b.getRooms();
+        // iterate over each room
+        for(int i = 0; i < rooms.length; i++){
+            // if room is a set
+            if(rooms[i] instanceof Set){
+                // give it a scene card
+                ((Set) rooms[i]).setSceneCard(this.cards.get(0));
+                // remove scene card from deck
+                this.cards.remove(0);
+            }
+        }
     }
 
 

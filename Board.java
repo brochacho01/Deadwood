@@ -47,4 +47,8 @@ class Board
         // -2 because office and trailer aren't sets
         this.activeSets = rooms.length - 2;
     }
+    
+    public Room[] getRooms(){
+        return this.rooms;
+    }
 }
