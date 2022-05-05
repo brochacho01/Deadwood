@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     private int deckSize;
@@ -9,7 +10,7 @@ public class Deck {
     private ArrayList<SceneCard> cards;
 
     private void shuffle() {
-
+        Collections.shuffle(cards);
     }
 
     // Creates an arrayList of SceneCards based on the number of players in the game

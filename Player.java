@@ -87,6 +87,7 @@ class Player
     //Reset the player's role
     public void resetRole()
     {
+        this.rehearsalTokens = 0;
         this.hasRole = false;
         this.role = -1;
     }
