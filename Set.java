@@ -50,4 +50,13 @@ public class Set extends Room {
     public void setSceneCard(SceneCard card){
         this.scene = card;
     }
+
+    // Removes sceneCard from the board, and removes all players from set
+    public void reset(){
+        this.scene = null;
+        // For each role on the set, set its value back to -1 as all players are moved back to trailer
+        for(int value : offCardRoles.values()){
+            value = -1;
+        }
+    }
 }
