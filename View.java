@@ -5,6 +5,7 @@ class View
 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+    //Get the number of players that are going to play the game
     public static int getNumPlayers()
     {
         int numPlayers = 0;
@@ -23,6 +24,7 @@ class View
         return numPlayers;
     }
 
+    //Get the name of player i
     public static String getName(int i)
     {
         String name = "";

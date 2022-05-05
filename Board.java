@@ -12,6 +12,7 @@ class Board
     {
         for(int i = 0; i < players.length; i++)
         {
+            //Reset the roles of players and move them to the trailers
             players[i].resetRole();
             players[i].move(false, 0);
         }
@@ -30,6 +31,7 @@ class Board
         return players;
     }
 
+    //Create the array of players
     public void setPlayers(int num)
     {
         this.players = new Player[num];

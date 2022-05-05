@@ -13,6 +13,7 @@ class Player
     //Constructor
     public Player(int num, int i)
     {
+        //Get the name of the player
         this.name = View.getName(i);
         this.hasRole = false;
         if(num > 6)
@@ -83,8 +84,10 @@ class Player
         return;
     }
 
+    //Reset the player's role
     public void resetRole()
     {
         this.hasRole = false;
+        this.role = -1;
     }
 }
