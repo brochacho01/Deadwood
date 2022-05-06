@@ -21,6 +21,7 @@ public class Deck {
     // Deck deals a card to each set
     public void dealCards(Board b) {
         Room[] rooms = b.getRooms();
+        this.shuffle();
         // iterate over each room
         for(int i = 0; i < rooms.length; i++){
             // if room is a set
