@@ -17,4 +17,9 @@ public class SceneCard {
         this.budget = budget;
         this.playersOnCard = playersOnCard;
     }
+
+    public int getBudget()
+    {
+        return this.budget;
+    }
 }

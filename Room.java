@@ -7,4 +7,9 @@ abstract class Room {
         this.neighbors = neighbors;
     }
 
+    public String getName()
+    {
+        return this.name;
+    }
+
 }

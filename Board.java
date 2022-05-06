@@ -36,6 +36,7 @@ class Board
     {
         return players;
     }
+        //add more actions that the player can do, such as view their own stats, location, etc.
 
     //Create the array of players
     public void setPlayers(int num)
@@ -56,5 +57,27 @@ class Board
 
     public Room[] getRooms(){
         return this.rooms;
+    }
+
+    public Player getPlayer(int i)
+    {
+        return players[i];
+    }
+
+    public String getLocation(int i)
+    {
+        return this.rooms[i].getName();
+    }
+
+    public int getMaxRehearsalTokens(int location)
+    {
+        if(rooms[location] instanceof Set)
+        {
+            return ((Set) rooms[location]).getSceneBudget() - 1;
+        }
+        else
+        {
+            return -1;
+        }
     }
 }

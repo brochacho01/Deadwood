@@ -59,4 +59,16 @@ public class Set extends Room {
             value = -1;
         }
     }
+
+    public int getSceneBudget()
+    {
+        if (!this.isFlipped || this.scene == null)
+        {
+            return 0;
+        }
+        else
+        {
+            return this.scene.getBudget();
+        }
+    }
 }

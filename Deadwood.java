@@ -6,6 +6,7 @@ class Deadwood {
     private static Deck d;
     private static int day;
     private static int maxDays;
+    private static int numPlayers;
 
     public static void main(String[] args) throws ParserConfigurationException {
         
@@ -21,7 +22,7 @@ class Deadwood {
         b = xml.parseBoard();
         d = xml.parseDeck();
         // getPlayers
-        int numPlayers = View.getNumPlayers();
+        numPlayers = View.getNumPlayers();
 
         //Create the players in the board
         b.setPlayers(numPlayers);
@@ -41,19 +42,20 @@ class Deadwood {
 
         //Setup the board
         b.setBoard();
-        d.dealCards(b);
+        //d.dealCards(b);
         // beginDay
         day = 0;
+        startDay();
         return;
     }
 
     // End the game
-    public void endGame() {
+    public static void endGame() {
         return;
     }
 
     // Start a day
-    public void startDay() {
+    public static void startDay() {
         day = day + 1;
         if (day > maxDays) {
             endGame();
@@ -61,25 +63,31 @@ class Deadwood {
             // If not last day, deal new scenecards to each set
             d.dealCards(b);
         }
+        //Game is ready to go, players can now take their turns.
+        turnFlow();
         return;
     }
 
     // End a day
-    public void endDay() {
+    public static void endDay() {
         // setBoard moves all the players to the trailer as well as resetting all of the sets on the board
         b.setBoard();
     }
 
     // controls the flow of turns, when not beginning/ending the day or game, the
     // program will be looping in here
-    public void turnFlow() {
+    public static void turnFlow() {
         // While notEndDay
-        // call Turn for curPlayer
-        // if dayEnd call endDay break out of loop
-            // If last day endGame
-            // else startDay
-        // if curPlayer ends turn
-        // next player turn
+        for(int i = 0; i < numPlayers; i++)
+        {
+            Player curPlayer = b.getPlayer(i);
+            // call Turn for curPlayer
+            View.startTurn(curPlayer);
+            View.getAction(curPlayer, b);
+            // if dayEnd call endDay break out of loop
+            // if curPlayer ends turn
+            // next player turn
+        }
     }
 
     // Verify a move was valid

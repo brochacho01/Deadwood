@@ -1,6 +1,10 @@
+import java.util.ArrayList;
+
 class Player
 {
     private String name;
+    private boolean hasMoved;
+    private boolean hasTakenAction;
     private boolean hasRole;
     private int rank;
     private int location;
@@ -15,6 +19,9 @@ class Player
     {
         //Get the name of the player
         this.name = View.getName(i);
+        //Set all attributes to default values, some depending on number of players.
+        this.hasMoved = false;
+        this.hasTakenAction = false;
         this.hasRole = false;
         if(num > 6)
         {
@@ -90,5 +97,40 @@ class Player
         this.rehearsalTokens = 0;
         this.hasRole = false;
         this.role = -1;
+        //add more actions that the player can do, such as view their own stats, location, etc.
+    }
+
+    public String getName()
+    {
+        return this.name;
+    }
+
+    public ArrayList<String> getAvailableActions(Board b)
+    {
+        ArrayList<String> actions = new ArrayList<String>();
+        if (!this.hasMoved && !this.hasRole)
+        {
+            actions.add("MOVE, ");
+        }
+        if (this.location > 1 && !this.hasRole)
+        {
+            actions.add("TAKE ROLE, ");
+        }
+        if (this.hasRole)
+        {
+            actions.add("ACT, ");
+            if (this.rehearsalTokens < b.getMaxRehearsalTokens(this.location))
+            {
+                actions.add("REHEARSE, ");
+            }
+        }
+        if (this.location == 1)
+        {
+            actions.add("UPGRADE, ");
+        }
+        actions.add("VIEW SETS, ");
+        actions.add("END TURN");
+        //add more actions that the player can do, such as view their own stats, location, etc.
+        return actions;
     }
 }
