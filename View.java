@@ -90,7 +90,7 @@ class View {
 
     private static void getMove(Player curPlayer, Board b) {
         int pLocation = curPlayer.getLocation();
-        String[] neighbors = b.getRoom(pLocation).getNeighbors();
+        String[] neighbors = Board.getRoom(pLocation).getNeighbors();
         while (true) {
             System.out.println("Rooms you can move to are: " + Arrays.toString(neighbors));
             String desiredLocation = "";

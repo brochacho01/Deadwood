@@ -1,0 +1,34 @@
+We Need to implement:
+
+Need to figure out where payout methods are going
+
+
+View:
+Finish getAction
+getRole
+
+Set:
+OffCardPayout
+removeSceneCard
+setShotCounters
+sceneWrap
+
+Board:
+Make into singleton
+printSets
+printMap
+
+Deadwood:
+endGame
+
+Player:
+takeTurne
+endTurn
+takeRole
+act
+rehearse
+upgrade
+
+sceneCard:
+onCardPayout
+
