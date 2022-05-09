@@ -1,6 +1,7 @@
 We Need to implement:
 
 Need to figure out where payout methods are going
+Need to add comments to things
 
 
 View:
@@ -22,7 +23,7 @@ Deadwood:
 endGame
 
 Player:
-takeTurne
+takeTurn
 endTurn
 takeRole
 act
