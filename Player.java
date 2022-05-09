@@ -78,6 +78,7 @@ class Player
             }
             ((Set) pRoom).printSet();
         }
+        this.hasMoved = true;
     }
 
     //Take an available role
@@ -118,6 +119,10 @@ class Player
     public String getName()
     {
         return this.name;
+    }
+
+    public void resetLocation(){
+        this.location = 0;
     }
 
     public int getLocation(){

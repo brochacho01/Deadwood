@@ -81,14 +81,22 @@ public class Set extends Room {
     public void printSet() {
         if (!isFlipped)
         {
-            System.out.println("???????");
+            System.out.println("Card has not been revealed");
         }
         else
         {
-            System.out.println("Set: " + name);
-            System.out.println("There are " + shotsLeft + "remaining.");
+            System.out.println("There are " + shotsLeft + " shots remaining.");
             System.out.println("There are " + offCardRoles.keySet().size() + " roles on this set.");
             //print each role and the player that is on each one
+            for(Role key: offCardRoles.keySet()){
+                key.printRole();
+                int ifP = offCardRoles.get(key);
+                if(ifP == -1){
+                    System.out.println("This role is empty");
+                } else {
+                    System.out.println(Board.getPlayer(ifP).getName() + " is on this role");
+                }
+            }
         }
     }
 }

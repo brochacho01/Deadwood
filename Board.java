@@ -14,7 +14,7 @@ class Board
         {
             //Reset the roles of players and move them to the trailers
             players[i].resetRole();
-            players[i].move(0);
+            players[i].resetLocation();
             }
             // Need to also reset each set on the board
             for(int j = 0; j < rooms.length; j++){
@@ -59,7 +59,7 @@ class Board
         return this.rooms;
     }
 
-    public Player getPlayer(int i)
+    public static Player getPlayer(int i)
     {
         return players[i];
     }
