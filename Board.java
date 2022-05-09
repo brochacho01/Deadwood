@@ -80,4 +80,7 @@ class Board
             return -1;
         }
     }
+    public int getActiveSets(){
+        return this.activeSets;
+    }
 }

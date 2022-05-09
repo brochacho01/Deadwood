@@ -42,7 +42,7 @@ class View
         System.out.println(curPlayer.getName() + ", it is your turn!");
     }
 
-    public static int getAction(Player curPlayer, Board b)
+    public static void getAction(Player curPlayer, Board b)
     {
         System.out.print("You can: ");
         ArrayList<String> actions = curPlayer.getAvailableActions(b);
@@ -50,8 +50,10 @@ class View
         {
             System.out.print(actions.get(i));
         }
-        System.out.println("\nWhat would you like to do?");
-        //Get player input, convert available action to int
-        return -1;
+        while(true){
+            System.out.println("\nWhat would you like to do?");
+            
+        }
+        
     }
 }

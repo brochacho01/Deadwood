@@ -29,7 +29,7 @@ public class Set extends Room {
     }
 
     public void setShotCounters(int shotsLeft) {
-
+        
     }
 
     private void sceneWrap() {

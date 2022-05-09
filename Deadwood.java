@@ -78,21 +78,13 @@ class Deadwood {
     // program will be looping in here
     public static void turnFlow() {
         // While notEndDay
-        for(int i = 0; i < numPlayers; i++)
-        {
-            Player curPlayer = b.getPlayer(i);
-            // call Turn for curPlayer
+        int pTurn = 0;
+        while(b.getActiveSets() > 1){
+            Player curPlayer = b.getPlayer(pTurn);
             View.startTurn(curPlayer);
             View.getAction(curPlayer, b);
-            // if dayEnd call endDay break out of loop
-            // if curPlayer ends turn
-            // next player turn
+            System.out.println("Break line for debugging");
         }
-    }
-
-    // Verify a move was valid
-    public boolean verifyMove(Player p, int[][] map) {
-        return true;
     }
 
 }
