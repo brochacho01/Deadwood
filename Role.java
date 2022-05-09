@@ -20,4 +20,9 @@ public class Role {
         this.roleDescription = roleDescription;
         this.rank = rank;
     }
+
+    public void printRole()
+    {
+        System.out.print("Role " + roleName + " has rank " + rank + ". " + roleDescription + " ");
+    }
 }

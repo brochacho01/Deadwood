@@ -7,6 +7,7 @@ class Deadwood {
     private static int day;
     private static int maxDays;
     private static int numPlayers;
+    private static int pTurn;
 
     public static void main(String[] args) throws ParserConfigurationException {
         
@@ -45,6 +46,7 @@ class Deadwood {
         //d.dealCards(b);
         // beginDay
         day = 0;
+        pTurn = 0;
         startDay();
         return;
     }
@@ -78,13 +80,12 @@ class Deadwood {
     // program will be looping in here
     public static void turnFlow() {
         // While notEndDay
-        int pTurn = 0;
         while(b.getActiveSets() > 1){
             Player curPlayer = b.getPlayer(pTurn);
-            View.startTurn(curPlayer);
-            View.getAction(curPlayer, b);
-            //Issue, we never get into getACtion
+            View.doTurn(curPlayer, b);
+            pTurn = (pTurn + 1) % numPlayers;
         }
+        endDay();
     }
 
 }

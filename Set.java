@@ -12,10 +12,15 @@ public class Set extends Room {
     private HashMap<Role, Integer> offCardRoles;
     // Every set has a scene card
     private SceneCard scene;
-    public boolean isFlipped;
+    private boolean isFlipped;
 
     public void flip() {
         isFlipped = !isFlipped;
+    }
+
+    public boolean isFlipped()
+    {
+        return isFlipped;
     }
 
     // uses the HashMap of players, calculates their payout and calls setter to
@@ -69,6 +74,21 @@ public class Set extends Room {
         else
         {
             return this.scene.getBudget();
+        }
+    }
+
+    //Print information about the set
+    public void printSet() {
+        if (!isFlipped)
+        {
+            System.out.println("???????");
+        }
+        else
+        {
+            System.out.println("Set: " + name);
+            System.out.println("There are " + shotsLeft + "remaining.");
+            System.out.println("There are " + offCardRoles.keySet().size() + " roles on this set.");
+            //print each role and the player that is on each one
         }
     }
 }

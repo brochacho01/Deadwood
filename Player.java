@@ -65,6 +65,19 @@ class Player
     public void move(int location)
     {
         this.location = location;
+        Room pRoom = Board.getRoom(location);
+        //Print the set where the player is
+        System.out.println("You are now in: " + pRoom.getName());
+        //If they are in a set, flip it and print its information
+        if(pRoom instanceof Set)
+        {
+            Set pSet = ((Set) pRoom);
+            if (!pSet.isFlipped())
+            {
+                pSet.flip();
+            }
+            ((Set) pRoom).printSet();
+        }
     }
 
     //Take an available role
@@ -76,6 +89,8 @@ class Player
     //Act in a given role
     public void act()
     {
+        //Acting ends the turn!
+        // TODO MAKE SURE TO END TURN
         return;
     }
 

@@ -37,9 +37,10 @@ class View
         return name;
     }
 
-    public static void startTurn(Player curPlayer)
+    public static void doTurn(Player curPlayer, Board b)
     {
         System.out.println(curPlayer.getName() + ", it is your turn!");
+        View.getAction(curPlayer, b);
     }
 
     public static void getAction(Player curPlayer, Board b)
@@ -91,18 +92,31 @@ class View
 
     private static void getMove(Player curPlayer, Board b) {
         int pLocation = curPlayer.getLocation();
-        String[] neighbors = b.getRoom(pLocation).getNeighbors();  
-        System.out.println("Rooms you can move to are: " + Arrays.toString(neighbors));
-        String desiredLocation = "";
-        try {
-            desiredLocation =  br.readLine();
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
-        if(Arrays.asList(neighbors).stream().anyMatch(desiredLocation::equalsIgnoreCase)){
-            curPlayer.move(b.matchNameToIndex(desiredLocation));
-        } else {
-            System.out.println("Not a valid move!");  
+        String[] neighbors = b.getRoom(pLocation).getNeighbors();
+        while(true)
+        {
+            System.out.println("Rooms you can move to are: " + Arrays.toString(neighbors));
+            String desiredLocation = "";
+            try {
+                desiredLocation =  br.readLine();
+            } catch (IOException ioe) {
+                System.out.println(ioe);
+            }
+            if(Arrays.asList(neighbors).stream().anyMatch(desiredLocation::equalsIgnoreCase)){
+                int location = b.matchNameToIndex(desiredLocation);
+                if(location > -1)
+                {
+                    curPlayer.move(location);
+                }
+                else
+                {
+                    System.out.println("Not a valid move!");
+                    break;
+                }
+            break;
+            } else {
+                System.out.println("Not a valid move!");
+            }
         }
     }
 }

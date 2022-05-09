@@ -2,10 +2,10 @@ import java.util.*;
 
 class Board
 {
-    private Room[] rooms;
-    private Player[] players;
+    private static Room[] rooms;
+    private static Player[] players;
     private int activeSets;
-    private int playerTurn;
+    // IS THIS NEEDED ? private int playerTurn;
 
     //Setup the board
     public void setBoard()
@@ -69,7 +69,7 @@ class Board
         return this.rooms[i].getName();
     }
 
-    public Room getRoom(int location){
+    public static Room getRoom(int location){
         return rooms[location];
     }
 
@@ -87,7 +87,7 @@ class Board
 
     public int matchNameToIndex(String roomName){
         for(int i = 0; i < rooms.length; i++){
-            if(rooms[i].getName().equals(roomName)){
+            if(rooms[i].getName().toLowerCase().equals(roomName.toLowerCase())){
                 return i;
             }
         }
