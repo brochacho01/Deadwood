@@ -14,7 +14,7 @@ class Board
         {
             //Reset the roles of players and move them to the trailers
             players[i].resetRole();
-            players[i].move(false, 0);
+            players[i].move(0);
             }
             // Need to also reset each set on the board
             for(int j = 0; j < rooms.length; j++){
@@ -82,5 +82,11 @@ class Board
     }
     public int getActiveSets(){
         return this.activeSets;
+    }
+
+    public void printSets() {
+    }
+
+    public void printMap() {
     }
 }

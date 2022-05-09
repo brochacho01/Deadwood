@@ -44,16 +44,51 @@ class View
 
     public static void getAction(Player curPlayer, Board b)
     {
+        String action = "";
         System.out.print("You can: ");
         ArrayList<String> actions = curPlayer.getAvailableActions(b);
-        for(int i = 0; i < actions.size(); i++)
-        {
-            System.out.print(actions.get(i));
-        }
+        System.out.println(actions.toString());
         while(true){
             System.out.println("\nWhat would you like to do?");
-            
+            try {
+                action =  br.readLine();
+                } catch (IOException ioe) {
+                    System.out.println(ioe);
+                }
+            if(actions.stream().anyMatch(action::equalsIgnoreCase))
+            {
+                switch (action)
+                {
+                    case "MOVE": View.getMove(curPlayer);
+                        break;
+                    case "TAKE ROLE": View.getRole(curPlayer);
+                        break;
+                    case "ACT": curPlayer.act();
+                        break;
+                    case "REHEARSE": curPlayer.rehearse();
+                        break;
+                    case "UPGRADE": curPlayer.upgrade();
+                        break;
+                    case "END TURN": curPlayer.endTurn();
+                        break;
+                    case "VIEW SETS": b.printSets();
+                        break;
+                    case "VIEW MAP": b.printMap();
+                        break;
+                }
+                break;
+            }
+            else
+            {
+                System.out.println("Not a valid action!");
+            }
         }
         
+    }
+
+    private static void getRole(Player curPlayer) {
+    }
+
+    private static void getMove(Player curPlayer) {
     }
 }

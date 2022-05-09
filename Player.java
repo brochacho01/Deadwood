@@ -62,31 +62,31 @@ class Player
     }
 
     //Move the player
-    public void move(boolean hasRole, int location)
+    public void move(int location)
     {
         this.location = location;
     }
 
     //Take an available role
-    public void takeRole(boolean hasRole, int rank, int location)
+    public void takeRole()
     {
         return;
     }
 
     //Act in a given role
-    public void act(boolean hasRole, int role, int rehearsalTokens, int location)
+    public void act()
     {
         return;
     }
 
     //Rehearse for a role
-    public void rehearse(int rehearsalTokens)
+    public void rehearse()
     {
         return;
     }
 
     //Upgrade a player's rank
-    public void upgrade(int location, int balance, int credits, int rank)
+    public void upgrade()
     {
         return;
     }
@@ -110,25 +110,25 @@ class Player
         ArrayList<String> actions = new ArrayList<String>();
         if (!this.hasMoved && !this.hasRole)
         {
-            actions.add("MOVE, ");
+            actions.add("MOVE");
         }
         if (this.location > 1 && !this.hasRole)
         {
-            actions.add("TAKE ROLE, ");
+            actions.add("TAKE ROLE");
         }
         if (this.hasRole)
         {
-            actions.add("ACT, ");
+            actions.add("ACT");
             if (this.rehearsalTokens < b.getMaxRehearsalTokens(this.location))
             {
-                actions.add("REHEARSE, ");
+                actions.add("REHEARSE");
             }
         }
         if (this.location == 1)
         {
-            actions.add("UPGRADE, ");
+            actions.add("UPGRADE");
         }
-        actions.add("VIEW SETS, ");
+        actions.add("VIEW SETS");
         actions.add("END TURN");
         //add more actions that the player can do, such as view their own stats, location, etc.
         return actions;
