@@ -83,7 +83,7 @@ class Deadwood {
             Player curPlayer = b.getPlayer(pTurn);
             View.startTurn(curPlayer);
             View.getAction(curPlayer, b);
-            System.out.println("Break line for debugging");
+            //Issue, we never get into getACtion
         }
     }
 

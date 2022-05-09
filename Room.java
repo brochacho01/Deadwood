@@ -12,4 +12,8 @@ abstract class Room {
         return this.name;
     }
 
+    public String[] getNeighbors(){
+        return this.neighbors;
+    }
+
 }

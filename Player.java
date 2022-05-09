@@ -105,6 +105,10 @@ class Player
         return this.name;
     }
 
+    public int getLocation(){
+        return this.location;
+    }
+
     public ArrayList<String> getAvailableActions(Board b)
     {
         ArrayList<String> actions = new ArrayList<String>();

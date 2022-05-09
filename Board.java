@@ -69,6 +69,10 @@ class Board
         return this.rooms[i].getName();
     }
 
+    public Room getRoom(int location){
+        return rooms[location];
+    }
+
     public int getMaxRehearsalTokens(int location)
     {
         if(rooms[location] instanceof Set)
@@ -80,6 +84,16 @@ class Board
             return -1;
         }
     }
+
+    public int matchNameToIndex(String roomName){
+        for(int i = 0; i < rooms.length; i++){
+            if(rooms[i].getName().equals(roomName)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public int getActiveSets(){
         return this.activeSets;
     }

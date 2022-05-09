@@ -57,9 +57,9 @@ class View
                 }
             if(actions.stream().anyMatch(action::equalsIgnoreCase))
             {
-                switch (action)
+                switch (action.toUpperCase())
                 {
-                    case "MOVE": View.getMove(curPlayer);
+                    case "MOVE": View.getMove(curPlayer,b);
                         break;
                     case "TAKE ROLE": View.getRole(curPlayer);
                         break;
@@ -89,6 +89,20 @@ class View
     private static void getRole(Player curPlayer) {
     }
 
-    private static void getMove(Player curPlayer) {
+    private static void getMove(Player curPlayer, Board b) {
+        int pLocation = curPlayer.getLocation();
+        String[] neighbors = b.getRoom(pLocation).getNeighbors();  
+        System.out.println("Rooms you can move to are: " + Arrays.toString(neighbors));
+        String desiredLocation = "";
+        try {
+            desiredLocation =  br.readLine();
+        } catch (IOException ioe) {
+            System.out.println(ioe);
+        }
+        if(Arrays.asList(neighbors).stream().anyMatch(desiredLocation::equalsIgnoreCase)){
+            curPlayer.move(b.matchNameToIndex(desiredLocation));
+        } else {
+            System.out.println("Not a valid move!");  
+        }
     }
 }
