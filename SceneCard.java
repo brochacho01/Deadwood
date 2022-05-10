@@ -22,4 +22,10 @@ public class SceneCard {
     {
         return this.budget;
     }
+
+    // Returns an array consisting of all the starring roles
+    public Role[] getRoles(){
+        Role[] stars = playersOnCard.keySet().toArray(new Role[0]);
+        return stars;
+    }
 }

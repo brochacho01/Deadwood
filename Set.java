@@ -14,6 +14,12 @@ public class Set extends Room {
     private SceneCard scene;
     private boolean isFlipped;
 
+    // Returns an array consisting of all the extra roles
+    public Role[] getRoles(){
+        Role[] extras = offCardRoles.keySet().toArray(new Role[0]);
+        return extras; 
+    }
+
     public void flip() {
         isFlipped = !isFlipped;
     }
@@ -56,6 +62,10 @@ public class Set extends Room {
 
     public void setSceneCard(SceneCard card){
         this.scene = card;
+    }
+
+    public SceneCard getScene(){
+        return this.scene;
     }
 
     // Removes sceneCard from the board, and removes all players from set

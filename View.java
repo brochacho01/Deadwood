@@ -56,7 +56,7 @@ class View {
                         View.getMove(curPlayer, b);
                         break;
                     case "TAKE ROLE":
-                        View.getRole(curPlayer);
+                        View.getRole(curPlayer, b);
                         break;
                     case "ACT":
                         curPlayer.act();
@@ -85,9 +85,16 @@ class View {
 
     }
 
-    private static void getRole(Player curPlayer) {
+    // Prompt the player for their desired role, then upon successful input, calls the takeRole method in player class
+    private static void getRole(Player curPlayer, Board b) {
+        int pLocation = curPlayer.getLocation();
+        Role[] extras = ((Set) Board.getRoom(pLocation)).getRoles();
+        Role[] stars =  ((Set) Board.getRoom(pLocation)).getScene().getRoles();
+        System.out.println("Break line for debugging");
     }
 
+    // Prompt the player for their desired location to move to, then upon successful
+    // input, calls the move method in player class
     private static void getMove(Player curPlayer, Board b) {
         int pLocation = curPlayer.getLocation();
         String[] neighbors = Board.getRoom(pLocation).getNeighbors();
