@@ -85,12 +85,36 @@ class View {
 
     }
 
-    // Prompt the player for their desired role, then upon successful input, calls the takeRole method in player class
+    // Prompt the player for their desired role, then upon successful input, calls
+    // the takeRole method in player class
     private static void getRole(Player curPlayer, Board b) {
         int pLocation = curPlayer.getLocation();
-        Role[] extras = ((Set) Board.getRoom(pLocation)).getRoles();
-        Role[] stars =  ((Set) Board.getRoom(pLocation)).getScene().getRoles();
-        System.out.println("Break line for debugging");
+        int playerRank = curPlayer.getRank();
+        ((Set) Board.getRoom(pLocation)).printExtraRoles(playerRank);
+        ((Set) Board.getRoom(pLocation)).getScene().printStarRoles(playerRank);
+        String[] extraRoles = ((Set) Board.getRoom(pLocation)).getExtraRoles(playerRank);
+        String[] starRoles = ((Set) Board.getRoom(pLocation)).getScene().getStarRoles(playerRank);
+        while (true) {
+            System.out.println("Extra Roles you can take are: " + Arrays.toString(extraRoles));
+            System.out.println("Starring Roles you can take are: " + Arrays.toString(starRoles));
+            String desiredRole = "";
+            try {
+                desiredRole = br.readLine();
+            } catch (IOException ioe) {
+                System.out.println(ioe);
+            }
+            if(Arrays.asList(extraRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)){
+                // Update playerRole
+                curPlayer.takeRole(desiredRole);
+                break;
+            } else if(Arrays.asList(starRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)){
+                // Update playerRole
+                curPlayer.takeRole(desiredRole);
+                break;
+            } else {
+                System.out.println("Not a valid move!");
+            }
+        }
     }
 
     // Prompt the player for their desired location to move to, then upon successful

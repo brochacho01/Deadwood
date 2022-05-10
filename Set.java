@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.HashMap;
@@ -15,9 +16,8 @@ public class Set extends Room {
     private boolean isFlipped;
 
     // Returns an array consisting of all the extra roles
-    public Role[] getRoles(){
-        Role[] extras = offCardRoles.keySet().toArray(new Role[0]);
-        return extras; 
+    public HashMap<Role,Integer> getRoles(){
+        return this.offCardRoles;
     }
 
     public void flip() {
@@ -49,6 +49,33 @@ public class Set extends Room {
 
     }
 
+    public void printExtraRoles(int playerRank){
+        System.out.println("Available Extra Roles are: ");
+        for(Role key: offCardRoles.keySet()){
+            if((playerRank >= key.rank) && (offCardRoles.get(key) == -1)){
+                key.printRole();
+                System.out.println("");
+            }
+        }
+        scene.printStarRoles(playerRank);
+    }
+
+    public String[] getExtraRoles(int playerRank){
+        ArrayList<String> extras = new ArrayList<String>();
+        for(Role key: offCardRoles.keySet()){
+            if((playerRank >= key.rank) && (offCardRoles.get(key) == -1)){
+                extras.add(key.roleName);
+            }
+        }
+        // Convert arraylist to array
+        String[] extraRoles = new String[extras.size()];
+        for(int i = 0; i < extraRoles.length; i++){
+            extraRoles[i] = extras.get(i);
+        }
+        return extraRoles;
+    }
+
+
     public Set(String name, String[] neighbors, int shotsLeft) {
         super(name, neighbors);
         this.shotsLeft = shotsLeft;
@@ -58,6 +85,14 @@ public class Set extends Room {
     public void addRole(Role r) {
         offCardRoles.put(r, -1);
         return;
+    }
+
+    public void updateRole(String desiredRole, int playerNumber){
+        for(Role key: offCardRoles.keySet()){
+            if(key.roleName.equals(desiredRole)){
+                offCardRoles.put(key, offCardRoles.get(key) + 1);
+            }
+        }
     }
 
     public void setSceneCard(SceneCard card){
@@ -76,7 +111,7 @@ public class Set extends Room {
             value = -1;
         }
     }
-
+ 
     public int getSceneBudget()
     {
         if (!this.isFlipped || this.scene == null)

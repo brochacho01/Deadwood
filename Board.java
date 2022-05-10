@@ -41,22 +41,22 @@ class Board
     //Create the array of players
     public void setPlayers(int num)
     {
-        this.players = new Player[num];
+        players = new Player[num];
         for(int i = 0; i < num; i++)
         {
             players[i] = new Player(num, i+1);
         }
     }
 
-    public void setRooms(Room[] rooms)
+    public void setRooms(Room[] newRooms)
     {
-        this.rooms = rooms;
+        rooms = newRooms;
         // -2 because office and trailer aren't sets
         this.activeSets = rooms.length - 2;
     }
 
     public Room[] getRooms(){
-        return this.rooms;
+        return rooms;
     }
 
     public static Player getPlayer(int i)
@@ -64,9 +64,13 @@ class Board
         return players[i];
     }
 
+    public static int getPlayerIndex(Player p){
+        return Arrays.asList(players).indexOf(p);
+    }
+
     public String getLocation(int i)
     {
-        return this.rooms[i].getName();
+        return rooms[i].getName();
     }
 
     public static Room getRoom(int location){

@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SceneCard {
@@ -23,9 +24,41 @@ public class SceneCard {
         return this.budget;
     }
 
+    public void printStarRoles(int playerRank){
+        System.out.println("Available Star Roles are: ");
+        for(Role key: playersOnCard.keySet()){
+            if((playerRank >= key.rank) && (playersOnCard.get(key) == -1)){
+                key.printRole();;
+                System.out.println("");
+            }
+        }
+    }
+
+    public String[] getStarRoles(int playerRank){
+        ArrayList<String> stars = new ArrayList<String>();
+        for(Role key: playersOnCard.keySet()){
+            if((playerRank >= key.rank) && (playersOnCard.get(key) == -1)){
+                stars.add(key.roleName);
+            }
+        }
+        // Convert arraylist to array
+        String[] starRoles = new String[stars.size()];
+        for(int i = 0; i < starRoles.length; i++){
+            starRoles[i] = stars.get(i);
+        }
+        return starRoles;
+    }
+
     // Returns an array consisting of all the starring roles
-    public Role[] getRoles(){
-        Role[] stars = playersOnCard.keySet().toArray(new Role[0]);
-        return stars;
+    public HashMap<Role,Integer> getRoles(){
+        return this.playersOnCard;
+    }
+
+    public void updateRole(String desiredRole, int playerNumber){
+        for(Role key: playersOnCard.keySet()){
+            if(key.roleName.equals(desiredRole)){
+                playersOnCard.put(key, playersOnCard.get(key) + 1);
+            }
+        }
     }
 }
