@@ -10,8 +10,6 @@ getRole
 
 Set:
 OffCardPayout
-removeSceneCard
-setShotCounters
 sceneWrap
 
 Board:
