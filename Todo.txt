@@ -6,7 +6,6 @@ Need to add comments to things
 
 View:
 Finish getAction
-getRole
 
 Set:
 OffCardPayout
@@ -23,7 +22,6 @@ endGame
 Player:
 takeTurn
 endTurn
-takeRole
 act
 rehearse
 upgrade
