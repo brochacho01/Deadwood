@@ -29,12 +29,14 @@ public class Set extends Room {
 
     }
 
+    // Delete sceneCard once set wraps
     private void removeSceneCard() {
-
+        this.scene = null;
     }
 
-    public void setShotCounters(int shotsLeft) {
-        
+    // Decrement shot counters upon successful act
+    public void decrementShotCounters() {
+        this.shotsLeft--;
     }
 
     private void sceneWrap() {
