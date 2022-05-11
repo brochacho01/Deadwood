@@ -2,6 +2,7 @@ public class Role {
     String roleName;
     String roleDescription;
     int rank;
+    String roleType;
 
     public String getRoleName() {
         return this.roleName;
@@ -15,12 +16,12 @@ public class Role {
         return this.rank;
     }
 
-    public Role(String roleName, String roleDescription, int rank) {
+    public Role(String roleName, String roleDescription, int rank, String roleType) {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
         this.rank = rank;
     }
-
+    
     public void printRole()
     {
         System.out.print("Role " + roleName + " has rank " + rank + ". " + roleDescription + " ");
