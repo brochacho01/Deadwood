@@ -12,7 +12,6 @@ OffCardPayout
 sceneWrap
 
 Board:
-Make into singleton
 printSets
 printMap - maybe in view
 

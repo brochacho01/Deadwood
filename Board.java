@@ -5,7 +5,22 @@ class Board
     private static Room[] rooms;
     private static Player[] players;
     private int activeSets;
-    // IS THIS NEEDED ? private int playerTurn;
+    //Singleton board instance
+    private static Board board = null;
+
+    //Private constructor
+    private Board()
+    {
+    }
+
+    //Get the singleton instance of the board
+    public static Board getBoard()
+    {
+        if (board == null)
+            board = new Board();
+ 
+        return board;
+    }
 
     //Setup the board
     public void setBoard()
@@ -59,12 +74,12 @@ class Board
         return rooms;
     }
 
-    public static Player getPlayer(int i)
+    public Player getPlayer(int i)
     {
         return players[i];
     }
 
-    public static int getPlayerIndex(Player p){
+    public int getPlayerIndex(Player p){
         return Arrays.asList(players).indexOf(p);
     }
 
@@ -73,7 +88,7 @@ class Board
         return rooms[i].getName();
     }
 
-    public static Room getRoom(int location){
+    public Room getRoom(int location){
         return rooms[location];
     }
 

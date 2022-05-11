@@ -1,6 +1,8 @@
 import java.io.*;
 import java.util.*;
 
+import javafx.scene.layout.Border;
+
 class View {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -25,7 +27,7 @@ class View {
     public static String getName(int i) {
         String name = "";
         try {
-            System.out.println("Player " + i + ", what is your name?");
+            System.out.println("\nPlayer " + i + ", what is your name?");
             name = br.readLine();
         } catch (IOException ioe) {
             System.out.println(ioe);
@@ -33,17 +35,18 @@ class View {
         return name;
     }
 
-    public static void doTurn(Player curPlayer, Board b) {
-        System.out.println(curPlayer.getName() + ", it is your turn!");
-        View.getAction(curPlayer, b);
+    public static void doTurn(Player curPlayer) {
+        System.out.println("\n" + curPlayer.getName() + ", it is your turn!");
+        View.getAction(curPlayer);
     }
 
-    public static void getAction(Player curPlayer, Board b) {
+    public static void getAction(Player curPlayer) {
+        Board b = Board.getBoard();
         String action = "";
         while (curPlayer.isTurn()) {
             System.out.print("You can: ");
             ArrayList<String> actions = curPlayer.getAvailableActions(b);
-            System.out.println(actions.toString());
+            System.out.println(actions.toString().replace("[", "").replace("]", ""));
             System.out.println("\nWhat would you like to do?");
             try {
                 action = br.readLine();
@@ -53,10 +56,10 @@ class View {
             if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
                 switch (action.toUpperCase()) {
                     case "MOVE":
-                        View.getMove(curPlayer, b);
+                        View.getMove(curPlayer);
                         break;
                     case "TAKE ROLE":
-                        View.getRole(curPlayer, b);
+                        View.getRole(curPlayer);
                         break;
                     case "ACT":
                         curPlayer.act();
@@ -88,15 +91,16 @@ class View {
 
     // Prompt the player for their desired role, then upon successful input, calls
     // the takeRole method in player class
-    private static void getRole(Player curPlayer, Board b) {
+    private static void getRole(Player curPlayer) {
+        Board b = Board.getBoard();
         int pLocation = curPlayer.getLocation();
         int playerRank = curPlayer.getRank();
         // Print all available roles and their details to player
-        ((Set) Board.getRoom(pLocation)).printExtraRoles(playerRank);
+        ((Set) b.getRoom(pLocation)).printExtraRoles(playerRank);
         // ((Set) Board.getRoom(pLocation)).getScene().printStarRoles(playerRank);
         // Get names of all available roles
-        String[] extraRoles = ((Set) Board.getRoom(pLocation)).getExtraRoles(playerRank);
-        String[] starRoles = ((Set) Board.getRoom(pLocation)).getScene().getStarRoles(playerRank);
+        String[] extraRoles = ((Set) b.getRoom(pLocation)).getExtraRoles(playerRank);
+        String[] starRoles = ((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank);
         while (true) {
             // Tell names to player, get input
             System.out.println("Extra Roles you can take are: " + Arrays.toString(extraRoles));
@@ -123,11 +127,12 @@ class View {
 
     // Prompt the player for their desired location to move to, then upon successful
     // input, calls the move method in player class
-    private static void getMove(Player curPlayer, Board b) {
+    private static void getMove(Player curPlayer) {
+        Board b = Board.getBoard();
         int pLocation = curPlayer.getLocation();
-        String[] neighbors = Board.getRoom(pLocation).getNeighbors();
+        String[] neighbors = b.getRoom(pLocation).getNeighbors();
         while (true) {
-            System.out.println("Rooms you can move to are: " + Arrays.toString(neighbors));
+            System.out.println("\nRooms you can move to are: " + Arrays.toString(neighbors));
             String desiredLocation = "";
             try {
                 desiredLocation = br.readLine();

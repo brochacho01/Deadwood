@@ -46,7 +46,7 @@ class XMLParse {
 
     // parse the board
     public Board parseBoard() throws ParserConfigurationException {
-        Board b = new Board();
+        Board b = Board.getBoard();
         Document d = getDocFromFile("board.xml");
         Element root = d.getDocumentElement();
         NodeList setNodes = root.getElementsByTagName("set");

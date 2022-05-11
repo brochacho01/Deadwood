@@ -19,10 +19,13 @@ class Deadwood {
 
     // Setup the game
     public static void setupGame() throws ParserConfigurationException {
+        //Create the xml parser
         XMLParse xml = new XMLParse();
+        //Create the board and the deck
         b = xml.parseBoard();
         d = xml.parseDeck();
-        // getPlayers
+
+        //Get the players
         numPlayers = View.getNumPlayers();
 
         //Create the players in the board
@@ -43,8 +46,7 @@ class Deadwood {
 
         //Setup the board
         b.setBoard();
-        //d.dealCards(b);
-        // beginDay
+        //Start the first day
         day = 0;
         pTurn = 0;
         startDay();
@@ -63,7 +65,7 @@ class Deadwood {
             endGame();
         } else {
             // If not last day, deal new scenecards to each set
-            d.dealCards(b);
+            d.dealCards();
         }
         //Game is ready to go, players can now take their turns.
         turnFlow();
@@ -78,12 +80,14 @@ class Deadwood {
 
     // controls the flow of turns, when not beginning/ending the day or game, the
     // program will be looping in here
-    public static void turnFlow() {
-        // While notEndDay
-        while(b.getActiveSets() > 1){
-            Player curPlayer = Board.getPlayer(pTurn);
-            curPlayer.setTurn();
-            View.doTurn(curPlayer, b);
+    public static void turnFlow() 
+    {
+        //While there are still more than 1 active sets
+        while(b.getActiveSets() > 1)
+        {
+            Player curPlayer = b.getPlayer(pTurn);
+            curPlayer.startTurn();
+            View.doTurn(curPlayer);
             pTurn = (pTurn + 1) % numPlayers;
         }
         endDay();

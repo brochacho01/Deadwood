@@ -51,7 +51,7 @@ class Player {
         return;
     }
 
-    public void setTurn(){
+    public void startTurn(){
         this.isTurn = true;
     }
 
@@ -61,10 +61,11 @@ class Player {
 
     // Move the player
     public void move(int location) {
+        Board b = Board.getBoard();
         this.location = location;
-        Room pRoom = Board.getRoom(location);
+        Room pRoom = b.getRoom(location);
         // Print the set where the player is
-        System.out.println("You are now in: " + pRoom.getName());
+        System.out.println("\nYou are now in: " + pRoom.getName());
         // If they are in a set, flip it and print its information
         if (pRoom instanceof Set) {
             Set pSet = ((Set) pRoom);
@@ -78,33 +79,37 @@ class Player {
     }
 
     // Take an available role
-    public void takeRole(String role) {
+    public void takeRole(String role)
+    {
+        Board b = Board.getBoard();
         this.role = role.toLowerCase();
         // Update the set
-        ((Set) Board.getRoom(location)).updateRole(role, Board.getPlayerIndex(this));
+        ((Set) b.getRoom(location)).updateRole(role, b.getPlayerIndex(this));
         hasRole = true;
         hasTakenAction = true;
         return;
     }
 
     // Act in a given role
-    public void act() {
+    public void act()
+    {
+        Board b = Board.getBoard();
         // Acting ends the turn!
         hasTakenAction = true;
         int rollResult = Dice.actRoll(rehearsalTokens);
-        Role curRole = ((Set) Board.getRoom(location)).getRole(role);
+        Role curRole = ((Set) b.getRoom(location)).getRole(role);
         // For success
-        if (rollResult >= ((Set) Board.getRoom(location)).getSceneBudget()) {
+        if (rollResult >= ((Set) b.getRoom(location)).getSceneBudget()) {
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Success!");
             // Offcard bonuses
             if (curRole.roleType.equals("Extra")) {
                 this.balance++;
                 this.credits++;
-                ((Set) Board.getRoom(location)).decrementShotCounters();
+                ((Set) b.getRoom(location)).decrementShotCounters();
                 // Oncard bonuses
             } else {
                 this.balance += 2;
-                ((Set) Board.getRoom(location)).decrementShotCounters();
+                ((Set) b.getRoom(location)).decrementShotCounters();
             }
             // Failure
         } else {

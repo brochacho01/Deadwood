@@ -151,6 +151,7 @@ public class Set extends Room {
 
     //Print information about the set
     public void printSet() {
+        Board b = Board.getBoard();
         if (!isFlipped)
         {
             System.out.println("Card has not been revealed");
@@ -166,7 +167,7 @@ public class Set extends Room {
                 if(ifP == -1){
                     System.out.println("This role is empty");
                 } else {
-                    System.out.println(Board.getPlayer(ifP).getName() + " is on this role");
+                    System.out.println(b.getPlayer(ifP).getName() + " is on this role");
                 }
             }
         }
