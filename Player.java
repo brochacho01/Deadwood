@@ -68,7 +68,7 @@ class Player {
 
     // Take an available role
     public void takeRole(String role) {
-        this.role = role;
+        this.role = role.toLowerCase();
         // Update the set
         ((Set) Board.getRoom(location)).updateRole(role, Board.getPlayerIndex(this));
         hasRole = true;
@@ -78,6 +78,7 @@ class Player {
     // Act in a given role
     public void act() {
         // Acting ends the turn!
+        hasTakenAction = true;
         int rollResult = Dice.actRoll(rehearsalTokens);
         Role curRole = ((Set) Board.getRoom(location)).getRole(role);
         // For success

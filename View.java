@@ -92,7 +92,7 @@ class View {
         int playerRank = curPlayer.getRank();
         // Print all available roles and their details to player
         ((Set) Board.getRoom(pLocation)).printExtraRoles(playerRank);
-        ((Set) Board.getRoom(pLocation)).getScene().printStarRoles(playerRank);
+        // ((Set) Board.getRoom(pLocation)).getScene().printStarRoles(playerRank);
         // Get names of all available roles
         String[] extraRoles = ((Set) Board.getRoom(pLocation)).getExtraRoles(playerRank);
         String[] starRoles = ((Set) Board.getRoom(pLocation)).getScene().getStarRoles(playerRank);

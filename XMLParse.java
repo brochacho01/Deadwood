@@ -34,7 +34,7 @@ class XMLParse {
                 String roleDescription = roleDescriptionNode.getTextContent();
                 String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
                 int rank = Integer.parseInt(rankS);
-                Role r = new Role(roleName, roleDescription, rank, "Extra");
+                Role r = new Role(roleName, roleDescription, rank, "Star");
                 playersOnCard.put(r, -1);
             }
             SceneCard s = new SceneCard(cardName, sceneNumber, sceneDescription, budget, playersOnCard);
@@ -77,7 +77,7 @@ class XMLParse {
                 String roleDescription = roleDescriptionNode.getTextContent();
                 String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
                 int rank = Integer.parseInt(rankS);
-                Role r = new Role(roleName, roleDescription, rank, "Star");
+                Role r = new Role(roleName, roleDescription, rank, "Extra");
                 s.addRole(r);
             }
             sets[i] = s;

@@ -50,7 +50,12 @@ public class Set extends Room {
     // Decrement shot counters upon successful act
     public void decrementShotCounters() {
         this.shotsLeft--;
-        System.out.print("There are " + shotsLeft + " shots left!");
+        if(shotsLeft > 1){
+            System.out.println("There are " + shotsLeft + " shots left!");
+        }
+        if(shotsLeft == 1){
+            System.out.println("There is " + shotsLeft + " shot remaining!");
+        }
         if(shotsLeft == 0){
             sceneWrap();
         }
@@ -92,7 +97,7 @@ public class Set extends Room {
 
     public Role getRole(String roleName){
         for(Role key: offCardRoles.keySet()){
-            if(roleName.equals(key.roleName)){
+            if(roleName.equals(key.roleName.toLowerCase())){
                 return key;
             }
         }
@@ -106,7 +111,7 @@ public class Set extends Room {
 
     public void updateRole(String desiredRole, int playerNumber){
         for(Role key: offCardRoles.keySet()){
-            if(key.roleName.equals(desiredRole)){
+            if(key.roleName.toLowerCase().equals(desiredRole)){
                 offCardRoles.put(key, offCardRoles.get(key) + 1);
             }
         }
