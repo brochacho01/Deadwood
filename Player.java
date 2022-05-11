@@ -83,6 +83,7 @@ class Player {
         // Update the set
         ((Set) Board.getRoom(location)).updateRole(role, Board.getPlayerIndex(this));
         hasRole = true;
+        hasTakenAction = true;
         return;
     }
 
