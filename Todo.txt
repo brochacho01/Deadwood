@@ -5,7 +5,7 @@ Need to add comments to things
 
 
 View:
-Finish getAction
+Finish getAction (upgrade, view sets, view map)
 
 Set:
 OffCardPayout
@@ -20,11 +20,9 @@ Deadwood:
 endGame
 
 Player:
-takeTurn
-endTurn
-rehearse
 upgrade
 checkMoney/credits
+finish logic getAvailableActions (view sets, view map, check money/credits)
 
 sceneCard:
 onCardPayout
