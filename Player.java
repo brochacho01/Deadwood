@@ -78,7 +78,30 @@ class Player {
     // Act in a given role
     public void act() {
         // Acting ends the turn!
-        // TODO MAKE SURE TO END TURN
+        int rollResult = Dice.actRoll(rehearsalTokens);
+        Role curRole = ((Set) Board.getRoom(location)).getRole(role);
+        // For success
+        if (rollResult >= curRole.rank) {
+            System.out.println("Your roll resulted in a: " + rollResult + ", Success!");
+            // Offcard bonuses
+            if (curRole.roleType.equals("Extra")) {
+                this.balance++;
+                this.credits++;
+                ((Set) Board.getRoom(location)).decrementShotCounters();
+                // Oncard bonuses
+            } else {
+                this.balance += 2;
+                ((Set) Board.getRoom(location)).decrementShotCounters();
+            }
+            // Failure
+        } else {
+            System.out.println("Your roll resulted in a: " + rollResult + ", Fail!");
+            if (curRole.roleType.equals("Extra")) {
+                this.balance++;
+            }
+        }
+        // End turn once acting is over
+        this.endTurn();
         return;
     }
 

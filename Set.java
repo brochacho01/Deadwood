@@ -15,6 +15,13 @@ public class Set extends Room {
     private SceneCard scene;
     private boolean isFlipped;
 
+    
+    public Set(String name, String[] neighbors, int shotsLeft) {
+        super(name, neighbors);
+        this.shotsLeft = shotsLeft;
+        offCardRoles = new HashMap<Role, Integer>();
+    }
+    
     // Returns an array consisting of all the extra roles
     public HashMap<Role,Integer> getRoles(){
         return this.offCardRoles;
@@ -43,12 +50,18 @@ public class Set extends Room {
     // Decrement shot counters upon successful act
     public void decrementShotCounters() {
         this.shotsLeft--;
+        System.out.print("There are " + shotsLeft + " shots left!");
+        if(shotsLeft == 0){
+            sceneWrap();
+        }
     }
 
+    // Make sure to have check for endDay
     private void sceneWrap() {
 
     }
 
+    // Print roles available to player trying to take a role
     public void printExtraRoles(int playerRank){
         System.out.println("Available Extra Roles are: ");
         for(Role key: offCardRoles.keySet()){
@@ -60,6 +73,7 @@ public class Set extends Room {
         scene.printStarRoles(playerRank);
     }
 
+    // Get roles available to player trying to take a role
     public String[] getExtraRoles(int playerRank){
         ArrayList<String> extras = new ArrayList<String>();
         for(Role key: offCardRoles.keySet()){
@@ -76,10 +90,13 @@ public class Set extends Room {
     }
 
 
-    public Set(String name, String[] neighbors, int shotsLeft) {
-        super(name, neighbors);
-        this.shotsLeft = shotsLeft;
-        offCardRoles = new HashMap<Role, Integer>();
+    public Role getRole(String roleName){
+        for(Role key: offCardRoles.keySet()){
+            if(roleName.equals(key.roleName)){
+                return key;
+            }
+        }
+        return scene.getRole(roleName);
     }
 
     public void addRole(Role r) {

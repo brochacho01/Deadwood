@@ -24,6 +24,7 @@ public class SceneCard {
         return this.budget;
     }
 
+    // Print roles available to player trying to take a role
     public void printStarRoles(int playerRank){
         System.out.println("Available Star Roles are: ");
         for(Role key: playersOnCard.keySet()){
@@ -34,6 +35,7 @@ public class SceneCard {
         }
     }
 
+    // Get roles available to player trying to take a role
     public String[] getStarRoles(int playerRank){
         ArrayList<String> stars = new ArrayList<String>();
         for(Role key: playersOnCard.keySet()){
@@ -48,6 +50,16 @@ public class SceneCard {
         }
         return starRoles;
     }
+
+    public Role getRole(String roleName){
+        for(Role key: playersOnCard.keySet()){
+            if(roleName.equals(key.roleName)){
+                return key;
+            }
+        }
+        return null;
+    }
+
 
     // Returns an array consisting of all the starring roles
     public HashMap<Role,Integer> getRoles(){
