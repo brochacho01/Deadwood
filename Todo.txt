@@ -22,9 +22,9 @@ endGame
 Player:
 takeTurn
 endTurn
-act
 rehearse
 upgrade
+checkMoney/credits
 
 sceneCard:
 onCardPayout
