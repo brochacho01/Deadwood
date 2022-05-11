@@ -90,11 +90,14 @@ class View {
     private static void getRole(Player curPlayer, Board b) {
         int pLocation = curPlayer.getLocation();
         int playerRank = curPlayer.getRank();
+        // Print all available roles and their details to player
         ((Set) Board.getRoom(pLocation)).printExtraRoles(playerRank);
         ((Set) Board.getRoom(pLocation)).getScene().printStarRoles(playerRank);
+        // Get names of all available roles
         String[] extraRoles = ((Set) Board.getRoom(pLocation)).getExtraRoles(playerRank);
         String[] starRoles = ((Set) Board.getRoom(pLocation)).getScene().getStarRoles(playerRank);
         while (true) {
+            // Tell names to player, get input
             System.out.println("Extra Roles you can take are: " + Arrays.toString(extraRoles));
             System.out.println("Starring Roles you can take are: " + Arrays.toString(starRoles));
             String desiredRole = "";
