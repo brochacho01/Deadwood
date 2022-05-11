@@ -5,7 +5,7 @@ Need to add comments to things
 
 
 View:
-Finish getAction (upgrade, view sets, view map)
+Finish getAction (upgrade, view sets, view map, view players)
 
 Set:
 OffCardPayout
@@ -14,12 +14,13 @@ sceneWrap
 Board:
 Make into singleton
 printSets
-printMap
+printMap - maybe in view
 
 Deadwood:
-endGame
+endGame - play again?
 
 Player:
+cannot act after taking a role!
 upgrade
 checkMoney/credits
 finish logic getAvailableActions (view sets, view map, check money/credits)

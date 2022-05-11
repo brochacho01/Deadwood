@@ -73,4 +73,11 @@ public class SceneCard {
             }
         }
     }
+
+    public void onCardpayout()
+    {
+    //Get players on card
+    //calculate payout from payout roll
+    //pay them
+    }
 }

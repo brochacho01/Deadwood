@@ -39,7 +39,8 @@ public class Set extends Room {
     // uses the HashMap of players, calculates their payout and calls setter to
     // update player money/credits
     private void offCardPayout() {
-
+        //Get players from hash map
+        //pay them
     }
 
     // Delete sceneCard once set wraps
@@ -61,9 +62,11 @@ public class Set extends Room {
         }
     }
 
+    //First do payouts
     // Make sure to have check for endDay
     private void sceneWrap() {
-
+        //offCardPayout
+        //onCardpayout
     }
 
     // Print roles available to player trying to take a role

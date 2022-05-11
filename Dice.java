@@ -1,3 +1,5 @@
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 public class Dice {
     
@@ -22,6 +24,15 @@ public class Dice {
             // Make it [1,6]
             n += 1;
             returnArray[i] = n;
+        }
+        Arrays.sort(returnArray);
+        //reverse the array
+        int i, t;
+        for (i = 0; i < returnArray.length / 2; i++)
+        {
+            t = returnArray[i];
+            returnArray[i] = returnArray[returnArray.length - i - 1];
+            returnArray[returnArray.length - i - 1] = t;
         }
         return returnArray;
     }
