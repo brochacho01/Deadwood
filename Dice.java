@@ -2,7 +2,7 @@ import java.util.Random;
 public class Dice {
     
     // Calculates roll for acting, dependent upon players' rehearsal counters as a modifier
-    public int actRoll(int rehearsalCounters){
+    public static int actRoll(int rehearsalCounters){
         Random rand = new Random();
         // Generate random number between 1 and 6
         int n = rand.nextInt(6);
@@ -13,7 +13,7 @@ public class Dice {
     }
 
     // When a scene wraps, a number of dice is rolled equal to the budget, and since each individual roll must be preserved, they'll be stored in an array and returned
-    public int[] payoutRoll(int sceneBudget){
+    public static int[] payoutRoll(int sceneBudget){
         int[] returnArray = new int[sceneBudget];
         Random rand = new Random();
         for(int i = 0; i < returnArray.length; i++){
