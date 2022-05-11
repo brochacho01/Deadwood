@@ -40,7 +40,7 @@ class View {
 
     public static void getAction(Player curPlayer, Board b) {
         String action = "";
-        while (true) {
+        while (curPlayer.isTurn()) {
             System.out.print("You can: ");
             ArrayList<String> actions = curPlayer.getAvailableActions(b);
             System.out.println(actions.toString());
@@ -82,7 +82,8 @@ class View {
                 System.out.println("Not a valid action!");
             }
         }
-
+        // Set the taken action flag back to false for when it's that players next turn
+        curPlayer.setTakenAction();
     }
 
     // Prompt the player for their desired role, then upon successful input, calls

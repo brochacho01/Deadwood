@@ -82,6 +82,7 @@ class Deadwood {
         // While notEndDay
         while(b.getActiveSets() > 1){
             Player curPlayer = Board.getPlayer(pTurn);
+            curPlayer.setTurn();
             View.doTurn(curPlayer, b);
             pTurn = (pTurn + 1) % numPlayers;
         }

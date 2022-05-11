@@ -11,6 +11,7 @@ class Player {
     private int balance;
     private int credits;
     private int rehearsalTokens;
+    private boolean isTurn;
 
     // Constructor
     public Player(int num, int i) {
@@ -36,17 +37,26 @@ class Player {
             this.credits = 0;
         }
         this.rehearsalTokens = 0;
+        this.isTurn = false;
     }
 
-    // Have the player take their turn
-    public void takeTurn() {
-        // Do stuff like move, act, etc...
-        return;
+    
+    public void setTakenAction(){
+        this.hasTakenAction = false;
     }
 
     // End the player's turn
     public void endTurn() {
+        this.isTurn = false;
         return;
+    }
+
+    public void setTurn(){
+        this.isTurn = true;
+    }
+
+    public boolean isTurn(){
+        return this.isTurn;
     }
 
     // Move the player
@@ -61,6 +71,7 @@ class Player {
             if (!pSet.isFlipped()) {
                 pSet.flip();
             }
+            System.out.println("The budget of this set is: " + ((Set) pRoom).getSceneBudget());
             ((Set) pRoom).printSet();
         }
         this.hasMoved = true;
@@ -82,8 +93,8 @@ class Player {
         int rollResult = Dice.actRoll(rehearsalTokens);
         Role curRole = ((Set) Board.getRoom(location)).getRole(role);
         // For success
-        if (rollResult >= curRole.rank) {
-            System.out.println("Your roll resulted in a: " + rollResult + ", Success!");
+        if (rollResult >= ((Set) Board.getRoom(location)).getSceneBudget()) {
+            System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Success!");
             // Offcard bonuses
             if (curRole.roleType.equals("Extra")) {
                 this.balance++;
@@ -96,7 +107,7 @@ class Player {
             }
             // Failure
         } else {
-            System.out.println("Your roll resulted in a: " + rollResult + ", Fail!");
+            System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Fail!");
             if (curRole.roleType.equals("Extra")) {
                 this.balance++;
             }
@@ -108,6 +119,8 @@ class Player {
 
     // Rehearse for a role
     public void rehearse() {
+        this.rehearsalTokens++;
+        hasTakenAction = true;
         return;
     }
 
@@ -151,7 +164,7 @@ class Player {
         if (this.location > 1 && !this.hasRole) {
             actions.add("TAKE ROLE");
         }
-        if (this.hasRole) {
+        if (this.hasRole && !hasTakenAction) {
             actions.add("ACT");
             if (this.rehearsalTokens < b.getMaxRehearsalTokens(this.location)) {
                 actions.add("REHEARSE");
