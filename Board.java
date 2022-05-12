@@ -156,17 +156,4 @@ class Board {
         return this.activeSets;
     }
 
-    // Calculates and returns the winner of the game based off of their balance
-    // (money), credits, and rank
-    public Player calculateWinner() {
-        Player winner = players[0];
-        int winBalance = (winner.getRank() * 5) + winner.getBalance() + winner.getCredits();
-        for (int i = 1; i < players.length; i++) {
-            if (((players[i].getRank() * 5) + players[i].getBalance() + players[i].getCredits()) > winBalance) {
-                winner = players[i];
-                winBalance = (players[i].getRank() * 5) + players[i].getBalance() + players[i].getCredits();
-            }
-        }
-        return winner;
-    }
 }

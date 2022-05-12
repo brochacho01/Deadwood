@@ -22,7 +22,7 @@ class Deadwood {
         // Create the xml parser
         XMLParse xml = new XMLParse();
         // Create the board and the deck
-        b = xml.parseBoard();
+        Board b = xml.parseBoard();
         d = xml.parseDeck();
 
         // Get the players
@@ -52,8 +52,7 @@ class Deadwood {
 
     // End the game
     public static void endGame() {
-        Board b = Board.getBoard();
-        Player p = b.calculateWinner();
+        Player p = calculateWinner();
         System.out.println("\nThe game has ended...");
         System.out.println("Congratulations to " + p.getName() + " for winning the game!");
         System.exit(0);
@@ -77,6 +76,7 @@ class Deadwood {
 
     // End a day
     public static void endDay() {
+        Board b = Board.getBoard();
         // setBoard moves all the players to the trailer as well as resetting all of the
         // sets on the board
         System.out.println("The day is ending, the actors go back to the trailer to sleep.");
@@ -85,10 +85,28 @@ class Deadwood {
         startDay();
     }
 
+    // Calculates and returns the winner of the game based off of their balance
+    // (money), credits, and rank
+    public static Player calculateWinner() {
+        Board b = Board.getBoard();
+        Player winner = b.getPlayer(0);
+        Player[] players = b.getPlayers();
+        int winBalance = (winner.getRank() * 5) + winner.getBalance() + winner.getCredits();
+        for (int i = 1; i < players.length; i++) {
+            if (((players[i].getRank() * 5) + players[i].getBalance() + players[i].getCredits()) > winBalance) {
+                winner = players[i];
+                winBalance = (players[i].getRank() * 5) + players[i].getBalance() + players[i].getCredits();
+            }
+        }
+        return winner;
+    }
+
     // controls the flow of turns, when not beginning/ending the day or game, the
     // program will be looping in here
     public static void turnFlow() {
+        Board b = Board.getBoard();
         // While there are still more than 1 active sets, go through players' turns
+        // TODO set back to 1
         while (b.getActiveSets() > 1) {
             Player curPlayer = b.getPlayer(pTurn);
             curPlayer.startTurn();
