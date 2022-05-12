@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-// This class is supposed to view players and help with structuring turnFlow and turnLogic
+// View is to take and process user input as well as give them feedback such as invalid inputs
 class View {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
