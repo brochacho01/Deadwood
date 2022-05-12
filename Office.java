@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Office extends Room {
     private int[][] upgrades;
     
@@ -8,5 +10,14 @@ public class Office extends Room {
 
     public int[][] getUpgrades(){
         return this.upgrades;
+    }
+
+    public void printSet()
+    {
+        System.out.println("\nThis is the office, here you can upgrade your rank!");
+        System.out.println("Upgrade costs:");
+        System.out.println("Rank   Dollars   Credits");
+        System.out.println(Arrays.deepToString(upgrades).replace("],", "\n").replace("[", "").replace(",", "      ").replace("]", ""));
+
     }
 }

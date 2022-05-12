@@ -93,4 +93,7 @@ class Deadwood {
         endDay();
     }
 
+    public void printSet()
+    {
+    }
 }

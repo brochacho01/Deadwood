@@ -1,29 +1,14 @@
-We Need to implement:
-
-Need to figure out where payout methods are going
 Need to add comments to things
-
 
 View:
 Finish getAction (upgrade, view sets, view map, view players)
 
-Set:
-OffCardPayout
-sceneWrap
-
 Board:
-printSets
 printMap - maybe in view
 
 Deadwood:
 endGame - play again?
 
 Player:
-cannot act after taking a role!
 upgrade
-checkMoney/credits
 finish logic getAvailableActions (view sets, view map, check money/credits)
-
-sceneCard:
-onCardPayout
-

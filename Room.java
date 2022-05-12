@@ -16,4 +16,6 @@ abstract class Room {
         return this.neighbors;
     }
 
+    public void printSet() {
+    }
 }

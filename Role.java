@@ -25,6 +25,6 @@ public class Role {
 
     public void printRole()
     {
-        System.out.print("Role " + roleName + " has rank " + rank + ". " + roleDescription + " ");
+        System.out.print("Role " + roleName.toUpperCase() + " has rank " + rank + ". ");
     }
 }

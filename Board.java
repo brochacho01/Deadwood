@@ -13,6 +13,21 @@ class Board
     {
     }
 
+    public void decrementActiveSets()
+    {
+        activeSets--;
+        if (activeSets > 2) {
+            System.out.println("There are " + activeSets + " sets left!");
+        }
+        if (activeSets == 2) {
+            System.out.println("There are only " + activeSets + " sets remaining!");
+        }
+        if (activeSets == 1) {
+            System.out.println("There is only " + activeSets + " set remaining!");
+            System.out.println("The day comes to an end...");
+        }
+    }
+
     //Get the singleton instance of the board
     public static Board getBoard()
     {
@@ -74,6 +89,26 @@ class Board
         return rooms;
     }
 
+    public String[] getRoomNames()
+    {
+        String[] roomNames = new String[rooms.length];
+        for(int i = 0; i < rooms.length; i++)
+        {
+            roomNames[i] = rooms[i].getName();
+        }
+        return roomNames;
+    }
+
+    public String[] getPlayerNames()
+    {
+        String[] playerNames = new String[players.length];
+        for(int i = 0; i < players.length; i++)
+        {
+            playerNames[i] = players[i].getName();
+        }
+        return playerNames;
+    }
+
     public Player getPlayer(int i)
     {
         return players[i];
@@ -112,6 +147,14 @@ class Board
         }
         return -1;
     }
+    public int matchPlayerToIndex(String playerName){
+        for(int i = 0; i < players.length; i++){
+            if(players[i].getName().toLowerCase().equals(playerName.toLowerCase())){
+                return i;
+            }
+        }
+        return -1;
+    }
 
     public int getActiveSets(){
         return this.activeSets;
@@ -121,5 +164,8 @@ class Board
     }
 
     public void printMap() {
+    }
+
+    public void printPlayer() {
     }
 }
