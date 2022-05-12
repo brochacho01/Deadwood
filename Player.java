@@ -40,6 +40,7 @@ class Player {
         this.isTurn = false;
     }
 
+    // resets the taken action of a player
     public void setTakenAction() {
         this.hasTakenAction = false;
     }
@@ -51,10 +52,12 @@ class Player {
         this.isTurn = false;
     }
 
+    // resets the players turn logic
     public void startTurn() {
         this.isTurn = true;
     }
 
+    // TODO continue commenting here
     public boolean isTurn() {
         return this.isTurn;
     }

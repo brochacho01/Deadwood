@@ -11,6 +11,7 @@ class Board {
     private Board() {
     }
 
+    // When a scene wraps want to notify the board of this
     public void decrementActiveSets() {
         activeSets--;
         if (activeSets > 2) {
@@ -33,7 +34,7 @@ class Board {
         return board;
     }
 
-    // Setup the board
+    // Setup the board at beginning of game as well as reset the board on new days
     public void setBoard() {
         for (int i = 0; i < players.length; i++) {
             // Reset the roles of players and move them to the trailers
@@ -57,11 +58,10 @@ class Board {
         playersList.toArray(players);
     }
 
+    // Return the array of players
     public Player[] getPlayers() {
         return players;
     }
-    // add more actions that the player can do, such as view their own stats,
-    // location, etc.
 
     // Create the array of players
     public void setPlayers(int num) {
@@ -71,16 +71,19 @@ class Board {
         }
     }
 
+    // Create the room array containing all the rooms for the board
     public void setRooms(Room[] newRooms) {
         rooms = newRooms;
         // -2 because office and trailer aren't sets
         this.activeSets = rooms.length - 2;
     }
 
+    // Return the array of rooms
     public Room[] getRooms() {
         return rooms;
     }
 
+    // Returns a string array containing the name of every room
     public String[] getRoomNames() {
         String[] roomNames = new String[rooms.length];
         for (int i = 0; i < rooms.length; i++) {
@@ -89,6 +92,7 @@ class Board {
         return roomNames;
     }
 
+    // Returns a string array of all player names
     public String[] getPlayerNames() {
         String[] playerNames = new String[players.length];
         for (int i = 0; i < players.length; i++) {
@@ -97,22 +101,27 @@ class Board {
         return playerNames;
     }
 
+    // Returns a player at specified index in the player array
     public Player getPlayer(int i) {
         return players[i];
     }
 
+    // Gets the index of a player in the player array based on the name of the player
     public int getPlayerIndex(Player p) {
         return Arrays.asList(players).indexOf(p);
     }
 
+    // Returns the name of a room based on its index in the room array
     public String getLocation(int i) {
         return rooms[i].getName();
     }
 
+    // Return a room based off of its index in the room array 
     public Room getRoom(int location) {
         return rooms[location];
     }
 
+    // Gets the max rehearsal tokens a player can have for a given set
     public int getMaxRehearsalTokens(int location) {
         if (rooms[location] instanceof Set) {
             return ((Set) rooms[location]).getSceneBudget() - 1;
@@ -121,6 +130,7 @@ class Board {
         }
     }
 
+    // Gets the index of a room based off of its name
     public int matchNameToIndex(String roomName) {
         for (int i = 0; i < rooms.length; i++) {
             if (rooms[i].getName().toLowerCase().equals(roomName.toLowerCase())) {
@@ -130,6 +140,7 @@ class Board {
         return -1;
     }
 
+    // returns index of player based off of the name of the player
     public int matchPlayerToIndex(String playerName) {
         for (int i = 0; i < players.length; i++) {
             if (players[i].getName().toLowerCase().equals(playerName.toLowerCase())) {
@@ -139,13 +150,12 @@ class Board {
         return -1;
     }
 
+    // Returns the number of active sets left
     public int getActiveSets() {
         return this.activeSets;
     }
 
-    public void printMap() {
-    }
-
+    // Calculates and returns the winner of the game based off of their balance (money), credits, and rank
     public Player calculateWinner() {
         Player winner = players[0];
         int winBalance = (winner.getRank() * 5) + winner.getBalance() + winner.getCredits();

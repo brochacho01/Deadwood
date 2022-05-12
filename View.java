@@ -77,9 +77,6 @@ class View {
                     case "VIEW PLAYER":
                         View.getPlayer(curPlayer);
                         break;
-                    case "VIEW MAP":
-                        b.printMap();
-                        break;
                     case "EXIT":
                         System.exit(0);
                 }

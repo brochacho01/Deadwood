@@ -9,10 +9,12 @@ public class Office extends Room {
         this.upgrades = upgrades;
     }
 
+    // Returns the 2D array containing all of the upgrades and their costs
     public int[][] getUpgrades(){
         return this.upgrades;
     }
 
+    // special printSet method for office as it is different from a set
     public void printSet()
     {
         System.out.println("\nThis is the office, here you can upgrade your rank!");
@@ -21,11 +23,13 @@ public class Office extends Room {
         System.out.println(Arrays.deepToString(upgrades).replace("],", "\n").replace("[", "").replace(",", "      ").replace("]", ""));
     }
 
+    // Checks to see if a player is able to upgrade
     public boolean canUpgrade(int rank, int dollars, int credits)
     {
         return upgrades[rank-1][1] <= dollars || upgrades[rank-1][2] <= credits;
     }
 
+    // Gets the upgrades available to a player
     public ArrayList<String> getAvailableUpgrades(int rank, int dollars, int credits)
     {
         ArrayList<String> availableUpgrades = new ArrayList<String>();
@@ -43,6 +47,7 @@ public class Office extends Room {
         return availableUpgrades;
     }
 
+    // Returns an arraylist of strings that outlines what currency a player can use to upgrade
     public ArrayList<String> getUpgradeTypes(int rank, int dollars, int credits)
     {
         ArrayList<String> upgradeTypes = new ArrayList<String>();
@@ -57,6 +62,7 @@ public class Office extends Room {
         return upgradeTypes;
     }
 
+    // returns the cost of a player upgrading
     public int getCost(int rank, boolean useCredits)
     {
         if (useCredits)
