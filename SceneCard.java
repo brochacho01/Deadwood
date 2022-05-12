@@ -33,7 +33,7 @@ public class SceneCard {
     public void printStarRoles(int playerRank) {
         System.out.println("\nAvailable Star Roles are: ");
         for (Role key : onCardRoles.keySet()) {
-            if ((playerRank >= key.rank) && (onCardRoles.get(key) == -1)) {
+            if ((playerRank >= key.getRank()) && (onCardRoles.get(key) == -1)) {
                 key.printRole();
                 ;
                 System.out.println("");
@@ -45,8 +45,8 @@ public class SceneCard {
     public String[] getStarRoles(int playerRank) {
         ArrayList<String> stars = new ArrayList<String>();
         for (Role key : onCardRoles.keySet()) {
-            if ((playerRank >= key.rank) && (onCardRoles.get(key) == -1)) {
-                stars.add(key.roleName);
+            if ((playerRank >= key.getRank()) && (onCardRoles.get(key) == -1)) {
+                stars.add(key.getRoleName());
             }
         }
         // Convert arraylist to array
@@ -60,7 +60,7 @@ public class SceneCard {
     // Returns a role from the hashmap based on its name
     public Role getRole(String roleName) {
         for (Role key : onCardRoles.keySet()) {
-            if (roleName.equals(key.roleName.toLowerCase())) {
+            if (roleName.equals(key.getRoleName().toLowerCase())) {
                 return key;
             }
         }
@@ -75,7 +75,7 @@ public class SceneCard {
     // Updates the value of a role with the number representing the player on it
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : onCardRoles.keySet()) {
-            if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
+            if (key.getRoleName().toLowerCase().equals(desiredRole.toLowerCase())) {
                 onCardRoles.put(key, playerNumber);
             }
         }

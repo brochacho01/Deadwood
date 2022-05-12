@@ -1,12 +1,16 @@
 public class Role {
-    String roleName;
-    String roleDescription;
-    int rank;
-    String roleType;
+    private String roleName;
+    private String roleDescription;
+    private int rank;
+    private String roleType;
 
     // Returns the name of the role
     public String getRoleName() {
         return this.roleName;
+    }
+
+    public String getRoleType(){
+        return this.roleType;
     }
 
     // Returns the description of the role

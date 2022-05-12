@@ -120,7 +120,7 @@ class Player {
         if (rollResult >= ((Set) b.getRoom(location)).getSceneBudget()) {
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Success!");
             // Offcard bonuses
-            if (curRole.roleType.equals("Extra")) {
+            if (curRole.getRoleType().equals("Extra")) {
                 System.out.println("You have have been paid $1 and 1 credit.");
                 this.balance++;
                 this.credits++;
@@ -134,7 +134,7 @@ class Player {
             // Failure
         } else {
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Fail!");
-            if (curRole.roleType.equals("Extra")) {
+            if (curRole.getRoleName().equals("Extra")) {
                 this.balance++;
             }
         }

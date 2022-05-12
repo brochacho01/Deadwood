@@ -111,7 +111,7 @@ public class Set extends Room {
     public void printExtraRoles(int playerRank) {
         System.out.println("\nAvailable Extra Roles are: ");
         for (Role key : offCardRoles.keySet()) {
-            if ((playerRank >= key.rank) && (offCardRoles.get(key) == -1)) {
+            if ((playerRank >= key.getRank()) && (offCardRoles.get(key) == -1)) {
                 key.printRole();
                 System.out.println("");
             }
@@ -123,8 +123,8 @@ public class Set extends Room {
     public String[] getExtraRoles(int playerRank) {
         ArrayList<String> extras = new ArrayList<String>();
         for (Role key : offCardRoles.keySet()) {
-            if ((playerRank >= key.rank) && (offCardRoles.get(key) == -1)) {
-                extras.add(key.roleName);
+            if ((playerRank >= key.getRank()) && (offCardRoles.get(key) == -1)) {
+                extras.add(key.getRoleName());
             }
         }
         // Convert arraylist to array
@@ -138,7 +138,7 @@ public class Set extends Room {
     // Returns a Role from the hashmap based on its name
     public Role getRole(String roleName) {
         for (Role key : offCardRoles.keySet()) {
-            if (roleName.equals(key.roleName.toLowerCase())) {
+            if (roleName.equals(key.getRoleName().toLowerCase())) {
                 return key;
             }
         }
@@ -155,7 +155,7 @@ public class Set extends Room {
     // that took the role
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : offCardRoles.keySet()) {
-            if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
+            if (key.getRoleName().toLowerCase().equals(desiredRole.toLowerCase())) {
                 offCardRoles.put(key, playerNumber);
             }
         }
