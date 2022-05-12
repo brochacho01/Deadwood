@@ -1,4 +1,15 @@
 Need to add comments to things
+Bugfixes
+possibly refactor code to be more cohesive
 
 Board:
-printMap - maybe in view
+printMap
+
+Deadwood:
+endgame prompts to start another game maybe
+
+Upgrade:
+tell user the cost of upgrades
+
+View:
+let a player cancel their actions
