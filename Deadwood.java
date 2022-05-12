@@ -106,7 +106,6 @@ class Deadwood {
     public static void turnFlow() {
         Board b = Board.getBoard();
         // While there are still more than 1 active sets, go through players' turns
-        // TODO set back to 1
         while (b.getActiveSets() > 1) {
             Player curPlayer = b.getPlayer(pTurn);
             curPlayer.startTurn();
