@@ -17,6 +17,7 @@ public class Set extends Room {
     private SceneCard scene;
     private boolean isFlipped;
 
+    // Constructor
     public Set(String name, String[] neighbors, int shotsLeft) {
         super(name, neighbors);
         this.shotsLeft = shotsLeft;
@@ -29,10 +30,12 @@ public class Set extends Room {
         return this.offCardRoles;
     }
 
+    // Flips the sceneCard
     public void flip() {
         isFlipped = !isFlipped;
     }
 
+    // Returns a boolean on if the sceneCard is flipped or not
     public boolean isFlipped() {
         return isFlipped;
     }
@@ -89,6 +92,7 @@ public class Set extends Room {
             // onCardpayout
             offCardPayout();
         } else {
+            // If no players on the sceneCard
             System.out.println("No stars on set, so extras do note receive a bonus!");
             // Make sure to still reset the roles of the extras
             for (Role key : offCardRoles.keySet()) {
@@ -133,6 +137,7 @@ public class Set extends Room {
         return extraRoles;
     }
 
+    // Returns a Role from the hashmap based on its name
     public Role getRole(String roleName) {
         for (Role key : offCardRoles.keySet()) {
             if (roleName.equals(key.roleName.toLowerCase())) {
@@ -142,11 +147,14 @@ public class Set extends Room {
         return scene.getRole(roleName);
     }
 
+    // adds a role to the hashmap
     public void addRole(Role r) {
         offCardRoles.put(r, -1);
         return;
     }
 
+    // Updates the value of the desiredRole with the number representing the player
+    // that took the role
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : offCardRoles.keySet()) {
             if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
@@ -155,10 +163,12 @@ public class Set extends Room {
         }
     }
 
+    // Sets the sets sceneCard
     public void setSceneCard(SceneCard card) {
         this.scene = card;
     }
 
+    // Returns the sets sceneCard
     public SceneCard getScene() {
         return this.scene;
     }
@@ -173,10 +183,12 @@ public class Set extends Room {
         }
     }
 
+    // Resets the shotCounters for the scene
     public void resetShots() {
         this.shotsLeft = maxShots;
     }
 
+    // Returns an int representing the budget of the sets sceneCard
     public int getSceneBudget() {
         if (!this.isFlipped || this.scene == null) {
             return 0;

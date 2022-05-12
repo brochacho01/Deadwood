@@ -1,6 +1,6 @@
 import javax.xml.parsers.ParserConfigurationException;
 
- // This will contain our system logic
+// This will contain our system logic
 class Deadwood {
     private static Board b;
     private static Deck d;
@@ -10,43 +10,41 @@ class Deadwood {
     private static int pTurn;
 
     public static void main(String[] args) throws ParserConfigurationException {
-        
-        //Print welcome message
-        System.out.println("\n\n\n        :::       ::: :::::::::: :::        ::::::::   ::::::::    :::   :::   ::::::::::      ::::::::::: ::::::::                                                                     \n       :+:       :+: :+:        :+:       :+:    :+: :+:    :+:  :+:+: :+:+:  :+:                 :+:    :+:    :+:                                                                     \n      +:+       +:+ +:+        +:+       +:+        +:+    +:+ +:+ +:+:+ +:+ +:+                 +:+    +:+    +:+                                                                      \n     +#+  +:+  +#+ +#++:++#   +#+       +#+        +#+    +:+ +#+  +:+  +#+ +#++:++#            +#+    +#+    +:+                                                                       \n    +#+ +#+#+ +#+ +#+        +#+       +#+        +#+    +#+ +#+       +#+ +#+                 +#+    +#+    +#+                                                                        \n    #+#+# #+#+#  #+#        #+#       #+#    #+# #+#    #+# #+#       #+# #+#                 #+#    #+#    #+#                                                                         \n    ###   ###   ########## ########## ########   ########  ###       ### ##########          ###     ########                                                                           \n          :::::::::  ::::::::::     :::     :::::::::  :::       :::  ::::::::   ::::::::  :::::::::          :::::::: ::::::::::: :::    ::: ::::::::: ::::::::::: ::::::::   :::::::: \n         :+:    :+: :+:          :+: :+:   :+:    :+: :+:       :+: :+:    :+: :+:    :+: :+:    :+:        :+:    :+:    :+:     :+:    :+: :+:    :+:    :+:    :+:    :+: :+:    :+: \n        +:+    +:+ +:+         +:+   +:+  +:+    +:+ +:+       +:+ +:+    +:+ +:+    +:+ +:+    +:+        +:+           +:+     +:+    +:+ +:+    +:+    +:+    +:+    +:+ +:+         \n       +#+    +:+ +#++:++#   +#++:++#++: +#+    +:+ +#+  +:+  +#+ +#+    +:+ +#+    +:+ +#+    +:+        +#++:++#++    +#+     +#+    +:+ +#+    +:+    +#+    +#+    +:+ +#++:++#++   \n      +#+    +#+ +#+        +#+     +#+ +#+    +#+ +#+ +#+#+ +#+ +#+    +#+ +#+    +#+ +#+    +#+               +#+    +#+     +#+    +#+ +#+    +#+    +#+    +#+    +#+        +#+    \n     #+#    #+# #+#        #+#     #+# #+#    #+#  #+#+# #+#+#  #+#    #+# #+#    #+# #+#    #+#        #+#    #+#    #+#     #+#    #+# #+#    #+#    #+#    #+#    #+# #+#    #+#     \n    #########  ########## ###     ### #########    ###   ###    ########   ########  #########          ########     ###      ########  ######### ########### ########   ########       \n\n\n");
+
+        // Print welcome message
+        System.out.println(
+                "\n\n\n        :::       ::: :::::::::: :::        ::::::::   ::::::::    :::   :::   ::::::::::      ::::::::::: ::::::::                                                                     \n       :+:       :+: :+:        :+:       :+:    :+: :+:    :+:  :+:+: :+:+:  :+:                 :+:    :+:    :+:                                                                     \n      +:+       +:+ +:+        +:+       +:+        +:+    +:+ +:+ +:+:+ +:+ +:+                 +:+    +:+    +:+                                                                      \n     +#+  +:+  +#+ +#++:++#   +#+       +#+        +#+    +:+ +#+  +:+  +#+ +#++:++#            +#+    +#+    +:+                                                                       \n    +#+ +#+#+ +#+ +#+        +#+       +#+        +#+    +#+ +#+       +#+ +#+                 +#+    +#+    +#+                                                                        \n    #+#+# #+#+#  #+#        #+#       #+#    #+# #+#    #+# #+#       #+# #+#                 #+#    #+#    #+#                                                                         \n    ###   ###   ########## ########## ########   ########  ###       ### ##########          ###     ########                                                                           \n          :::::::::  ::::::::::     :::     :::::::::  :::       :::  ::::::::   ::::::::  :::::::::          :::::::: ::::::::::: :::    ::: ::::::::: ::::::::::: ::::::::   :::::::: \n         :+:    :+: :+:          :+: :+:   :+:    :+: :+:       :+: :+:    :+: :+:    :+: :+:    :+:        :+:    :+:    :+:     :+:    :+: :+:    :+:    :+:    :+:    :+: :+:    :+: \n        +:+    +:+ +:+         +:+   +:+  +:+    +:+ +:+       +:+ +:+    +:+ +:+    +:+ +:+    +:+        +:+           +:+     +:+    +:+ +:+    +:+    +:+    +:+    +:+ +:+         \n       +#+    +:+ +#++:++#   +#++:++#++: +#+    +:+ +#+  +:+  +#+ +#+    +:+ +#+    +:+ +#+    +:+        +#++:++#++    +#+     +#+    +:+ +#+    +:+    +#+    +#+    +:+ +#++:++#++   \n      +#+    +#+ +#+        +#+     +#+ +#+    +#+ +#+ +#+#+ +#+ +#+    +#+ +#+    +#+ +#+    +#+               +#+    +#+     +#+    +#+ +#+    +#+    +#+    +#+    +#+        +#+    \n     #+#    #+# #+#        #+#     #+# #+#    #+#  #+#+# #+#+#  #+#    #+# #+#    #+# #+#    #+#        #+#    #+#    #+#     #+#    #+# #+#    #+#    #+#    #+#    #+# #+#    #+#     \n    #########  ########## ###     ### #########    ###   ###    ########   ########  #########          ########     ###      ########  ######### ########### ########   ########       \n\n\n");
         // Begin the game
         setupGame();
     }
 
     // Setup the game
     public static void setupGame() throws ParserConfigurationException {
-        //Create the xml parser
+        // Create the xml parser
         XMLParse xml = new XMLParse();
-        //Create the board and the deck
+        // Create the board and the deck
         b = xml.parseBoard();
         d = xml.parseDeck();
 
-        //Get the players
+        // Get the players
         numPlayers = View.getNumPlayers();
 
-        //Create the players in the board
+        // Create the players in the board
         b.setPlayers(numPlayers);
 
-        //Set the max number of days
-        if (numPlayers < 4)
-        {
+        // Set the max number of days
+        if (numPlayers < 4) {
             maxDays = 3;
-        }
-        else
-        {
+        } else {
             maxDays = 4;
         }
 
-        //Randomize the order of players
+        // Randomize the order of players
         b.randomizePlayers();
 
-        //Setup the board
+        // Setup the board
         b.setBoard();
-        //Start the first day
+        // Start the first day
         day = 0;
         pTurn = 0;
         startDay();
@@ -54,8 +52,7 @@ class Deadwood {
     }
 
     // End the game
-    public static void endGame()
-    {
+    public static void endGame() {
         Board b = Board.getBoard();
         Player p = b.calculateWinner();
         System.out.println("\nThe game has ended...");
@@ -74,14 +71,15 @@ class Deadwood {
             d.dealCards();
         }
         System.out.println("It's a bright new day with endless possibilities!");
-        //Game is ready to go, players can now take their turns.
+        // Game is ready to go, players can now take their turns.
         turnFlow();
         return;
     }
 
     // End a day
     public static void endDay() {
-        // setBoard moves all the players to the trailer as well as resetting all of the sets on the board
+        // setBoard moves all the players to the trailer as well as resetting all of the
+        // sets on the board
         System.out.println("The day is ending, the actors go back to the trailer to sleep.");
         b.setBoard();
         // start the next day
@@ -90,11 +88,9 @@ class Deadwood {
 
     // controls the flow of turns, when not beginning/ending the day or game, the
     // program will be looping in here
-    public static void turnFlow() 
-    {
-        //While there are still more than 1 active sets, go through players' turns
-        while(b.getActiveSets() > 1)
-        {
+    public static void turnFlow() {
+        // While there are still more than 1 active sets, go through players' turns
+        while (b.getActiveSets() > 1) {
             Player curPlayer = b.getPlayer(pTurn);
             curPlayer.startTurn();
             View.doTurn(curPlayer);

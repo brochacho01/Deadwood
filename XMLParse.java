@@ -5,6 +5,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// Parses the XML files for cards and board and creates those respective objects and populates them with data
 class XMLParse {
     // parse the deck
     public Deck parseDeck() throws ParserConfigurationException {
@@ -82,7 +83,7 @@ class XMLParse {
             }
             sets[i] = s;
         }
-        
+
         // Get trailer default info
         NodeList trailerNL = root.getElementsByTagName("trailer");
         Node trailer = trailerNL.item(0);
@@ -95,27 +96,25 @@ class XMLParse {
         String[] trailerNeighborNames = new String[trailerNeighbors.getLength()];
         String[] officeNeighborNames = new String[officeNeighbors.getLength()];
         // Create String arrays containing neighbors of trailer and office
-        for(int i = 0; i < trailerNeighbors.getLength(); i++){
+        for (int i = 0; i < trailerNeighbors.getLength(); i++) {
             Node trailerNeighbor = trailerNeighbors.item(i);
             Node officeNeighbor = officeNeighbors.item(i);
             trailerNeighborNames[i] = trailerNeighbor.getAttributes().getNamedItem("name").getNodeValue();
-            officeNeighborNames[i] = officeNeighbor.getAttributes().getNamedItem("name").getNodeValue(); 
+            officeNeighborNames[i] = officeNeighbor.getAttributes().getNamedItem("name").getNodeValue();
         }
         // Get office upgrades
         int[][] officeUpgrades = new int[5][3];
         NodeList upgradeNodes = ((Element) office).getElementsByTagName("upgrade");
-        
-        for(int i = 0; i < upgradeNodes.getLength(); i++)
-        {
+
+        for (int i = 0; i < upgradeNodes.getLength(); i++) {
             Node upgradeNode = upgradeNodes.item(i);
-            if ("dollar".equals(upgradeNode.getAttributes().getNamedItem("currency").getNodeValue()))
-            {
+            if ("dollar".equals(upgradeNode.getAttributes().getNamedItem("currency").getNodeValue())) {
                 officeUpgrades[(i % 5)][0] = (i % 5) + 2;
-                officeUpgrades[(i % 5)][1] = Integer.parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
-            }
-            else
-            {
-                officeUpgrades[(i % 5)][2] = Integer.parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
+                officeUpgrades[(i % 5)][1] = Integer
+                        .parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
+            } else {
+                officeUpgrades[(i % 5)][2] = Integer
+                        .parseInt(upgradeNode.getAttributes().getNamedItem("amt").getNodeValue());
             }
         }
 

@@ -106,7 +106,8 @@ class Board {
         return players[i];
     }
 
-    // Gets the index of a player in the player array based on the name of the player
+    // Gets the index of a player in the player array based on the name of the
+    // player
     public int getPlayerIndex(Player p) {
         return Arrays.asList(players).indexOf(p);
     }
@@ -116,7 +117,7 @@ class Board {
         return rooms[i].getName();
     }
 
-    // Return a room based off of its index in the room array 
+    // Return a room based off of its index in the room array
     public Room getRoom(int location) {
         return rooms[location];
     }
@@ -155,7 +156,8 @@ class Board {
         return this.activeSets;
     }
 
-    // Calculates and returns the winner of the game based off of their balance (money), credits, and rank
+    // Calculates and returns the winner of the game based off of their balance
+    // (money), credits, and rank
     public Player calculateWinner() {
         Player winner = players[0];
         int winBalance = (winner.getRank() * 5) + winner.getBalance() + winner.getCredits();

@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.*;
 
+// This class is supposed to view players and help with structuring turnFlow and turnLogic
 class View {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -33,11 +34,15 @@ class View {
         return name;
     }
 
+    // Alerts a player that it is their turn and begins the turn
     public static void doTurn(Player curPlayer) {
         System.out.println("\n" + curPlayer.getName().toUpperCase() + ", it is your turn!");
         View.getAction(curPlayer);
     }
 
+    // Prompts the player for their desired action from the set of actions they are
+    // able to take, then upon valid input calls the respective method in the player
+    // class
     public static void getAction(Player curPlayer) {
         Board b = Board.getBoard();
         String action = "";
@@ -90,13 +95,14 @@ class View {
         curPlayer.setTakenAction();
     }
 
-    private static void getUpgrade(Player curPlayer)
-    {
+    // Prompts player for their desired upgrade from a set of possible upgrades they
+    // can take then upon valid input calls the upgrade method in the player class
+    private static void getUpgrade(Player curPlayer) {
         Board b = Board.getBoard();
         Office o = ((Office) b.getRoom(1));
-        ArrayList<String> availableUpgrades = o.getAvailableUpgrades(curPlayer.getRank(), curPlayer.getBalance(), curPlayer.getCredits());
-        while (true)
-        {
+        ArrayList<String> availableUpgrades = o.getAvailableUpgrades(curPlayer.getRank(), curPlayer.getBalance(),
+                curPlayer.getCredits());
+        while (true) {
             // Tell ranks to player, get input
             System.out.print("\nYou can upgrade to ranks: ");
             System.out.println(availableUpgrades.toString().replace("[", "").replace("]", ""));
@@ -107,52 +113,47 @@ class View {
             } catch (IOException ioe) {
                 System.out.println(ioe);
             }
-            if(availableUpgrades.stream().anyMatch(desiredRank::equalsIgnoreCase))
-            {
+            if (availableUpgrades.stream().anyMatch(desiredRank::equalsIgnoreCase)) {
                 System.out.println("");
-                while (true)
-                {
-                    ArrayList<String> upgradeTypes = o.getUpgradeTypes(Integer.parseInt(desiredRank), curPlayer.getBalance(), curPlayer.getCredits());
+                while (true) {
+                    ArrayList<String> upgradeTypes = o.getUpgradeTypes(Integer.parseInt(desiredRank),
+                            curPlayer.getBalance(), curPlayer.getCredits());
                     // Tell names to player, get input
-                    System.out.println("\nYou can pay in: " + upgradeTypes.toString().replace("[", "").replace("]", "").toUpperCase());
-                    System.out.println("You are upgrading to rank " + desiredRank + ", what currency would you like to pay in?");
+                    System.out.println("\nYou can pay in: "
+                            + upgradeTypes.toString().replace("[", "").replace("]", "").toUpperCase());
+                    System.out.println(
+                            "You are upgrading to rank " + desiredRank + ", what currency would you like to pay in?");
                     String desiredType = "";
                     try {
                         desiredType = br.readLine();
                     } catch (IOException ioe) {
                         System.out.println(ioe);
                     }
-                    if(upgradeTypes.stream().anyMatch(desiredType::equalsIgnoreCase))
-                    {
+                    if (upgradeTypes.stream().anyMatch(desiredType::equalsIgnoreCase)) {
                         int dollars, credits;
-                        if (desiredType.toLowerCase().equals("credits"))
-                        {
+                        if (desiredType.toLowerCase().equals("credits")) {
                             credits = o.getCost(Integer.parseInt(desiredRank), true);
                             dollars = 0;
-                        }
-                        else
-                        {
+                        } else {
                             dollars = o.getCost(Integer.parseInt(desiredRank), false);
                             credits = 0;
                         }
                         curPlayer.upgrade(Integer.parseInt(desiredRank), dollars, credits);
                         break;
-                    }
-                    else
-                    {
+                    } else {
                         System.out.println("Not a valid currency!");
                     }
                 }
                 break;
-            }
-            else
-            {
+            } else {
                 System.out.println("Not a valid rank!");
             }
         }
         System.out.println("");
     }
 
+    // Prompts the player to give the name of the player they would like to view,
+    // then upon valid input calls the printPlayer method in Player class
     private static void getPlayer(Player curPlayer) {
         Board b = Board.getBoard();
         String[] playerNames = b.getPlayerNames();
@@ -177,6 +178,9 @@ class View {
         }
     }
 
+    // Prompts the player to give the name of the set they would like to view, then
+    // upon valid input calls the printSet method in one of the 3 classes that
+    // extend Room
     private static void getSet(Player curPlayer) {
         Board b = Board.getBoard();
         String[] roomNames = b.getRoomNames();

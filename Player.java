@@ -57,7 +57,7 @@ class Player {
         this.isTurn = true;
     }
 
-    // TODO continue commenting here
+    // Sets a flag for the players' turn
     public boolean isTurn() {
         return this.isTurn;
     }
@@ -72,11 +72,13 @@ class Player {
         // If they are in a set, flip it and print its information
         if (pRoom instanceof Set) {
             Set pSet = ((Set) pRoom);
+            // If the scene card for the set isn't flipped yet, flip it
             if (!pSet.isFlipped()) {
                 pSet.flip();
             }
             ((Set) pRoom).printSet();
         }
+        // Update moved flag for turn logic
         this.hasMoved = true;
     }
 
@@ -86,6 +88,7 @@ class Player {
         this.role = role.toLowerCase();
         // Update the set
         ((Set) b.getRoom(location)).updateRole(role, b.getPlayerIndex(this));
+        // Update flags for turn logic
         hasRole = true;
         hasTakenAction = true;
         endTurn();
@@ -96,11 +99,13 @@ class Player {
         this.role = role.toLowerCase();
         // Update the set
         ((Set) b.getRoom(location)).getScene().updateRole(role, b.getPlayerIndex(this));
+        // update flags for turn logic
         hasRole = true;
         hasTakenAction = true;
         endTurn();
     }
 
+    // Returns the name of the players's role
     public String getRole() {
         return this.role;
     }
@@ -148,8 +153,7 @@ class Player {
     }
 
     // Upgrade a player's rank
-    public void upgrade(int desiredRank, int dollars, int creds)
-    {
+    public void upgrade(int desiredRank, int dollars, int creds) {
         System.out.println("Congratulations, you are now rank " + desiredRank + "!");
         this.rank = desiredRank;
         this.balance -= dollars;
@@ -164,27 +168,35 @@ class Player {
         this.role = null;
     }
 
+    // Update players's currency based on input
     public void pay(int dollars, int creds) {
         this.balance += dollars;
         this.credits += creds;
     }
 
+    // Returns the name of the player
     public String getName() {
         return this.name;
     }
 
+    // Moves the player back to the trailer
     public void resetLocation() {
         this.location = 0;
     }
 
+    // returns the players location as an int for the index of the room in the
+    // room[] for board
     public int getLocation() {
         return this.location;
     }
 
+    // Returns the rank of the player as an int
     public int getRank() {
         return this.rank;
     }
 
+    // Gets all the actions currently available to a player and returns it as an
+    // arraylist of strings
     public ArrayList<String> getAvailableActions() {
         Board b = Board.getBoard();
         ArrayList<String> actions = new ArrayList<String>();
@@ -207,14 +219,12 @@ class Player {
         }
         actions.add("VIEW SET");
         actions.add("VIEW PLAYER");
-        // TODO: actions.add("VIEW MAP");
         actions.add("END TURN");
         actions.add("EXIT");
-        // add more actions that the player can do, such as view their own stats,
-        // location, etc.
         return actions;
     }
 
+    // Prints all the information about a player
     public void printPlayer() {
         Board b = Board.getBoard();
         System.out.println(this.getName().toUpperCase() + " is at " + b.getLocation(this.location) + ".");
@@ -228,13 +238,13 @@ class Player {
         }
     }
 
-    public int getBalance()
-    {
+    // returns the balance (money) of current player
+    public int getBalance() {
         return this.balance;
     }
 
-    public int getCredits()
-    {
+    // returns the credits of current player
+    public int getCredits() {
         return this.credits;
     }
 }

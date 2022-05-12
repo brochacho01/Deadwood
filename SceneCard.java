@@ -13,6 +13,7 @@ public class SceneCard {
     // this is public unlike the one on Set as Set will need to access this
     private HashMap<Role, Integer> onCardRoles;
 
+    // Constructor
     public SceneCard(String name, int sceneNumber, String sceneDescription, int budget,
             HashMap<Role, Integer> onCardRoles) {
         this.name = name;
@@ -22,6 +23,7 @@ public class SceneCard {
         this.onCardRoles = onCardRoles;
     }
 
+    // Returns the budget of the sceneCard
     public int getBudget() {
         return this.budget;
     }
@@ -54,6 +56,7 @@ public class SceneCard {
         return starRoles;
     }
 
+    // Returns a role from the hashmap based on its name
     public Role getRole(String roleName) {
         for (Role key : onCardRoles.keySet()) {
             if (roleName.equals(key.roleName.toLowerCase())) {
@@ -68,6 +71,7 @@ public class SceneCard {
         return this.onCardRoles;
     }
 
+    // Updates the value of a role with the number representing the player on it
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : onCardRoles.keySet()) {
             if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
@@ -76,7 +80,9 @@ public class SceneCard {
         }
     }
 
-
+    // Payout for players on the sceneCard. Returns boolean because if there are
+    // players on card that get paid during sceneWrap then players off card can
+    // receive bonuses as well. This boolean allows that to happen
     public boolean onCardpayout() {
         boolean isStars = false;
         // Get players on card
@@ -111,12 +117,12 @@ public class SceneCard {
             if (toPay != null) {
                 int amount = payouts[i % onCardRoles.keySet().size()];
                 playersToPay.get(i).pay(amount, 0);
-                System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + " as a bonus for the scene wrapping!");
+                System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount
+                        + " as a bonus for the scene wrapping!");
             }
         }
-        //reset the players roles
-        for(int i = 0; i < playersToPay.size(); i++)
-        {
+        // reset the players roles
+        for (int i = 0; i < playersToPay.size(); i++) {
             Player toReset = playersToPay.get(i);
             if (toReset != null) {
                 playersToPay.get(i).resetRole();
