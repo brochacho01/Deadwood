@@ -36,10 +36,12 @@ public class Set extends Room {
 
     // uses the HashMap of players, calculates their payout and calls setter to
     // update player money/credits
+    // TODO extra issue, if nobody on card then offcardPayout shouldn't happen
     private void offCardPayout() {
         Board b = Board.getBoard();
         // Get players from hash map
         ArrayList<Player> playersToPay = new ArrayList<Player>();
+        // TODO currently, no players are being identified in here when a scene wraps. However, the sets don't recognize a player is on there
         for (Role key : offCardRoles.keySet())
         {
             if (offCardRoles.get(key) != -1)
@@ -79,6 +81,7 @@ public class Set extends Room {
 
     // First do payouts
     // Make sure to have check for endDay
+    // TODO currently hashmap still says a player is on role after scene wraps, this is fine though as long as players can't travel back to wrapped scene
     private void sceneWrap() {
         Board b = Board.getBoard();
         // offCardPayout
@@ -133,7 +136,7 @@ public class Set extends Room {
 
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : offCardRoles.keySet()) {
-            if (key.roleName.toLowerCase().equals(desiredRole)) {
+            if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
                 offCardRoles.put(key, playerNumber);
             }
         }
@@ -169,7 +172,7 @@ public class Set extends Room {
     public void printSet() {
         if (this.scene == null)
         {
-            System.out.println(this.getName() + " has " + shotsLeft + " shots remaining, so it has been removed from the board.\n");
+            System.out.println(this.getName() + " has " + shotsLeft + " shots remaining, so it is inactive.\n");
             return;
         }
         Board b = Board.getBoard();

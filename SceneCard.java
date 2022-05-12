@@ -70,7 +70,7 @@ public class SceneCard {
 
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : onCardRoles.keySet()) {
-            if (key.roleName.toLowerCase().equals(desiredRole)) {
+            if (key.roleName.toLowerCase().equals(desiredRole.toLowerCase())) {
                 onCardRoles.put(key, playerNumber);
             }
         }
