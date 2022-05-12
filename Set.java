@@ -6,6 +6,8 @@ import java.util.HashMap;
 public class Set extends Room {
     private String name;
     private String[] neighbors;
+    // Hold max shots for set for when resetting
+    private int maxShots;
     // Tracks how many shots are left on the set
     private int shotsLeft;
     // This hashMap stores all the roles on the sceneCard as the keys, and the value
@@ -18,6 +20,7 @@ public class Set extends Room {
     public Set(String name, String[] neighbors, int shotsLeft) {
         super(name, neighbors);
         this.shotsLeft = shotsLeft;
+        this.maxShots = shotsLeft;
         offCardRoles = new HashMap<Role, Integer>();
     }
 
@@ -50,7 +53,8 @@ public class Set extends Room {
             int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole())
                     .getRank();
             playersToPay.get(i).pay(amount, 0);
-            System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + " as a bonus for the scene wrapping!");
+            System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount
+                    + " as a bonus for the scene wrapping!");
             // reset the players roles
             playersToPay.get(i).resetRole();
         }
@@ -93,7 +97,6 @@ public class Set extends Room {
                     b.getPlayer(offCardRoles.get(key)).resetRole();
                 }
             }
-
 
         }
         removeSceneCard();
@@ -168,6 +171,10 @@ public class Set extends Room {
         for (Role key : offCardRoles.keySet()) {
             offCardRoles.put(key, -1);
         }
+    }
+
+    public void resetShots() {
+        this.shotsLeft = maxShots;
     }
 
     public int getSceneBudget() {
