@@ -76,7 +76,9 @@ public class SceneCard {
         }
     }
 
-    public void onCardpayout() {
+
+    public boolean onCardpayout() {
+        boolean isStars = false;
         // Get players on card
         Board b = Board.getBoard();
         // Get players from hash map
@@ -109,7 +111,7 @@ public class SceneCard {
             if (toPay != null) {
                 int amount = payouts[i % onCardRoles.keySet().size()];
                 playersToPay.get(i).pay(amount, 0);
-                System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + ".");
+                System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + " as a bonus for the scene wrapping!");
             }
         }
         //reset the players roles
@@ -118,7 +120,9 @@ public class SceneCard {
             Player toReset = playersToPay.get(i);
             if (toReset != null) {
                 playersToPay.get(i).resetRole();
+                isStars = true;
             }
         }
+        return isStars;
     }
 }

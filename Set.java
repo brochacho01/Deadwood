@@ -36,26 +36,22 @@ public class Set extends Room {
 
     // uses the HashMap of players, calculates their payout and calls setter to
     // update player money/credits
-    // TODO extra issue, if nobody on card then offcardPayout shouldn't happen
     private void offCardPayout() {
         Board b = Board.getBoard();
         // Get players from hash map
         ArrayList<Player> playersToPay = new ArrayList<Player>();
-        // TODO currently, no players are being identified in here when a scene wraps. However, the sets don't recognize a player is on there
-        for (Role key : offCardRoles.keySet())
-        {
-            if (offCardRoles.get(key) != -1)
-            {
+        for (Role key : offCardRoles.keySet()) {
+            if (offCardRoles.get(key) != -1) {
                 playersToPay.add(b.getPlayer(offCardRoles.get(key)));
             }
         }
         // pay them
-        for(int i = 0; i < playersToPay.size(); i++)
-        {
-            int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole()).getRank();
+        for (int i = 0; i < playersToPay.size(); i++) {
+            int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole())
+                    .getRank();
             playersToPay.get(i).pay(amount, 0);
-            System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + ".");
-            //reset the players roles
+            System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + " as a bonus for the scene wrapping!");
+            // reset the players roles
             playersToPay.get(i).resetRole();
         }
     }
@@ -81,14 +77,28 @@ public class Set extends Room {
 
     // First do payouts
     // Make sure to have check for endDay
-    // TODO currently hashmap still says a player is on role after scene wraps, this is fine though as long as players can't travel back to wrapped scene
     private void sceneWrap() {
         Board b = Board.getBoard();
         // offCardPayout
-        offCardPayout();
-        // onCardpayout
-        scene.onCardpayout();
+        // If there's players on card, then pay extras as well
+        if (scene.onCardpayout()) {
+            // onCardpayout
+            offCardPayout();
+        } else {
+            System.out.println("No stars on set, so extras do note receive a bonus!");
+            // Make sure to still reset the roles of the extras
+            for (Role key : offCardRoles.keySet()) {
+                if (offCardRoles.get(key) != -1) {
+                    // Reset the player
+                    b.getPlayer(offCardRoles.get(key)).resetRole();
+                }
+            }
+
+
+        }
         removeSceneCard();
+        // reset the hashmap so that it doesn't think that there's players on it
+        reset();
         b.decrementActiveSets();
     }
 
@@ -155,8 +165,8 @@ public class Set extends Room {
         this.scene = null;
         // For each role on the set, set its value back to -1 as all players are moved
         // back to trailer
-        for (int value : offCardRoles.values()) {
-            value = -1;
+        for (Role key : offCardRoles.keySet()) {
+            offCardRoles.put(key, -1);
         }
     }
 
@@ -170,15 +180,13 @@ public class Set extends Room {
 
     // Print information about the set
     public void printSet() {
-        if (this.scene == null)
-        {
+        if (this.scene == null) {
             System.out.println(this.getName() + " has " + shotsLeft + " shots remaining, so it is inactive.\n");
             return;
         }
         Board b = Board.getBoard();
         System.out.println(this.getName() + " has " + shotsLeft + " shots remaining.");
-        if (isFlipped)
-        {
+        if (isFlipped) {
             System.out.println("\nThe budget of this set is: " + this.getSceneBudget());
         }
         System.out.println("\nThere are " + offCardRoles.keySet().size() + " extra roles on this set:");
