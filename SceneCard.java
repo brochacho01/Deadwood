@@ -4,6 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 public class SceneCard {
+    // These 3 currently aren't being used but will be necessary for the GUI
     private String name;
     private int sceneNumber;
     private String sceneDescription;

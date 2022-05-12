@@ -1,7 +1,5 @@
-import javax.lang.model.util.ElementScanner6;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -91,7 +89,6 @@ class XMLParse {
         // Get office default info
         NodeList officeNL = root.getElementsByTagName("office");
         Node office = officeNL.item(0);
-        String officeName = "Office";
         NodeList officeNeighbors = ((Element) office).getElementsByTagName("neighbor");
         String[] trailerNeighborNames = new String[trailerNeighbors.getLength()];
         String[] officeNeighborNames = new String[officeNeighbors.getLength()];

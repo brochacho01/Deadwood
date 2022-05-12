@@ -44,7 +44,6 @@ class View {
     // able to take, then upon valid input calls the respective method in the player
     // class
     public static void getAction(Player curPlayer) {
-        Board b = Board.getBoard();
         String action = "";
         while (curPlayer.isTurn()) {
             System.out.print("\nYou can: ");

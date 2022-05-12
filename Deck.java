@@ -2,10 +2,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Deck {
-    private int deckSize;
-
-    private int cardsInDeck;
-
     // By having all the SceneCards stored in an arrayList, their order is able to
     // be randomized
     private ArrayList<SceneCard> cards;

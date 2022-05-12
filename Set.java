@@ -1,8 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import java.util.HashMap;
-
 public class Set extends Room {
     private String name;
     private String[] neighbors;
