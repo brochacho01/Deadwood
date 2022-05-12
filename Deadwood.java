@@ -2,7 +2,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 // This will contain our system logic
 class Deadwood {
-    private static Board b;
     private static Deck d;
     private static int day;
     private static int maxDays;
