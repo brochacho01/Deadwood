@@ -1,10 +1,4 @@
 Need to add comments to things
 
-View:
-Finish getAction (upgrade, view sets, view map, view players)
-
 Board:
 printMap - maybe in view
-
-Deadwood:
-endGame - play again?
