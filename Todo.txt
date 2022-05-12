@@ -1,18 +1,7 @@
 Need to add comments to things
 Bugfixes
-possibly refactor code to be more cohesive
-Add message maybe that when scene wraps if no one is on card then off card actors don't get paid
-Make it so that if no stars on card then extras dont get paid for wraps
+possibly refactor code to be more cohesives
 
-Board:
-printMap
 
-Deadwood:
-endgame prompts to start another game maybe
 
-Upgrade:
-tell user the cost of upgrades
 
-View:
-let a player cancel their actions
-In view players, resolve option of viewing self/viewing self via name
