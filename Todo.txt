@@ -8,7 +8,3 @@ printMap - maybe in view
 
 Deadwood:
 endGame - play again?
-
-Player:
-upgrade
-finish logic getAvailableActions (view sets, view map, check money/credits)

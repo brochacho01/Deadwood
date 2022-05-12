@@ -66,7 +66,7 @@ class View {
                         curPlayer.rehearse();
                         break;
                     case "UPGRADE":
-                        curPlayer.upgrade();
+                        View.getUpgrade(curPlayer);
                         break;
                     case "END TURN":
                         curPlayer.endTurn();
@@ -93,13 +93,74 @@ class View {
         curPlayer.setTakenAction();
     }
 
-    private static void getPlayer(Player curPlayer)
+    private static void getUpgrade(Player curPlayer)
     {
+        Board b = Board.getBoard();
+        Office o = ((Office) b.getRoom(1));
+        ArrayList<String> availableUpgrades = o.getAvailableUpgrades(curPlayer.getRank(), curPlayer.getBalance(), curPlayer.getCredits());
+        while (true)
+        {
+            // Tell ranks to player, get input
+            System.out.print("\nYou can upgrade to ranks: ");
+            System.out.println(availableUpgrades.toString().replace("[", "").replace("]", ""));
+            System.out.println("What rank would you like to upgrade to?");
+            String desiredRank = "";
+            try {
+                desiredRank = br.readLine();
+            } catch (IOException ioe) {
+                System.out.println(ioe);
+            }
+            if(availableUpgrades.stream().anyMatch(desiredRank::equalsIgnoreCase))
+            {
+                System.out.println("");
+                while (true)
+                {
+                    ArrayList<String> upgradeTypes = o.getUpgradeTypes(Integer.parseInt(desiredRank), curPlayer.getBalance(), curPlayer.getCredits());
+                    // Tell names to player, get input
+                    System.out.println("\nYou can pay in: " + upgradeTypes.toString().replace("[", "").replace("]", "").toUpperCase());
+                    System.out.println("You are upgrading to rank " + desiredRank + ", what currency would you like to pay in?");
+                    String desiredType = "";
+                    try {
+                        desiredType = br.readLine();
+                    } catch (IOException ioe) {
+                        System.out.println(ioe);
+                    }
+                    if(upgradeTypes.stream().anyMatch(desiredType::equalsIgnoreCase))
+                    {
+                        int dollars, credits;
+                        if (desiredType.toLowerCase().equals("credits"))
+                        {
+                            credits = o.getCost(Integer.parseInt(desiredRank), true);
+                            dollars = 0;
+                        }
+                        else
+                        {
+                            dollars = o.getCost(Integer.parseInt(desiredRank), false);
+                            credits = 0;
+                        }
+                        curPlayer.upgrade(Integer.parseInt(desiredRank), dollars, credits);
+                        break;
+                    }
+                    else
+                    {
+                        System.out.println("Not a valid currency!");
+                    }
+                }
+                break;
+            }
+            else
+            {
+                System.out.println("Not a valid rank!");
+            }
+        }
+        System.out.println("");
+    }
+
+    private static void getPlayer(Player curPlayer) {
         Board b = Board.getBoard();
         String[] playerNames = b.getPlayerNames();
         System.out.println("\nWhich player would you like to view?");
-        while (true)
-        {
+        while (true) {
             // Tell names to player, get input
             System.out.print("You can view: ");
             System.out.println(Arrays.toString(playerNames).replace("[", "").replace("]", "").toUpperCase() + ", SELF");
@@ -109,68 +170,54 @@ class View {
             } catch (IOException ioe) {
                 System.out.println(ioe);
             }
-            if(Arrays.asList(playerNames).stream().anyMatch(desiredPlayer::equalsIgnoreCase))
-            {
+            if (Arrays.asList(playerNames).stream().anyMatch(desiredPlayer::equalsIgnoreCase)) {
                 System.out.println("");
                 b.getPlayer(b.matchPlayerToIndex(desiredPlayer)).printPlayer();
                 break;
-            }
-            else if (desiredPlayer.toLowerCase().equals("self"))
-            {
+            } else if (desiredPlayer.toLowerCase().equals("self")) {
                 System.out.println("");
                 curPlayer.printPlayer();
                 break;
-            }
-            else
-            {
+            } else {
                 System.out.println("Not a valid player!");
             }
         }
     }
 
-    private static void getSet(Player curPlayer)
-    {
+    private static void getSet(Player curPlayer) {
         Board b = Board.getBoard();
         String[] roomNames = b.getRoomNames();
         int pLocation = curPlayer.getLocation();
         // Tell sets to player, get input
         System.out.println("\nWhat set would you like to view?");
-        while (true)
-        {
+        while (true) {
             // Tell names to player, get input
             System.out.print("You can view: ");
-            System.out.println(Arrays.toString(roomNames).replace("[", "").replace("]", "").toUpperCase() + ", PLAYER" + ", ALL");
+            System.out.println(
+                    Arrays.toString(roomNames).replace("[", "").replace("]", "").toUpperCase() + ", PLAYER" + ", ALL");
             String desiredSet = "";
             try {
                 desiredSet = br.readLine();
             } catch (IOException ioe) {
                 System.out.println(ioe);
             }
-            if(Arrays.asList(roomNames).stream().anyMatch(desiredSet::equalsIgnoreCase))
-            {
+            if (Arrays.asList(roomNames).stream().anyMatch(desiredSet::equalsIgnoreCase)) {
                 System.out.println("");
                 b.getRoom(b.matchNameToIndex(desiredSet)).printSet();
                 break;
-            }
-            else if (desiredSet.toLowerCase().equals("player"))
-            {
+            } else if (desiredSet.toLowerCase().equals("player")) {
                 System.out.println("\nYou are in " + b.getRoom(pLocation).getName());
                 b.getRoom(pLocation).printSet();
                 break;
-            }
-            else if (desiredSet.toLowerCase().equals("all"))
-            {
+            } else if (desiredSet.toLowerCase().equals("all")) {
                 System.out.println("");
                 Room[] rooms = b.getRooms();
-                for (int i = 2; i < rooms.length; i++)
-                {
+                for (int i = 2; i < rooms.length; i++) {
                     rooms[i].printSet();
                 }
                 System.out.println("");
                 break;
-            }
-            else
-            {
+            } else {
                 System.out.println("Not a valid room!");
             }
         }
@@ -190,8 +237,10 @@ class View {
         String[] starRoles = ((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank);
         while (true) {
             // Tell names to player, get input
-            System.out.println("\nExtra Roles you can take are: " + Arrays.toString(extraRoles).toUpperCase().replace("[", "").replace("]", ""));
-            System.out.println("\nStarring Roles you can take are: " + Arrays.toString(starRoles).toUpperCase().replace("[", "").replace("]", ""));
+            System.out.println("\nExtra Roles you can take are: "
+                    + Arrays.toString(extraRoles).toUpperCase().replace("[", "").replace("]", ""));
+            System.out.println("\nStarring Roles you can take are: "
+                    + Arrays.toString(starRoles).toUpperCase().replace("[", "").replace("]", ""));
             System.out.println("\nWhat Role would you like to take?");
             String desiredRole = "";
             try {
@@ -199,12 +248,12 @@ class View {
             } catch (IOException ioe) {
                 System.out.println(ioe);
             }
-            if(Arrays.asList(extraRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)){
+            if (Arrays.asList(extraRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)) {
                 // Update playerRole
                 curPlayer.takeExtraRole(desiredRole);
                 System.out.println("You are now playing as " + desiredRole.toUpperCase() + "!");
                 break;
-            } else if(Arrays.asList(starRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)){
+            } else if (Arrays.asList(starRoles).stream().anyMatch(desiredRole::equalsIgnoreCase)) {
                 // Update playerRole
                 curPlayer.takeStarRole(desiredRole);
                 System.out.println("\nYou are now playing as " + desiredRole.toUpperCase() + "!");
@@ -222,7 +271,8 @@ class View {
         int pLocation = curPlayer.getLocation();
         String[] neighbors = b.getRoom(pLocation).getNeighbors();
         while (true) {
-            System.out.println("\nRooms you can move to are: " + Arrays.toString(neighbors).toUpperCase().replace("[", "").replace("]", ""));
+            System.out.println("\nRooms you can move to are: "
+                    + Arrays.toString(neighbors).toUpperCase().replace("[", "").replace("]", ""));
             System.out.println("\nWhere would you like to move to?");
             String desiredLocation = "";
             try {

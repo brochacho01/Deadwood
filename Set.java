@@ -53,6 +53,8 @@ public class Set extends Room {
             int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole()).getRank();
             playersToPay.get(i).pay(amount, 0);
             System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + ".");
+            //reset the players roles
+            playersToPay.get(i).resetRole();
         }
     }
 
@@ -167,7 +169,7 @@ public class Set extends Room {
     public void printSet() {
         if (this.scene == null)
         {
-            System.out.println(this.getName() + " has " + shotsLeft + " shots remaining, so it has been removed from the board");
+            System.out.println(this.getName() + " has " + shotsLeft + " shots remaining, so it has been removed from the board.\n");
             return;
         }
         Board b = Board.getBoard();

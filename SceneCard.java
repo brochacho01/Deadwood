@@ -56,7 +56,7 @@ public class SceneCard {
 
     public Role getRole(String roleName) {
         for (Role key : onCardRoles.keySet()) {
-            if (roleName.equals(key.roleName)) {
+            if (roleName.equals(key.roleName.toLowerCase())) {
                 return key;
             }
         }
@@ -70,7 +70,7 @@ public class SceneCard {
 
     public void updateRole(String desiredRole, int playerNumber) {
         for (Role key : onCardRoles.keySet()) {
-            if (key.roleName.equals(desiredRole)) {
+            if (key.roleName.toLowerCase().equals(desiredRole)) {
                 onCardRoles.put(key, playerNumber);
             }
         }
@@ -101,8 +101,9 @@ public class SceneCard {
                 playersToPay.add(b.getPlayer(orderedRoles.get(i)[0]));
             }
         }
-        // pay them
+        // calculate payout from payout roll
         int[] payouts = Dice.payoutRoll(budget);
+        // pay them
         for (int i = 0; i < budget; i++) {
             Player toPay = playersToPay.get(i % onCardRoles.keySet().size());
             if (toPay != null) {
@@ -111,7 +112,13 @@ public class SceneCard {
                 System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount + ".");
             }
         }
-        // calculate payout from payout roll
-        // pay them
+        //reset the players roles
+        for(int i = 0; i < playersToPay.size(); i++)
+        {
+            Player toReset = playersToPay.get(i);
+            if (toReset != null) {
+                playersToPay.get(i).resetRole();
+            }
+        }
     }
 }

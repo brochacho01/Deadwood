@@ -145,9 +145,12 @@ class Player {
     }
 
     // Upgrade a player's rank
-    public void upgrade() {
-        // TODO FULLY IMPLEMENT (Needed this for debugging)
-        this.rank++;
+    public void upgrade(int desiredRank, int dollars, int creds)
+    {
+        System.out.println("Congratulations, you are now rank " + desiredRank + "!");
+        this.rank = desiredRank;
+        this.balance -= dollars;
+        this.credits -= creds;
         return;
     }
 
@@ -156,8 +159,6 @@ class Player {
         this.rehearsalTokens = 0;
         this.hasRole = false;
         this.role = null;
-        // add more actions that the player can do, such as view their own stats,
-        // location, etc.
     }
 
     public void pay(int dollars, int creds) {
@@ -187,7 +188,7 @@ class Player {
         if (!this.hasMoved && !this.hasRole) {
             actions.add("MOVE");
         }
-        if (this.location > 1 && !this.hasRole
+        if (this.location > 1 && ((Set) b.getRoom(location)).getScene() != null && !this.hasRole
                 && !((((Set) b.getRoom(this.location)).getExtraRoles(this.rank).length == 0)
                         && (((Set) b.getRoom(this.location)).getScene().getStarRoles(this.rank).length == 0))) {
             actions.add("TAKE ROLE");
@@ -198,7 +199,7 @@ class Player {
                 actions.add("REHEARSE");
             }
         }
-        if (this.location == 1) {
+        if (this.location == 1 && rank < 6 && ((Office) b.getRoom(1)).canUpgrade(rank, balance, credits)) {
             actions.add("UPGRADE");
         }
         actions.add("VIEW SET");
@@ -222,5 +223,15 @@ class Player {
         } else {
             System.out.println("They currently are not playing in any roles.");
         }
+    }
+
+    public int getBalance()
+    {
+        return this.balance;
+    }
+
+    public int getCredits()
+    {
+        return this.credits;
     }
 }
