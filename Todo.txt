@@ -2,7 +2,3 @@ Need to add comments to things
 Bugfixes
 possibly refactor code to be more cohesives
 
-
-
-
-Remove room.printSet()

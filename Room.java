@@ -18,7 +18,6 @@ abstract class Room {
         return this.neighbors;
     }
 
-    // TODO Remove this and its calls
-    public void printSet() {
+    public void printSet(){
     }
 }
