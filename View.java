@@ -163,7 +163,7 @@ class View {
         while (true) {
             // Tell names to player, get input
             System.out.print("You can view: ");
-            System.out.println(Arrays.toString(playerNames).replace("[", "").replace("]", "").toUpperCase() + ", SELF");
+            System.out.println(Arrays.toString(playerNames).replace("[", "").replace("]", "").toUpperCase());
             String desiredPlayer = "";
             try {
                 desiredPlayer = br.readLine();
@@ -173,10 +173,6 @@ class View {
             if (Arrays.asList(playerNames).stream().anyMatch(desiredPlayer::equalsIgnoreCase)) {
                 System.out.println("");
                 b.getPlayer(b.matchPlayerToIndex(desiredPlayer)).printPlayer();
-                break;
-            } else if (desiredPlayer.toLowerCase().equals("self")) {
-                System.out.println("");
-                curPlayer.printPlayer();
                 break;
             } else {
                 System.out.println("Not a valid player!");
