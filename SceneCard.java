@@ -117,8 +117,8 @@ public class SceneCard {
             Player toPay = playersToPay.get(i % onCardRoles.keySet().size());
             if (toPay != null) {
                 int amount = payouts[i % onCardRoles.keySet().size()];
-                playersToPay.get(i).pay(amount, 0);
-                System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount
+                toPay.pay(amount, 0);
+                System.out.println(toPay.getName() + " has been paid $" + amount
                         + " as a bonus for the scene wrapping!");
             }
         }
