@@ -45,6 +45,7 @@ class Board {
         for (int j = 0; j < rooms.length; j++) {
             if (rooms[j] instanceof Set) {
                 ((Set) rooms[j]).reset();
+                ((Set) rooms[j]).resetShots();
             }
         }
         // Reset the active sets
