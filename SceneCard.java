@@ -35,7 +35,6 @@ public class SceneCard {
         for (Role key : onCardRoles.keySet()) {
             if ((playerRank >= key.getRank()) && (onCardRoles.get(key) == -1)) {
                 key.printRole();
-                ;
                 System.out.println("");
             }
         }
