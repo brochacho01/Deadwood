@@ -16,7 +16,7 @@ class Player {
     // Constructor
     public Player(int num, int i) {
         // Get the name of the player
-        this.name = View.getName(i);
+        this.name = Conroller.getName(i);
         // Set all attributes to default values, some depending on number of players.
         this.hasMoved = false;
         this.hasTakenAction = false;
@@ -217,8 +217,8 @@ class Player {
         if (this.location == 1 && rank < 6 && ((Office) b.getRoom(1)).canUpgrade(rank, balance, credits)) {
             actions.add("UPGRADE");
         }
-        actions.add("VIEW SET");
-        actions.add("VIEW PLAYER");
+        actions.add("Conroller SET");
+        actions.add("Conroller PLAYER");
         actions.add("END TURN");
         actions.add("EXIT");
         return actions;

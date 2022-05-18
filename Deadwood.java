@@ -25,8 +25,11 @@ class Deadwood {
         Board b = xml.parseBoard();
         d = xml.parseDeck();
 
+        View v = View.getView();
+        v.setupView();
+
         // Get the players
-        numPlayers = View.getNumPlayers();
+        numPlayers = Conroller.getNumPlayers();
 
         // Create the players in the board
         b.setPlayers(numPlayers);
@@ -109,7 +112,7 @@ class Deadwood {
         while (b.getActiveSets() > 1) {
             Player curPlayer = b.getPlayer(pTurn);
             curPlayer.startTurn();
-            View.doTurn(curPlayer);
+            Conroller.doTurn(curPlayer);
             pTurn = (pTurn + 1) % numPlayers;
         }
         // Once there is one active set left, end the day
