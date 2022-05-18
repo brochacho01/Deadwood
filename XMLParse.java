@@ -25,18 +25,25 @@ class XMLParse {
             // Get budget
             String budgetS = card.getAttributes().getNamedItem("budget").getNodeValue();
             int budget = Integer.parseInt(budgetS);
+            String image = card.getAttributes().getNamedItem("img").getNodeValue();
             // need to get all the roles for each SceneCard
             NodeList roles = ((Element) card).getElementsByTagName("part");
             for (int j = 0; j < roles.getLength(); j++) {
+                int[] roleArea = new int[4];
                 String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
                 Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
                 String roleDescription = roleDescriptionNode.getTextContent();
                 String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
                 int rank = Integer.parseInt(rankS);
-                Role r = new Role(roleName, roleDescription, rank, "Star", null);
+                Node roleDimensions = ((Element) roles.item(j)).getElementsByTagName("area").item(0);
+                roleArea[0] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("x").getNodeValue());
+                roleArea[1] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("y").getNodeValue());
+                roleArea[2] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("h").getNodeValue());
+                roleArea[3] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("w").getNodeValue());
+                Role r = new Role(roleName, roleDescription, rank, "Star", roleArea);
                 playersOnCard.put(r, -1);
             }
-            SceneCard s = new SceneCard(cardName, sceneNumber, sceneDescription, budget, playersOnCard);
+            SceneCard s = new SceneCard(cardName, sceneNumber, sceneDescription, budget, image, playersOnCard);
             cards.add(s);
         }
         Deck newDeck = new Deck(cards);

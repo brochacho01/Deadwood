@@ -9,18 +9,20 @@ public class SceneCard {
     private int sceneNumber;
     private String sceneDescription;
     private int budget;
+    private String image;
     // This hashMap stores all the roles on the sceneCard as the keys, and the value
     // is either null or the number representing the player on the role, however
     // this is public unlike the one on Set as Set will need to access this
     private HashMap<Role, Integer> onCardRoles;
 
     // Constructor
-    public SceneCard(String name, int sceneNumber, String sceneDescription, int budget,
+    public SceneCard(String name, int sceneNumber, String sceneDescription, int budget, String image, 
             HashMap<Role, Integer> onCardRoles) {
         this.name = name;
         this.sceneNumber = sceneNumber;
         this.sceneDescription = sceneDescription;
         this.budget = budget;
+        this.image = image;
         this.onCardRoles = onCardRoles;
     }
 
