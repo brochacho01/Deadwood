@@ -3,9 +3,10 @@ import java.util.Arrays;
 
 public class Office extends Room {
     private int[][] upgrades;
+    private int[] area;
 
-    public Office(String name, String[] neighbors, int[][] upgrades) {
-        super(name, neighbors);
+    public Office(String name, String[] neighbors, int[][] upgrades, int[] area) {
+        super(name, neighbors, area);
         this.upgrades = upgrades;
     }
 

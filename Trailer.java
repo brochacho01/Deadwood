@@ -1,7 +1,9 @@
 public class Trailer extends Room {
+    private int[] area;
+
     // Constructor
-    public Trailer(String name, String[] neighbors) {
-        super(name, neighbors);
+    public Trailer(String name, String[] neighbors, int[] area) {
+        super(name, neighbors, area);
     }
 
     // special printSet method as the Trailer is different from a normal set

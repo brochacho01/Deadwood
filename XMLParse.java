@@ -33,7 +33,7 @@ class XMLParse {
                 String roleDescription = roleDescriptionNode.getTextContent();
                 String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
                 int rank = Integer.parseInt(rankS);
-                Role r = new Role(roleName, roleDescription, rank, "Star");
+                Role r = new Role(roleName, roleDescription, rank, "Star", null);
                 playersOnCard.put(r, -1);
             }
             SceneCard s = new SceneCard(cardName, sceneNumber, sceneDescription, budget, playersOnCard);
@@ -59,24 +59,57 @@ class XMLParse {
             // Get all of the shots for each set
             NodeList takes = ((Element) set).getElementsByTagName("take");
             int shots = takes.getLength();
-            // Get all of the roles for each set, each node should contain a name, a level,
-            // area, and a line
-            NodeList roles = ((Element) set).getElementsByTagName("part");
+            int[][] shotsArea = new int[takes.getLength()][4];
+            // Get area for the shots on set
+            for (int k = takes.getLength() - 1; k >= 0; k--) {
+                Node take = takes.item(k);
+                Node takeArea = ((Element) take).getElementsByTagName("area").item(0);
+                // System.out.println(Integer.parseInt(takeArea.getAttributes().getNamedItem("x").getNodeValue()));
+                shotsArea[k][0] = Integer.parseInt(takeArea.getAttributes().getNamedItem("x").getNodeValue());
+                shotsArea[k][1] = Integer.parseInt(takeArea.getAttributes().getNamedItem("y").getNodeValue());
+                shotsArea[k][2] = Integer.parseInt(takeArea.getAttributes().getNamedItem("h").getNodeValue());
+                shotsArea[k][3] = Integer.parseInt(takeArea.getAttributes().getNamedItem("w").getNodeValue());
+            }
+            // Want to reverse the array because of how we want the areas stored
+            int l;
+            int[] t;
+            for (l = 0; l < shotsArea.length / 2; l++) {
+                t = shotsArea[l];
+                shotsArea[l] = shotsArea[shotsArea.length - l - 1];
+                shotsArea[shotsArea.length - l - 1] = t;
+            }
+            // Get area of the set itself
+            int[] area = new int[4];
+            Node setDimensions = ((Element) set).getElementsByTagName("area").item(0);
+            area[0] = Integer.parseInt(setDimensions.getAttributes().getNamedItem("x").getNodeValue());
+            area[1] = Integer.parseInt(setDimensions.getAttributes().getNamedItem("y").getNodeValue());
+            area[2] = Integer.parseInt(setDimensions.getAttributes().getNamedItem("h").getNodeValue());
+            area[3] = Integer.parseInt(setDimensions.getAttributes().getNamedItem("w").getNodeValue());
             // Store the name of all the neighbors of the current set in a string[]
             String[] neighborNames = new String[neighbors.getLength()];
             for (int j = 0; j < neighbors.getLength(); j++) {
                 Node setChild = neighbors.item(j);
                 neighborNames[j] = setChild.getAttributes().getNamedItem("name").getNodeValue();
             }
-            Set s = new Set(setName, neighborNames, shots);
+            Set s = new Set(setName, neighborNames, shots, area, shotsArea);
+            // Get all of the roles for each set, each node should contain a name, a level,
+            // area, and a line
+            NodeList roles = ((Element) set).getElementsByTagName("part");
             // Extract all data from roles nodelist and assign to a new Role class
             for (int j = 0; j < roles.getLength(); j++) {
+                int[] roleArea = new int[4];
                 String roleName = roles.item(j).getAttributes().getNamedItem("name").getNodeValue();
                 Node roleDescriptionNode = ((NodeList) roles.item(j)).item(3);
                 String roleDescription = roleDescriptionNode.getTextContent();
                 String rankS = roles.item(j).getAttributes().getNamedItem("level").getNodeValue();
                 int rank = Integer.parseInt(rankS);
-                Role r = new Role(roleName, roleDescription, rank, "Extra");
+                
+                Node roleDimensions = ((Element) roles.item(j)).getElementsByTagName("area").item(0);
+                roleArea[0] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("x").getNodeValue());
+                roleArea[1] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("y").getNodeValue());
+                roleArea[2] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("h").getNodeValue());
+                roleArea[3] = Integer.parseInt(roleDimensions.getAttributes().getNamedItem("w").getNodeValue());
+                Role r = new Role(roleName, roleDescription, rank, "Extra", roleArea);
                 s.addRole(r);
             }
             sets[i] = s;
@@ -92,6 +125,19 @@ class XMLParse {
         NodeList officeNeighbors = ((Element) office).getElementsByTagName("neighbor");
         String[] trailerNeighborNames = new String[trailerNeighbors.getLength()];
         String[] officeNeighborNames = new String[officeNeighbors.getLength()];
+        // get areas for trailer and office
+        int[] officeArea = new int[4];
+        int[] trailerArea = new int[4];
+        Node officeDimensions = ((Element) office).getElementsByTagName("area").item(0);
+        officeArea[0] = Integer.parseInt(officeDimensions.getAttributes().getNamedItem("x").getNodeValue());
+        officeArea[1] = Integer.parseInt(officeDimensions.getAttributes().getNamedItem("y").getNodeValue());
+        officeArea[2] = Integer.parseInt(officeDimensions.getAttributes().getNamedItem("h").getNodeValue());
+        officeArea[3] = Integer.parseInt(officeDimensions.getAttributes().getNamedItem("w").getNodeValue());
+        Node trailerDimensions = ((Element) trailer).getElementsByTagName("area").item(0);
+        trailerArea[0] = Integer.parseInt(trailerDimensions.getAttributes().getNamedItem("x").getNodeValue());
+        trailerArea[1] = Integer.parseInt(trailerDimensions.getAttributes().getNamedItem("y").getNodeValue());
+        trailerArea[2] = Integer.parseInt(trailerDimensions.getAttributes().getNamedItem("h").getNodeValue());
+        trailerArea[3] = Integer.parseInt(trailerDimensions.getAttributes().getNamedItem("w").getNodeValue());
         // Create String arrays containing neighbors of trailer and office
         for (int i = 0; i < trailerNeighbors.getLength(); i++) {
             Node trailerNeighbor = trailerNeighbors.item(i);
@@ -116,8 +162,8 @@ class XMLParse {
         }
 
         // create our trailer and office objects
-        Trailer t = new Trailer("Trailer", trailerNeighborNames);
-        Office o = new Office("Office", officeNeighborNames, officeUpgrades);
+        Trailer t = new Trailer("Trailer", trailerNeighborNames, trailerArea);
+        Office o = new Office("Office", officeNeighborNames, officeUpgrades, officeArea);
         // Need to create our rooms that board will hold which includes the two rooms
         // without sets
         Room[] rooms = new Room[sets.length + 2];

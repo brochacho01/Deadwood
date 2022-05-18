@@ -3,6 +3,7 @@ public class Role {
     private String roleDescription;
     private int rank;
     private String roleType;
+    private int[] roleArea;
 
     // Returns the name of the role
     public String getRoleName() {
@@ -24,11 +25,12 @@ public class Role {
     }
 
     // Constructor
-    public Role(String roleName, String roleDescription, int rank, String roleType) {
+    public Role(String roleName, String roleDescription, int rank, String roleType, int[] roleArea) {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
         this.rank = rank;
         this.roleType = roleType;
+        this.roleArea = roleArea;
     }
 
     // Prints the name and rank of a role

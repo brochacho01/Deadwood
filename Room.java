@@ -1,11 +1,13 @@
 abstract class Room {
     private String name;
     private String[] neighbors;
+    private int[] area; 
 
     // Constructor
-    public Room(String name, String[] neighbors) {
+    public Room(String name, String[] neighbors, int[] area) {
         this.name = name;
         this.neighbors = neighbors;
+        this.area = area;
     }
 
     // Returns the name of the room

@@ -4,6 +4,7 @@ import java.util.HashMap;
 public class Set extends Room {
     private String name;
     private String[] neighbors;
+    private int[] area;
     // Hold max shots for set for when resetting
     private int maxShots;
     // Tracks how many shots are left on the set
@@ -14,12 +15,14 @@ public class Set extends Room {
     // Every set has a scene card
     private SceneCard scene;
     private boolean isFlipped;
+    private int[][] shotArea;
 
     // Constructor
-    public Set(String name, String[] neighbors, int shotsLeft) {
-        super(name, neighbors);
+    public Set(String name, String[] neighbors, int shotsLeft, int[] area, int[][] shotArea) {
+        super(name, neighbors, area);
         this.shotsLeft = shotsLeft;
         this.maxShots = shotsLeft;
+        this.shotArea = shotArea;
         offCardRoles = new HashMap<Role, Integer>();
     }
 
