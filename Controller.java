@@ -1,8 +1,8 @@
 import java.io.*;
 import java.util.*;
 
-// Conroller is to take and process user input as well as give them feedback such as invalid inputs
-class Conroller {
+// Controller is to take and process user input as well as give them feedback such as invalid inputs
+class Controller {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     // Get the number of players that are going to play the game
@@ -37,7 +37,7 @@ class Conroller {
     // Alerts a player that it is their turn and begins the turn
     public static void doTurn(Player curPlayer) {
         System.out.println("\n" + curPlayer.getName().toUpperCase() + ", it is your turn!");
-        Conroller.getAction(curPlayer);
+        Controller.getAction(curPlayer);
     }
 
     // Prompts the player for their desired action from the set of actions they are
@@ -58,10 +58,10 @@ class Conroller {
             if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
                 switch (action.toUpperCase()) {
                     case "MOVE":
-                        Conroller.getMove(curPlayer);
+                        Controller.getMove(curPlayer);
                         break;
                     case "TAKE ROLE":
-                        Conroller.getRole(curPlayer);
+                        Controller.getRole(curPlayer);
                         break;
                     case "ACT":
                         curPlayer.act();
@@ -70,16 +70,16 @@ class Conroller {
                         curPlayer.rehearse();
                         break;
                     case "UPGRADE":
-                        Conroller.getUpgrade(curPlayer);
+                        Controller.getUpgrade(curPlayer);
                         break;
                     case "END TURN":
                         curPlayer.endTurn();
                         break;
-                    case "Conroller SET":
-                        Conroller.getSet(curPlayer);
+                    case "Controller SET":
+                        Controller.getSet(curPlayer);
                         break;
-                    case "Conroller PLAYER":
-                        Conroller.getPlayer(curPlayer);
+                    case "Controller PLAYER":
+                        Controller.getPlayer(curPlayer);
                         break;
                     case "EXIT":
                         System.exit(0);
@@ -151,15 +151,15 @@ class Conroller {
         System.out.println("");
     }
 
-    // Prompts the player to give the name of the player they would like to Conroller,
+    // Prompts the player to give the name of the player they would like to Controller,
     // then upon valid input calls the printPlayer method in Player class
     private static void getPlayer(Player curPlayer) {
         Board b = Board.getBoard();
         String[] playerNames = b.getPlayerNames();
-        System.out.println("\nWhich player would you like to Conroller?");
+        System.out.println("\nWhich player would you like to Controller?");
         while (true) {
             // Tell names to player, get input
-            System.out.print("You can Conroller: ");
+            System.out.print("You can Controller: ");
             System.out.println(Arrays.toString(playerNames).replace("[", "").replace("]", "").toUpperCase());
             String desiredPlayer = "";
             try {
@@ -177,7 +177,7 @@ class Conroller {
         }
     }
 
-    // Prompts the player to give the name of the set they would like to Conroller, then
+    // Prompts the player to give the name of the set they would like to Controller, then
     // upon valid input calls the printSet method in one of the 3 classes that
     // extend Room
     private static void getSet(Player curPlayer) {
@@ -185,10 +185,10 @@ class Conroller {
         String[] roomNames = b.getRoomNames();
         int pLocation = curPlayer.getLocation();
         // Tell sets to player, get input
-        System.out.println("\nWhat set would you like to Conroller?");
+        System.out.println("\nWhat set would you like to Controller?");
         while (true) {
             // Tell names to player, get input
-            System.out.print("You can Conroller: ");
+            System.out.print("You can Controller: ");
             System.out.println(
                     Arrays.toString(roomNames).replace("[", "").replace("]", "").toUpperCase() + ", PLAYER" + ", ALL");
             String desiredSet = "";
@@ -289,5 +289,11 @@ class Conroller {
                 System.out.println("\nNot a valid move!");
             }
         }
+    }
+
+    public static char getColor(int i){
+        char[] colors = new char[] {'b', 'c', 'g', 'o', 'p', 'r', 'v', 'w', 'y'};
+        return colors[i];
+        
     }
 }

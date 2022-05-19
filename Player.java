@@ -12,11 +12,12 @@ class Player {
     private int credits;
     private int rehearsalTokens;
     private boolean isTurn;
+    private char color;
 
     // Constructor
     public Player(int num, int i) {
         // Get the name of the player
-        this.name = Conroller.getName(i);
+        this.name = Controller.getName(i);
         // Set all attributes to default values, some depending on number of players.
         this.hasMoved = false;
         this.hasTakenAction = false;
@@ -38,6 +39,7 @@ class Player {
         }
         this.rehearsalTokens = 0;
         this.isTurn = false;
+        this.color = Controller.getColor(i);
     }
 
     // resets the taken action of a player
@@ -217,8 +219,8 @@ class Player {
         if (this.location == 1 && rank < 6 && ((Office) b.getRoom(1)).canUpgrade(rank, balance, credits)) {
             actions.add("UPGRADE");
         }
-        actions.add("Conroller SET");
-        actions.add("Conroller PLAYER");
+        actions.add("Controller SET");
+        actions.add("Controller PLAYER");
         actions.add("END TURN");
         actions.add("EXIT");
         return actions;
@@ -246,5 +248,9 @@ class Player {
     // returns the credits of current player
     public int getCredits() {
         return this.credits;
+    }
+
+    public char getColor(){
+        return this.color;
     }
 }
