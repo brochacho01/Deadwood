@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 import javax.xml.parsers.ParserConfigurationException;
 
 // This will contain our system logic
@@ -8,7 +10,7 @@ class Deadwood {
     private static int numPlayers;
     private static int pTurn;
 
-    public static void main(String[] args) throws ParserConfigurationException {
+    public static void main(String[] args) throws ParserConfigurationException, IOException {
 
         // Print welcome message
         System.out.println(
@@ -18,7 +20,7 @@ class Deadwood {
     }
 
     // Setup the game
-    public static void setupGame() throws ParserConfigurationException {
+    public static void setupGame() throws ParserConfigurationException, IOException {
         // Create the xml parser
         XMLParse xml = new XMLParse();
         // Create the board and the deck
