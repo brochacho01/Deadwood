@@ -66,7 +66,7 @@ class Deadwood {
     }
 
     // Start a day
-    public static void startDay() {
+    public static void startDay() throws IOException {
         View v = View.getView();
         day = day + 1;
         if (day > maxDays) {
@@ -83,7 +83,7 @@ class Deadwood {
     }
 
     // End a day
-    public static void endDay() {
+    public static void endDay() throws IOException {
         Board b = Board.getBoard();
         // setBoard moves all the players to the trailer as well as resetting all of the
         // sets on the board
@@ -111,7 +111,7 @@ class Deadwood {
 
     // controls the flow of turns, when not beginning/ending the day or game, the
     // program will be looping in here
-    public static void turnFlow() {
+    public static void turnFlow() throws IOException {
         Board b = Board.getBoard();
         // While there are still more than 1 active sets, go through players' turns
         while (b.getActiveSets() > 1) {

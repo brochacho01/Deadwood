@@ -75,14 +75,14 @@ class View {
     }
     
     // TODO Somehow this is actually displaying the card. It only worked when adding in the new Integer(1) clause however
-    public void drawSceneCards(){
+    public void drawSceneCards() throws IOException {
         Board b = Board.getBoard();
         Room[] rooms = b.getRooms();
         for(int i = 0; i < rooms.length; i ++){
-            if(rooms[i] instanceof Set){
+            if(rooms[i] instanceof Set) {
                 Room curSet = rooms[i];
                 int[] curSetArea = curSet.getArea();
-                JLabel setImage = new JLabel(new ImageIcon(((Set)curSet).getScene().getCardFront()));
+                JLabel setImage = new JLabel(new ImageIcon(((Set)curSet).getCardImage()));
                 setImage.setBounds(curSetArea[0], curSetArea[1], curSetArea[2], curSetArea[3]);
                 setImage.setLocation(curSetArea[0], curSetArea[1] - 90);
                 setImage.setSize(curSetArea[2] + 90, curSetArea[3] + 90);

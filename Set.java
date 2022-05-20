@@ -1,6 +1,12 @@
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.imageio.ImageIO;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public class Set extends Room {
     private String name;
     private String[] neighbors;
@@ -237,5 +243,12 @@ public class Set extends Room {
             }
         }
         System.out.println("\n");
+    }
+
+    public BufferedImage getCardImage() throws IOException {
+        if (isFlipped) {
+            return scene.getCardFront();
+        }
+        return ImageIO.read(new File("./images/CardBack-small.jpg"));
     }
 }
