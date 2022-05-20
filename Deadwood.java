@@ -51,6 +51,7 @@ class Deadwood {
         // Start the first day
         day = 0;
         pTurn = 0;
+        v.createPlayerImages();
         startDay();
         return;
     }
@@ -66,12 +67,14 @@ class Deadwood {
 
     // Start a day
     public static void startDay() {
+        View v = View.getView();
         day = day + 1;
         if (day > maxDays) {
             endGame();
         } else {
             // If not last day, deal new scenecards to each set
             d.dealCards();
+            v.drawSceneCards();
         }
         System.out.println("It's a bright new day with endless possibilities!");
         // Game is ready to go, players can now take their turns.

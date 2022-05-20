@@ -1,12 +1,14 @@
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 // Parses the XML files for cards and board and creates those respective objects and populates them with data
 class XMLParse {
     // parse the deck
-    public Deck parseDeck() throws ParserConfigurationException {
+    public Deck parseDeck() throws ParserConfigurationException, IOException {
         ArrayList<SceneCard> cards = new ArrayList<SceneCard>();
         Document d = getDocFromFile("cards.xml");
         Element root = d.getDocumentElement();

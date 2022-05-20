@@ -10,6 +10,10 @@ abstract class Room {
         this.area = area;
     }
 
+    public int[] getArea(){
+        return this.area;
+    }
+
     // Returns the name of the room
     public String getName() {
         return this.name;

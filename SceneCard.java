@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class SceneCard {
     // These 3 currently aren't being used but will be necessary for the GUI
@@ -10,6 +14,7 @@ public class SceneCard {
     private String sceneDescription;
     private int budget;
     private String image;
+    private BufferedImage cardFront;
     // This hashMap stores all the roles on the sceneCard as the keys, and the value
     // is either null or the number representing the player on the role, however
     // this is public unlike the one on Set as Set will need to access this
@@ -17,18 +22,24 @@ public class SceneCard {
 
     // Constructor
     public SceneCard(String name, int sceneNumber, String sceneDescription, int budget, String image, 
-            HashMap<Role, Integer> onCardRoles) {
+            HashMap<Role, Integer> onCardRoles) throws IOException {
         this.name = name;
         this.sceneNumber = sceneNumber;
         this.sceneDescription = sceneDescription;
         this.budget = budget;
         this.image = image;
         this.onCardRoles = onCardRoles;
+        String cardIndex = "./images/cards/cards/" + image;
+        this.cardFront = ImageIO.read(new File(cardIndex));
     }
 
     // Returns the budget of the sceneCard
     public int getBudget() {
         return this.budget;
+    }
+
+    public BufferedImage getCardFront(){
+        return this.cardFront;
     }
 
     // Print roles available to player trying to take a role
