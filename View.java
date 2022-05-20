@@ -84,8 +84,8 @@ class View {
                 int[] curSetArea = curSet.getArea();
                 JLabel setImage = new JLabel(new ImageIcon(((Set)curSet).getScene().getCardFront()));
                 setImage.setBounds(curSetArea[0], curSetArea[1], curSetArea[2], curSetArea[3]);
-                setImage.setLocation(curSetArea[0], curSetArea[1]);
-                setImage.setSize(curSetArea[2], curSetArea[3]);
+                setImage.setLocation(curSetArea[0], curSetArea[1] - 90);
+                setImage.setSize(curSetArea[2] + 90, curSetArea[3] + 90);
                 boardLP.add(setImage,new Integer(1));
             }
         }
