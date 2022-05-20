@@ -3,3 +3,6 @@ put images into places on board
 create buttons that players can interact with
 display player info below board
 Implement player movement/locations
+
+Deal scene cards to the board upside down
+When player enters set, flip scene card face up
