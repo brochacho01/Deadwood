@@ -42,8 +42,12 @@ public class Set extends Room {
     }
 
     // Flips the sceneCard
-    public void flip() {
+    public void flip() throws IOException {
         isFlipped = !isFlipped;
+        if(isFlipped()){
+            View v = View.getView();
+            v.flipScene(this.getName(), this.getCardImage());
+        }
     }
 
     // Returns a boolean on if the sceneCard is flipped or not
