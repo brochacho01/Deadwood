@@ -109,4 +109,25 @@ class View {
             playerImages.add(getPImage(players[i]));
         }
     }
+
+    // Display the images of the players dice in the trailer
+    public void setPlayerImages(){
+        for(int i = 0; i < playerImages.size(); i++){
+            placePlayerInRoom(playerImages.get(i), "Trailer");
+        }
+    }
+
+    // Place a player in a specified location
+    public void placePlayerInRoom(Image player, String roomName){
+        Board b = Board.getBoard();
+        int[] roomArea = b.getRoomFromName(roomName).getArea();
+        b.getRoomFromName(roomName).incrememntOffSet();
+        int[] offSet = b.getRoomFromName(roomName).getOffSet();
+        JLabel playerImageJLabel = new JLabel(new ImageIcon(player));
+        playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
+        playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1]);
+        // Dice images are 40x40 pixels
+        playerImageJLabel.setSize(40, 40);
+        boardLP.add(playerImageJLabel, new Integer(1));
+    }
 }

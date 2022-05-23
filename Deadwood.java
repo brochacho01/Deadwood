@@ -52,6 +52,7 @@ class Deadwood {
         day = 0;
         pTurn = 0;
         v.createPlayerImages();
+        v.setPlayerImages();
         startDay();
         return;
     }
