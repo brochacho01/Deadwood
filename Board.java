@@ -123,6 +123,18 @@ class Board {
         return rooms[location];
     }
 
+    // Return a room matching the name passed in. Null result is allowable, because
+    // we pre-validate rooms players can move to so roomName will always match the
+    // name of a room
+    public Room getRoomFromName(String roomName) {
+        for (int i = 0; i < rooms.length; i++) {
+            if (roomName.toLowerCase().equals(rooms[i].getName().toLowerCase())) {
+                return rooms[i];
+            }
+        }
+        return null;
+    }
+
     // Gets the max rehearsal tokens a player can have for a given set
     public int getMaxRehearsalTokens(int location) {
         if (rooms[location] instanceof Set) {
