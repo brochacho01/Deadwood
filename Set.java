@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -22,6 +23,7 @@ public class Set extends Room {
     private SceneCard scene;
     private boolean isFlipped;
     private int[][] shotArea;
+    private int[] offSet;
 
     // Constructor
     public Set(String name, String[] neighbors, int shotsLeft, int[] area, int[][] shotArea) {
@@ -29,6 +31,8 @@ public class Set extends Room {
         this.shotsLeft = shotsLeft;
         this.maxShots = shotsLeft;
         this.shotArea = shotArea;
+        this.offSet = new int[2];
+        Arrays.fill(this.offSet, 0);
         offCardRoles = new HashMap<Role, Integer>();
     }
 

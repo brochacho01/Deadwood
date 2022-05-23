@@ -4,10 +4,13 @@ import java.util.Arrays;
 public class Office extends Room {
     private int[][] upgrades;
     private int[] area;
+    private int[] offSet;
 
     public Office(String name, String[] neighbors, int[][] upgrades, int[] area) {
         super(name, neighbors, area);
         this.upgrades = upgrades;
+        this.offSet = new int[2];
+        Arrays.fill(this.offSet, 0);
     }
 
     // Returns the 2D array containing all of the upgrades and their costs
