@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
 class Player {
@@ -65,10 +66,13 @@ class Player {
     }
 
     // Move the player
-    public void move(int location) {
+    public void move(int location) throws IOException {
         Board b = Board.getBoard();
         this.location = location;
         Room pRoom = b.getRoom(location);
+        // display the player in the new room
+        View v = View.getView();
+        v.placePlayerInRoom(this.name, pRoom.getName());
         // Print the set where the player is
         System.out.println("\nYou are now in: " + pRoom.getName());
         // If they are in a set, flip it and print its information
