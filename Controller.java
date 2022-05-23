@@ -35,7 +35,7 @@ class Controller {
     }
 
     // Alerts a player that it is their turn and begins the turn
-    public static void doTurn(Player curPlayer) {
+    public static void doTurn(Player curPlayer) throws IOException {
         System.out.println("\n" + curPlayer.getName().toUpperCase() + ", it is your turn!");
         Controller.getAction(curPlayer);
     }
@@ -43,7 +43,7 @@ class Controller {
     // Prompts the player for their desired action from the set of actions they are
     // able to take, then upon valid input calls the respective method in the player
     // class
-    public static void getAction(Player curPlayer) {
+    public static void getAction(Player curPlayer) throws IOException {
         String action = "";
         while (curPlayer.isTurn()) {
             System.out.print("\nYou can: ");
@@ -262,7 +262,7 @@ class Controller {
 
     // Prompt the player for their desired location to move to, then upon successful
     // input, calls the move method in player class
-    private static void getMove(Player curPlayer) {
+    private static void getMove(Player curPlayer) throws IOException {
         Board b = Board.getBoard();
         int pLocation = curPlayer.getLocation();
         String[] neighbors = b.getRoom(pLocation).getNeighbors();
@@ -279,6 +279,8 @@ class Controller {
             if (Arrays.asList(neighbors).stream().anyMatch(desiredLocation::equalsIgnoreCase)) {
                 int location = b.matchNameToIndex(desiredLocation);
                 if (location > -1) {
+                    // decrement the offset of the room that the player is leaving
+                    b.getRoom(curPlayer.getLocation()).decrementOffSet();
                     curPlayer.move(location);
                 } else {
                     System.out.println("\nNot a valid move!");
