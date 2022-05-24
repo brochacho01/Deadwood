@@ -6,19 +6,20 @@ class Controller {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     // Get the number of players that are going to play the game
-    public static int getNumPlayers() {
+    public static int getNumPlayers() throws InterruptedException {
         int numPlayers = 0;
-        try {
-            System.out.println("How many players are playing?");
-            numPlayers = Integer.parseInt(br.readLine());
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        } catch (NumberFormatException nfe) {
-        }
-        if (numPlayers < 2 || numPlayers > 8) {
-            System.out.println("Invalid number! You can play with 2-8 players.");
-            numPlayers = getNumPlayers();
-        }
+        // try {
+        //     System.out.println("How many players are playing?");
+        //     numPlayers = Integer.parseInt(br.readLine());
+        // } catch (IOException ioe) {
+        //     System.out.println(ioe);
+        // } catch (NumberFormatException nfe) {
+        // }
+        // if (numPlayers < 2 || numPlayers > 8) {
+        //     System.out.println("Invalid number! You can play with 2-8 players.");
+        //     numPlayers = getNumPlayers();
+        // }
+        numPlayers = View.getNumPlayersInput();
         return numPlayers;
     }
 

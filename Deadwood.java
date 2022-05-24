@@ -10,7 +10,7 @@ class Deadwood {
     private static int numPlayers;
     private static int pTurn;
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException {
+    public static void main(String[] args) throws ParserConfigurationException, IOException, InterruptedException {
 
         // Print welcome message
         System.out.println(
@@ -20,7 +20,7 @@ class Deadwood {
     }
 
     // Setup the game
-    public static void setupGame() throws ParserConfigurationException, IOException {
+    public static void setupGame() throws ParserConfigurationException, IOException, InterruptedException {
         // Create the xml parser
         XMLParse xml = new XMLParse();
         // Create the board and the deck

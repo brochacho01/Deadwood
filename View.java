@@ -1,24 +1,32 @@
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ResourceBundle.Control;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.*;
+
+import java.awt.event.*;
 
 class View {
     private static View view = null;
-    private JFrame frame;
+    private static JFrame frame;
     private static JLayeredPane boardLP;
     private static JPanel container;
+    private static JPanel controlPanel;
+    private static JPanel statsPanel;
     private static List<Image> playerImages = new ArrayList<>();
     // Need to store the JLabels for each player somewhere, so that their images can
     // be updated dynamically
     private static HashMap<String, JLabel> playerRepresentation = new HashMap<>();
     private static HashMap<String, JLabel> sceneRepresentation = new HashMap<>();
+    protected static Integer selection;
 
     public void setupView() throws IOException {
         // Initialize our outermost frame
@@ -33,8 +41,8 @@ class View {
         container.setVisible(true);
         // Initialize our 3 mane panes
         boardLP = new JLayeredPane();
-        JPanel controlPanel = new JPanel();
-        JPanel statsPanel = new JPanel();
+        controlPanel = new JPanel();
+        statsPanel = new JPanel();
         boardLP.setLayout(null);
         controlPanel.setLayout(null);
         statsPanel.setLayout(null);
@@ -51,13 +59,11 @@ class View {
         boardLP.add(boardPicLabel, 0);
 
         controlPanel.setBounds(1200, 0, 720, 1000);
-        controlPanel.setBackground(Color.green);
         JLabel controlLabel = new JLabel("Controls");
         controlLabel.setBounds(0, 0, 720, 1000);
         controlPanel.add(controlLabel);
 
         statsPanel.setBounds(0, 900, 1920, 140);
-        statsPanel.setBackground(Color.green);
         JLabel statsLabel = new JLabel("Stats");
         statsLabel.setBounds(0, 0, 1920, 140);
         statsPanel.add(statsLabel);
@@ -165,5 +171,40 @@ class View {
         boardLP.add(playerImageJLabel, new Integer(2));
         boardLP.revalidate();
         boardLP.repaint();
+    }
+
+    public static int getNumPlayersInput() throws InterruptedException {
+        //Add all the ui elements
+        JLabel askPlayers = new JLabel("How many players are playing?");
+        askPlayers.setBounds(0, 0, 500, 100);
+        askPlayers.setLocation(180, 100);
+        controlPanel.add(askPlayers);
+        Integer[] playerChoices = {2, 3, 4, 5, 6, 7, 8};
+        JComboBox<Integer> jComboBox = new JComboBox<>(playerChoices);
+        jComboBox.setBounds(80, 50, 140, 20);
+        jComboBox.setLocation(180, 200);
+        controlPanel.add(jComboBox);
+        final JButton jButton = new JButton("Start!");
+        jButton.setBounds(100, 100, 90, 20);
+        jButton.setLocation(180, 250);
+        controlPanel.add(jButton);
+        frame.setVisible(true);
+        //create an action listener (weird)
+        jButton.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent aActionEvent) {
+                selection = jComboBox.getItemAt(jComboBox.getSelectedIndex());
+            }
+          } );
+        //wait for the player to select the number of players
+        while (selection == null) {
+            Thread.sleep(1);
+        }
+        //Why do these stay?????
+        controlPanel.remove(askPlayers);
+        controlPanel.remove(jComboBox);
+        controlPanel.remove(jButton);
+        frame.setVisible(true);
+        return selection;
     }
 }
