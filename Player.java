@@ -97,6 +97,9 @@ class Player {
         // Update flags for turn logic
         hasRole = true;
         hasTakenAction = true;
+        // Update view
+        View v = View.getView();
+        v.takeExtraRole(this.name, b.getRoom(location).getName(), role);
         endTurn();
     }
 
@@ -108,6 +111,9 @@ class Player {
         // update flags for turn logic
         hasRole = true;
         hasTakenAction = true;
+        // Update view
+        View v = View.getView();
+        v.takeStarRole(this.name, b.getRoom(location).getName(), role);
         endTurn();
     }
 

@@ -24,6 +24,11 @@ public class Role {
         return this.rank;
     }
 
+    // Returns the area array specifying the dimensions of the role
+    public int[] getArea(){
+        return this.roleArea;
+    }
+
     // Constructor
     public Role(String roleName, String roleDescription, int rank, String roleType, int[] roleArea) {
         this.roleName = roleName;

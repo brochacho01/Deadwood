@@ -154,6 +154,42 @@ class View {
         }
     }
 
+    public void takeStarRole(String playerName, String roomName, String roleName) {
+        Board b = Board.getBoard();
+        int[] curSetArea = b.getRoomFromName(roomName).getArea();
+        int[] roleArea = ((Set)b.getRoomFromName(roomName)).getScene().getRole(roleName).getArea();
+        JLabel playerImageJLabel = playerRepresentation.get(playerName);
+        playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
+        playerImageJLabel.setLocation(roleArea[0] + curSetArea[0] + 1, roleArea[1] + curSetArea[1] + 1);
+        playerImageJLabel.setSize(40,40);
+        // Decrement offset because player is going from "waiting area" to a role therefore the offset needs to be changed
+        b.getRoomFromName(roomName).decrementOffSet();
+        boardLP.remove(playerRepresentation.get(playerName));
+        playerRepresentation.put(playerName, playerImageJLabel);
+        boardLP.add(playerImageJLabel, new Integer(3));
+        boardLP.revalidate();
+        boardLP.repaint();
+
+    }
+
+
+    // Place a player on their desired role on the set, decrement room offset and make sure the image moves
+    public void takeExtraRole(String playerName, String roomName, String roleName) {
+        Board b = Board.getBoard();
+        int[] roleArea = ((Set)b.getRoomFromName(roomName)).getRole(roleName).getArea();
+        JLabel playerImageJLabel = playerRepresentation.get(playerName);
+        playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
+        playerImageJLabel.setLocation(roleArea[0] + 3, roleArea[1] + 3);
+        playerImageJLabel.setSize(40,40);
+        // Decrement offset because player is going from "waiting area" to a role therefore the offset needs to be changed
+        b.getRoomFromName(roomName).decrementOffSet();
+        boardLP.remove(playerRepresentation.get(playerName));
+        playerRepresentation.put(playerName, playerImageJLabel);
+        boardLP.add(playerImageJLabel, new Integer(2));
+        boardLP.revalidate();
+        boardLP.repaint();
+    }
+
     // Place a player in a specified location, and remove their die from the old
     // location
     public void placePlayerInRoom(String playerName, String roomName) {
