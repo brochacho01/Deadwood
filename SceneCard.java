@@ -134,11 +134,13 @@ public class SceneCard {
                         + " as a bonus for the scene wrapping!");
             }
         }
-        // reset the players roles
+        // reset the players roles and place them back in the room waiting area
+        View v = View.getView();
         for (int i = 0; i < playersToPay.size(); i++) {
             Player toReset = playersToPay.get(i);
             if (toReset != null) {
                 playersToPay.get(i).resetRole();
+                v.placePlayerInRoom(playersToPay.get(i).getName(), b.getRoom(playersToPay.get(i).getLocation()).getName());
                 isStars = true;
             }
         }

@@ -102,8 +102,25 @@ class View {
                 setImage.setSize(curSetArea[2] + 90, curSetArea[3] + 90);
                 sceneRepresentation.put(curSet.getName(), setImage);
                 boardLP.add(setImage, new Integer(1));
+                boardLP.revalidate();
+                boardLP.repaint();
             }
         }
+    }
+
+    public void removeSceneCard(String setName) {
+        Board b = Board.getBoard();
+        JLabel setImage = sceneRepresentation.get(setName);
+        Room curSet = b.getRoomFromName(setName);
+        int[] curSetArea = curSet.getArea();
+        setImage.setIcon(null);
+        setImage.setBounds(curSetArea[0], curSetArea[1], curSetArea[2], curSetArea[3]);
+        setImage.setLocation(curSetArea[0], curSetArea[1] - 90);
+        setImage.setSize(curSetArea[2] + 90, curSetArea[3] + 90);
+        sceneRepresentation.put(curSet.getName(), setImage);
+        boardLP.add(setImage, new Integer(1));
+        boardLP.revalidate();
+        boardLP.repaint();
     }
 
     // Flips the sceneCard when player gets to scene for the first time
@@ -117,6 +134,7 @@ class View {
         boardLP.repaint();
     }
 
+    // Update curPlayer's die image when they upgrade
     public void upgradePImage(Player curPlayer) throws IOException {
         Board b = Board.getBoard();
         String playerName = curPlayer.getName();

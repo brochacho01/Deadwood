@@ -66,21 +66,25 @@ public class Set extends Room {
                 playersToPay.add(b.getPlayer(offCardRoles.get(key)));
             }
         }
-        // pay them
+        // pay them and place them back in the room's waiting area
+        View v = View.getView();
         for (int i = 0; i < playersToPay.size(); i++) {
             int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole())
                     .getRank();
             playersToPay.get(i).pay(amount, 0);
             System.out.println(playersToPay.get(i).getName() + " has been paid $" + amount
                     + " as a bonus for the scene wrapping!");
-            // reset the players roles
+            // reset the players roles and place them back in the room's waiting area
             playersToPay.get(i).resetRole();
+            v.placePlayerInRoom(playersToPay.get(i).getName(), b.getRoom(playersToPay.get(i).getLocation()).getName());
         }
     }
 
     // Delete sceneCard once set wraps
     private void removeSceneCard() {
         this.scene = null;
+        View v = View.getView();
+        v.removeSceneCard(this.getName());
     }
 
     // Decrement shot counters upon successful act
@@ -114,6 +118,7 @@ public class Set extends Room {
                 if (offCardRoles.get(key) != -1) {
                     // Reset the player
                     b.getPlayer(offCardRoles.get(key)).resetRole();
+
                 }
             }
 
