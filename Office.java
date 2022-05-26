@@ -35,7 +35,8 @@ public class Office extends Room {
     // Gets the upgrades available to a player
     public ArrayList<String> getAvailableUpgrades(int rank, int dollars, int credits) {
         ArrayList<String> availableUpgrades = new ArrayList<String>();
-        for (int i = rank - 1; i < 6; i++) {
+        // TODO see if it works to change i < 6 to i < 5
+        for (int i = rank - 1; i < 5; i++) {
             if (upgrades[i][1] <= dollars || upgrades[i][2] <= credits) {
                 availableUpgrades.add(String.valueOf(upgrades[i][0]));
             } else {
