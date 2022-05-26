@@ -45,6 +45,8 @@ class Board {
         }
         // Need to also reset each set on the board
         for (int j = 0; j < rooms.length; j++) {
+            // Reset the offset of each room
+            rooms[j].resetOffset();
             if (rooms[j] instanceof Set) {
                 // On a new day one set still has a sceneCard, remove this before it gets a new card
                 if(((Set) rooms[j]).hasScene() == true) {

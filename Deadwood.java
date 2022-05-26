@@ -123,11 +123,8 @@ class Deadwood {
     public static void turnFlow() throws IOException {
         Board b = Board.getBoard();
         // While there are still more than 1 active sets, go through players' turns
-        // TODO reset this
-        while (b.getActiveSets() > 9) {
+        while (b.getActiveSets() > 1) {
             Player curPlayer = b.getPlayer(pTurn);
-            // TODO remove this
-            curPlayer.pay(10, 10);
             curPlayer.startTurn();
             Controller.doTurn(curPlayer);
             pTurn = (pTurn + 1) % numPlayers;

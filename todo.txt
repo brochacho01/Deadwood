@@ -6,6 +6,3 @@ Implement player movement/locations
 
 Deal scene cards to the board upside down
 When player enters set, flip scene card face up
-
-Fix:
-At end of day, when new cards are dealt, make sure that they're flipped over and reset the players
