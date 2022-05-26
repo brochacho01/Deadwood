@@ -18,7 +18,11 @@ class Player {
     // Constructor
     public Player(int num, int i) {
         // Get the name of the player
-        this.name = Controller.getName(i);
+        try {
+            this.name = Controller.getName(i);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // Set all attributes to default values, some depending on number of players.
         this.hasMoved = false;
         this.hasTakenAction = false;

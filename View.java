@@ -27,6 +27,7 @@ class View {
     private static HashMap<String, JLabel> playerRepresentation = new HashMap<>();
     private static HashMap<String, JLabel> sceneRepresentation = new HashMap<>();
     protected static Integer selection;
+    protected static String name;
 
     public void setupView() throws IOException {
         // Initialize our outermost frame
@@ -245,5 +246,45 @@ class View {
         controlPanel.repaint();
         frame.setVisible(true);
         return selection;
+    }
+
+    public static String getPlayerName(int i) throws InterruptedException {
+        String localName;
+        //Add all the ui elements
+        JLabel askName = new JLabel("Player " + i + ", what is your name?");
+        askName.setBounds(0, 0, 500, 100);
+        askName.setLocation(180, 100);
+        controlPanel.add(askName);
+        JTextField textField = new JTextField();
+        textField.setBounds(80, 50, 140, 20);
+        textField.setLocation(180, 200);
+        controlPanel.add(textField);
+        final JButton jButton = new JButton("Submit");
+        jButton.setBounds(100, 100, 90, 20);
+        jButton.setLocation(180, 250);
+        controlPanel.add(jButton);
+        controlPanel.revalidate();
+        controlPanel.repaint();
+        frame.setVisible(true);
+        //create an action listener (weird)
+        jButton.addActionListener( new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent aActionEvent) {
+                name = textField.getText();
+            }
+          } );
+        //wait for the player to select the number of players
+        while (name == null || name == "") {
+            Thread.sleep(1);
+        }
+        controlPanel.remove(askName);
+        controlPanel.remove(textField);
+        controlPanel.remove(jButton);
+        controlPanel.revalidate();
+        controlPanel.repaint();
+        frame.setVisible(true);
+        localName = name;
+        name = null;
+        return localName;
     }
 }

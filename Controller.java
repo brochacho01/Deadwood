@@ -24,14 +24,9 @@ class Controller {
     }
 
     // Get the name of player i
-    public static String getName(int i) {
+    public static String getName(int i) throws InterruptedException {
         String name = "";
-        try {
-            System.out.println("\nPlayer " + i + ", what is your name?");
-            name = br.readLine();
-        } catch (IOException ioe) {
-            System.out.println(ioe);
-        }
+        name = View.getPlayerName(i);
         return name;
     }
 
