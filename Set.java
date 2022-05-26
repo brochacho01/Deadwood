@@ -66,7 +66,7 @@ public class Set extends Room {
                 playersToPay.add(b.getPlayer(offCardRoles.get(key)));
             }
         }
-        // pay them and place them back in the room's waiting area
+        // pay them and move them back to the room waiting area
         View v = View.getView();
         for (int i = 0; i < playersToPay.size(); i++) {
             int amount = ((Set) b.getRoom(playersToPay.get(i).getLocation())).getRole(playersToPay.get(i).getRole())
@@ -88,7 +88,7 @@ public class Set extends Room {
     }
 
     // Decrement shot counters upon successful act
-    public void decrementShotCounters() {
+    public void decrementShotCounters() throws IOException {
         this.shotsLeft--;
         if (shotsLeft > 1) {
             System.out.println("There are " + shotsLeft + " shots left!");
@@ -103,7 +103,7 @@ public class Set extends Room {
 
     // First do payouts
     // Make sure to have check for endDay
-    private void sceneWrap() {
+    private void sceneWrap() throws IOException {
         Board b = Board.getBoard();
         // offCardPayout
         // If there's players on card, then pay extras as well
@@ -114,11 +114,13 @@ public class Set extends Room {
             // If no players on the sceneCard
             System.out.println("No stars on set, so extras do note receive a bonus!");
             // Make sure to still reset the roles of the extras
+            View v = View.getView();
             for (Role key : offCardRoles.keySet()) {
                 if (offCardRoles.get(key) != -1) {
                     // Reset the player
                     b.getPlayer(offCardRoles.get(key)).resetRole();
-
+                    // move the players to the waiting area of the room
+                    v.placePlayerInRoom(b.getPlayer(offCardRoles.get(key)).getName(), this.getName());
                 }
             }
 
@@ -193,9 +195,17 @@ public class Set extends Room {
         return this.scene;
     }
 
+    public Boolean hasScene() {
+        if(this.scene != null) {
+            return true;
+        }
+        return false;
+    }
+
     // Removes sceneCard from the board, and removes all players from set
     public void reset() {
         this.scene = null;
+        this.isFlipped = false;
         // For each role on the set, set its value back to -1 as all players are moved
         // back to trailer
         for (Role key : offCardRoles.keySet()) {

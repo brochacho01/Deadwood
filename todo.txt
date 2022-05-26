@@ -8,6 +8,4 @@ Deal scene cards to the board upside down
 When player enters set, flip scene card face up
 
 Fix:
-OffCardRoles not moving to waiting area when scene wraps
-Need to fix offSet when players are returning to sets that have cleared
-Need to reset all sceneCards at the end of the day
+At end of day, when new cards are dealt, make sure that they're flipped over and reset the players

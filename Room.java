@@ -34,7 +34,7 @@ abstract class Room {
     }
 
     public void incrememntOffSet(){
-        if(offSet[0] == 120){
+        if(offSet[0] == 160){
             offSet[0] = 0;
             offSet[1] += 40;
         } else {
@@ -44,11 +44,16 @@ abstract class Room {
 
     public void decrementOffSet(){
         if(offSet[0] == 0){
-            offSet[0] = 120;
+            offSet[0] = 160;
             offSet[1] -= 40;
         } else {
             offSet[0] -= 40;
         }
+    }
+
+    public void resetOffset(){
+        offSet[0] = 0;
+        offSet[0] = 0;
     }
 
     public int[] getOffSet(){

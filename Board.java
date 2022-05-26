@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 
 class Board {
@@ -35,7 +36,8 @@ class Board {
     }
 
     // Setup the board at beginning of game as well as reset the board on new days
-    public void setBoard() {
+    public void setBoard() throws IOException {
+        View v = View.getView();
         for (int i = 0; i < players.length; i++) {
             // Reset the roles of players and move them to the trailers
             players[i].resetRole();
@@ -44,6 +46,10 @@ class Board {
         // Need to also reset each set on the board
         for (int j = 0; j < rooms.length; j++) {
             if (rooms[j] instanceof Set) {
+                // On a new day one set still has a sceneCard, remove this before it gets a new card
+                if(((Set) rooms[j]).hasScene() == true) {
+                    v.removeSceneCard(rooms[j].getName());
+                }
                 ((Set) rooms[j]).reset();
                 ((Set) rooms[j]).resetShots();
             }

@@ -51,8 +51,6 @@ class Deadwood {
         // Start the first day
         day = 0;
         pTurn = 0;
-        v.createPlayerImages();
-        v.setPlayerImages();
         startDay();
         return;
     }
@@ -73,9 +71,19 @@ class Deadwood {
         if (day > maxDays) {
             endGame();
         } else {
-            // If not last day, deal new scenecards to each set
+            // If not last day, remove old sceneCard and deal new scenecards to each set
             d.dealCards();
             v.drawSceneCards();
+        }
+        // If not first day reset the player images, otherwise, initialize them
+        if(day != 1){
+            Board b = Board.getBoard();
+            Player[] players = b.getPlayers();
+            for(Player curPlayer: players){
+                v.placePlayerInRoom(curPlayer.getName(), "Trailer");
+            }
+        } else {
+            v.setPlayerImages();
         }
         System.out.println("It's a bright new day with endless possibilities!");
         // Game is ready to go, players can now take their turns.
@@ -115,8 +123,11 @@ class Deadwood {
     public static void turnFlow() throws IOException {
         Board b = Board.getBoard();
         // While there are still more than 1 active sets, go through players' turns
-        while (b.getActiveSets() > 1) {
+        // TODO reset this
+        while (b.getActiveSets() > 9) {
             Player curPlayer = b.getPlayer(pTurn);
+            // TODO remove this
+            curPlayer.pay(10, 10);
             curPlayer.startTurn();
             Controller.doTurn(curPlayer);
             pTurn = (pTurn + 1) % numPlayers;

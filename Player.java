@@ -127,7 +127,7 @@ class Player {
     }
 
     // Act in a given role
-    public void act() {
+    public void act() throws IOException {
         Board b = Board.getBoard();
         hasTakenAction = true;
         int rollResult = Dice.actRoll(rehearsalTokens);

@@ -21,7 +21,6 @@ class View {
     private static JPanel container;
     private static JPanel controlPanel;
     private static JPanel statsPanel;
-    private static List<Image> playerImages = new ArrayList<>();
     // Need to store the JLabels for each player somewhere, so that their images can
     // be updated dynamically, the String is their name and the JLabel is their
     // associated image
@@ -168,17 +167,8 @@ class View {
 
     }
 
-    // Initialize arrayList containing images of all players' dice
-    public void createPlayerImages() throws IOException {
-        Board b = Board.getBoard();
-        Player[] players = b.getPlayers();
-        for (int i = 0; i < players.length; i++) {
-            playerImages.add(getPImage(players[i]));
-        }
-    }
-
     // Display the images of the players dice in the trailer
-    public void setPlayerImages() {
+    public void setPlayerImages() throws IOException {
         Board b = Board.getBoard();
         Player[] p = b.getPlayers();
         for (int i = 0; i < p.length; i++) {
@@ -186,7 +176,8 @@ class View {
             int[] roomArea = b.getRoomFromName("Trailer").getArea();
             b.getRoomFromName("Trailer").incrememntOffSet();
             int[] offSet = b.getRoomFromName("Trailer").getOffSet();
-            JLabel playerImageJLabel = new JLabel(new ImageIcon(playerImages.get(i)));
+            // JLabel playerImageJLabel = new JLabel(new ImageIcon(playerImages.get(i)));
+            JLabel playerImageJLabel = new JLabel(new ImageIcon(getPImage(p[i])));
             playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
             playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1]);
             // Dice images are 40x40 pixels
