@@ -23,7 +23,8 @@ class View {
     private static JPanel statsPanel;
     private static List<Image> playerImages = new ArrayList<>();
     // Need to store the JLabels for each player somewhere, so that their images can
-    // be updated dynamically
+    // be updated dynamically, the String is their name and the JLabel is their
+    // associated image
     private static HashMap<String, JLabel> playerRepresentation = new HashMap<>();
     private static HashMap<String, JLabel> sceneRepresentation = new HashMap<>();
     protected static Integer selection;
@@ -116,6 +117,30 @@ class View {
         boardLP.repaint();
     }
 
+    public void upgradePImage(Player curPlayer) throws IOException {
+        Board b = Board.getBoard();
+        String playerName = curPlayer.getName();
+        // Define where the Label should be
+        int[] roomArea = b.getRoom(curPlayer.getLocation()).getArea();
+        // Need to do some incrementing and decrementing so that when a player upgrades,
+        // they still respect the offset but appear in the same place as they were
+        // before upgrading
+        b.getRoom(curPlayer.getLocation()).decrementOffSet();
+        int[] offSet = b.getRoom(curPlayer.getLocation()).getOffSet();
+        JLabel playerImageJLabel = playerRepresentation.get(playerName);
+        playerImageJLabel.setIcon(new ImageIcon(getPImage(curPlayer)));
+        playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
+        playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1] + 120);
+        // Dice images are 40x40 pixels
+        playerImageJLabel.setSize(40, 40);
+        boardLP.remove(playerRepresentation.get(playerName));
+        playerRepresentation.put(playerName, playerImageJLabel);
+        boardLP.add(playerImageJLabel, new Integer(2));
+        boardLP.revalidate();
+        boardLP.repaint();
+        b.getRoom(curPlayer.getLocation()).incrememntOffSet();
+    }
+
     // Get die image associated to specific player/their rank
     public static Image getPImage(Player curPlayer) throws IOException {
         String dieIndex = "./images/dice/dice/" + curPlayer.getColor() + Integer.toString(curPlayer.getRank()) + ".png";
@@ -158,12 +183,13 @@ class View {
     public void takeStarRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();
         int[] curSetArea = b.getRoomFromName(roomName).getArea();
-        int[] roleArea = ((Set)b.getRoomFromName(roomName)).getScene().getRole(roleName).getArea();
+        int[] roleArea = ((Set) b.getRoomFromName(roomName)).getScene().getRole(roleName).getArea();
         JLabel playerImageJLabel = playerRepresentation.get(playerName);
         playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
         playerImageJLabel.setLocation(roleArea[0] + curSetArea[0] + 1, roleArea[1] + curSetArea[1] + 1);
-        playerImageJLabel.setSize(40,40);
-        // Decrement offset because player is going from "waiting area" to a role therefore the offset needs to be changed
+        playerImageJLabel.setSize(40, 40);
+        // Decrement offset because player is going from "waiting area" to a role
+        // therefore the offset needs to be changed
         b.getRoomFromName(roomName).decrementOffSet();
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
@@ -173,16 +199,17 @@ class View {
 
     }
 
-
-    // Place a player on their desired role on the set, decrement room offset and make sure the image moves
+    // Place a player on their desired role on the set, decrement room offset and
+    // make sure the image moves
     public void takeExtraRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();
-        int[] roleArea = ((Set)b.getRoomFromName(roomName)).getRole(roleName).getArea();
+        int[] roleArea = ((Set) b.getRoomFromName(roomName)).getRole(roleName).getArea();
         JLabel playerImageJLabel = playerRepresentation.get(playerName);
         playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
         playerImageJLabel.setLocation(roleArea[0] + 3, roleArea[1] + 3);
-        playerImageJLabel.setSize(40,40);
-        // Decrement offset because player is going from "waiting area" to a role therefore the offset needs to be changed
+        playerImageJLabel.setSize(40, 40);
+        // Decrement offset because player is going from "waiting area" to a role
+        // therefore the offset needs to be changed
         b.getRoomFromName(roomName).decrementOffSet();
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
@@ -211,12 +238,12 @@ class View {
     }
 
     public static int getNumPlayersInput() throws InterruptedException {
-        //Add all the ui elements
+        // Add all the ui elements
         JLabel askPlayers = new JLabel("How many players are playing?");
         askPlayers.setBounds(0, 0, 500, 100);
         askPlayers.setLocation(180, 100);
         controlPanel.add(askPlayers);
-        Integer[] playerChoices = {2, 3, 4, 5, 6, 7, 8};
+        Integer[] playerChoices = { 2, 3, 4, 5, 6, 7, 8 };
         JComboBox<Integer> jComboBox = new JComboBox<>(playerChoices);
         jComboBox.setBounds(80, 50, 140, 20);
         jComboBox.setLocation(180, 200);
@@ -228,14 +255,14 @@ class View {
         controlPanel.revalidate();
         controlPanel.repaint();
         frame.setVisible(true);
-        //create an action listener (weird)
-        jButton.addActionListener( new ActionListener() {
+        // create an action listener (weird)
+        jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent aActionEvent) {
                 selection = jComboBox.getItemAt(jComboBox.getSelectedIndex());
             }
-          } );
-        //wait for the player to select the number of players
+        });
+        // wait for the player to select the number of players
         while (selection == null) {
             Thread.sleep(1);
         }
@@ -250,7 +277,7 @@ class View {
 
     public static String getPlayerName(int i) throws InterruptedException {
         String localName;
-        //Add all the ui elements
+        // Add all the ui elements
         JLabel askName = new JLabel("Player " + i + ", what is your name?");
         askName.setBounds(0, 0, 500, 100);
         askName.setLocation(180, 100);
@@ -266,14 +293,14 @@ class View {
         controlPanel.revalidate();
         controlPanel.repaint();
         frame.setVisible(true);
-        //create an action listener (weird)
-        jButton.addActionListener( new ActionListener() {
+        // create an action listener (weird)
+        jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent aActionEvent) {
                 name = textField.getText();
             }
-          } );
-        //wait for the player to select the number of players
+        });
+        // wait for the player to select the number of players
         while (name == null || name == "") {
             Thread.sleep(1);
         }

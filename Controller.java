@@ -92,7 +92,7 @@ class Controller {
 
     // Prompts player for their desired upgrade from a set of possible upgrades they
     // can take then upon valid input calls the upgrade method in the player class
-    private static void getUpgrade(Player curPlayer) {
+    private static void getUpgrade(Player curPlayer) throws NumberFormatException, IOException {
         Board b = Board.getBoard();
         Office o = ((Office) b.getRoom(1));
         ArrayList<String> availableUpgrades = o.getAvailableUpgrades(curPlayer.getRank(), curPlayer.getBalance(),

@@ -169,11 +169,13 @@ class Player {
     }
 
     // Upgrade a player's rank
-    public void upgrade(int desiredRank, int dollars, int creds) {
+    public void upgrade(int desiredRank, int dollars, int creds) throws IOException {
         System.out.println("Congratulations, you are now rank " + desiredRank + "!");
         this.rank = desiredRank;
         this.balance -= dollars;
         this.credits -= creds;
+        View v = View.getView();
+        v.upgradePImage(this);
         return;
     }
 
