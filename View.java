@@ -224,6 +224,8 @@ class View {
         jButton.setBounds(100, 100, 90, 20);
         jButton.setLocation(180, 250);
         controlPanel.add(jButton);
+        controlPanel.revalidate();
+        controlPanel.repaint();
         frame.setVisible(true);
         //create an action listener (weird)
         jButton.addActionListener( new ActionListener() {
@@ -236,10 +238,11 @@ class View {
         while (selection == null) {
             Thread.sleep(1);
         }
-        //Why do these stay?????
         controlPanel.remove(askPlayers);
         controlPanel.remove(jComboBox);
         controlPanel.remove(jButton);
+        controlPanel.revalidate();
+        controlPanel.repaint();
         frame.setVisible(true);
         return selection;
     }
