@@ -14,6 +14,7 @@ class Player {
     private int rehearsalTokens;
     private boolean isTurn;
     private char color;
+    private int statOffset;
 
     // Constructor
     public Player(int num, int i) {
@@ -45,6 +46,7 @@ class Player {
         this.rehearsalTokens = 0;
         this.isTurn = false;
         this.color = Controller.getColor(i);
+        this.statOffset = (i - 1) * 240;
     }
 
     // resets the taken action of a player
@@ -211,6 +213,15 @@ class Player {
     // Returns the rank of the player as an int
     public int getRank() {
         return this.rank;
+    }
+
+    // Returns the number of rehearsal tokens the player has
+    public int getRehearalTokens() {
+        return this.rehearsalTokens;
+    }
+
+    public int getStatOffset() {
+        return this.statOffset;
     }
 
     // Gets all the actions currently available to a player and returns it as an

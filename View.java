@@ -26,6 +26,7 @@ class View {
     // associated image
     private static HashMap<String, JLabel> playerRepresentation = new HashMap<>();
     private static HashMap<String, JLabel> sceneRepresentation = new HashMap<>();
+    private static HashMap<String, JTable> playerStats = new HashMap<>();
     protected static Integer selection;
     protected static String name;
 
@@ -65,9 +66,9 @@ class View {
         controlPanel.add(controlLabel);
 
         statsPanel.setBounds(0, 900, 1920, 140);
-        JLabel statsLabel = new JLabel("Stats");
-        statsLabel.setBounds(0, 0, 1920, 140);
-        statsPanel.add(statsLabel);
+        // JLabel statsLabel = new JLabel("Stats");
+        // statsLabel.setBounds(0, 0, 1920, 140);
+        // statsPanel.add(statsLabel);
 
         container.add(boardLP);
         container.add(controlPanel);
@@ -187,6 +188,31 @@ class View {
             boardLP.revalidate();
             boardLP.repaint();
         }
+    }
+
+    // Update and display JTables showing the stats of each player
+    // Want: name, rank, money, credits, rehearsal tokens, perhaps color the table border?
+    public void displayPlayerStats(Player curPlayer){
+        String pName = curPlayer.getName();
+        String pRank = String.valueOf(curPlayer.getRank());
+        String pMoney = String.valueOf(curPlayer.getBalance());
+        String pCredits = String.valueOf(curPlayer.getCredits());
+        String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
+        String color = Character.toString(curPlayer.getColor());
+        String[] primMetaData = {"Name" , "Rank" , "Money" , "Credits", "Rehearsal Tokens", "Color"};
+        String[] primData = {pName, pRank, pMoney, pCredits, pRehearsalTokens, color};
+        String[][] pData = new String[6][2];
+        for(int i = 0; i < 6; i++) {
+            pData[i][0] = primMetaData[i];
+            pData[i][1] = primData[i];
+        }
+        String[] colName = {curPlayer.getName()};
+        JTable curPStats = new JTable(pData, colName);
+        curPStats.setBounds(curPlayer.getStatOffset(), 0, 240, 96);
+        playerStats.put(curPlayer.getName(), curPStats);
+        statsPanel.add(curPStats);
+        statsPanel.revalidate();
+        statsPanel.repaint();
     }
 
     public void takeStarRole(String playerName, String roomName, String roleName) {

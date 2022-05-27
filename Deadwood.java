@@ -51,6 +51,9 @@ class Deadwood {
         // Start the first day
         day = 0;
         pTurn = 0;
+        for(int i = 0; i < b.getPlayers().length; i++){
+            v.displayPlayerStats(b.getPlayer(i));
+        }
         startDay();
         return;
     }
