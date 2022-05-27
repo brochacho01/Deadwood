@@ -250,7 +250,6 @@ class View {
         boardLP.add(playerImageJLabel, new Integer(3));
         boardLP.revalidate();
         boardLP.repaint();
-
     }
 
     // Place a player on their desired role on the set, decrement room offset and

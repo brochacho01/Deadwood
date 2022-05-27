@@ -106,7 +106,7 @@ class Player {
         hasTakenAction = true;
         // Update view
         View v = View.getView();
-        v.takeExtraRole(this.name, b.getRoom(location).getName(), role);
+        v.takeExtraRole(this.name, b.getRoom(location).getName(), this.role);
         endTurn();
     }
 
@@ -120,7 +120,7 @@ class Player {
         hasTakenAction = true;
         // Update view
         View v = View.getView();
-        v.takeStarRole(this.name, b.getRoom(location).getName(), role);
+        v.takeStarRole(name, b.getRoom(location).getName(), this.role);
         endTurn();
     }
 
