@@ -20,7 +20,7 @@ class View {
     private static JLayeredPane boardLP;
     private static JPanel container;
     private static JPanel controlPanel;
-    private static JPanel statsPanel;
+    private static JScrollPane statsPanel;
     // Need to store the JLabels for each player somewhere, so that their images can
     // be updated dynamically, the String is their name and the JLabel is their
     // associated image
@@ -44,7 +44,7 @@ class View {
         // Initialize our 3 mane panes
         boardLP = new JLayeredPane();
         controlPanel = new JPanel();
-        statsPanel = new JPanel();
+        statsPanel = new JScrollPane();
         boardLP.setLayout(null);
         controlPanel.setLayout(null);
         statsPanel.setLayout(null);
@@ -190,11 +190,14 @@ class View {
         }
     }
 
-    // Update and display JTables showing the stats of each player
-    // Want: name, rank, money, credits, rehearsal tokens, perhaps color the table border?
+    // Display JTables showing the stats of each player
     public void displayPlayerStats(Player curPlayer){
         String pName = curPlayer.getName();
-        String pRank = String.valueOf(curPlayer.getRank());
+        // If a players' stats have been initialized, instead update them
+        if(playerStats.containsKey(pName)){
+            updatePlayerStats(curPlayer);
+        } else {
+            String pRank = String.valueOf(curPlayer.getRank());
         String pMoney = String.valueOf(curPlayer.getBalance());
         String pCredits = String.valueOf(curPlayer.getCredits());
         String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
@@ -206,14 +209,30 @@ class View {
             pData[i][0] = primMetaData[i];
             pData[i][1] = primData[i];
         }
-        String[] colName = {curPlayer.getName()};
-        JTable curPStats = new JTable(pData, colName);
-        curPStats.setBounds(curPlayer.getStatOffset(), 0, 240, 96);
+        String[] colNames = {"a", curPlayer.getName()};
+        JTable curPStats = new JTable(pData, colNames);
+        curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 96);
         playerStats.put(curPlayer.getName(), curPStats);
         statsPanel.add(curPStats);
         statsPanel.revalidate();
         statsPanel.repaint();
+        }
     }
+
+    // Once a players stars have been initialized they will need to be updated when various events occur
+    public void updatePlayerStats(Player curPlayer) {
+        String pRank = String.valueOf(curPlayer.getRank());
+        String pMoney = String.valueOf(curPlayer.getBalance());
+        String pCredits = String.valueOf(curPlayer.getCredits());
+        String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
+        JTable pStats = playerStats.get(curPlayer.getName());
+        pStats.setValueAt(pRank, 1, 1);
+        pStats.setValueAt(pMoney, 2, 1);
+        pStats.setValueAt(pCredits, 3, 1);
+        pStats.setValueAt(pRehearsalTokens, 4, 1);
+        pStats.repaint();
+    }
+
 
     public void takeStarRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();

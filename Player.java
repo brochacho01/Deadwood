@@ -14,6 +14,7 @@ class Player {
     private int rehearsalTokens;
     private boolean isTurn;
     private char color;
+    // Offset refers to where their stats should appear on the statsPanel
     private int statOffset;
 
     // Constructor
@@ -46,7 +47,7 @@ class Player {
         this.rehearsalTokens = 0;
         this.isTurn = false;
         this.color = Controller.getColor(i);
-        this.statOffset = (i - 1) * 240;
+        this.statOffset = (i - 1) * 232;
     }
 
     // resets the taken action of a player
@@ -136,6 +137,7 @@ class Player {
         Role curRole = ((Set) b.getRoom(location)).getRole(role);
         // For success
         if (rollResult >= ((Set) b.getRoom(location)).getSceneBudget()) {
+            View v = View.getView();
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Success!");
             // Offcard bonuses
             if (curRole.getRoleType().equals("Extra")) {
@@ -143,17 +145,21 @@ class Player {
                 this.balance++;
                 this.credits++;
                 ((Set) b.getRoom(location)).decrementShotCounters();
+                v.updatePlayerStats(this);
                 // Oncard bonuses
             } else {
                 System.out.println("You have have been paid $2.");
                 this.balance += 2;
                 ((Set) b.getRoom(location)).decrementShotCounters();
+                v.updatePlayerStats(this);
             }
             // Failure
         } else {
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Fail!");
             if (curRole.getRoleName().equals("Extra")) {
+                View v = View.getView();
                 this.balance++;
+                v.updatePlayerStats(this);
             }
         }
         // End turn once acting is over
@@ -165,6 +171,9 @@ class Player {
     public void rehearse() {
         this.rehearsalTokens++;
         System.out.println("You now have " + rehearsalTokens + " rehearsal tokens.");
+        View v = View.getView();
+        // v.reDisplayPlayerStats(this);
+        v.updatePlayerStats(this);
         hasTakenAction = true;
         this.endTurn();
         return;
@@ -178,6 +187,8 @@ class Player {
         this.credits -= creds;
         View v = View.getView();
         v.upgradePImage(this);
+        // v.reDisplayPlayerStats(this);
+        v.updatePlayerStats(this);
         return;
     }
 
@@ -186,12 +197,18 @@ class Player {
         this.rehearsalTokens = 0;
         this.hasRole = false;
         this.role = null;
+        View v = View.getView();
+        v.displayPlayerStats(this);
+        // v.updatePlayerStats(this);
     }
 
     // Update players's currency based on input
     public void pay(int dollars, int creds) {
         this.balance += dollars;
         this.credits += creds;
+        View v = View.getView();
+        //v.reDisplayPlayerStats(this);
+        v.updatePlayerStats(this);
     }
 
     // Returns the name of the player
@@ -277,7 +294,7 @@ class Player {
         return this.credits;
     }
 
-    public char getColor(){
+    public char getColor() {
         return this.color;
     }
 }

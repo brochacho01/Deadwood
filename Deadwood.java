@@ -51,10 +51,10 @@ class Deadwood {
         // Start the first day
         day = 0;
         pTurn = 0;
-        for(int i = 0; i < b.getPlayers().length; i++){
+        for (int i = 0; i < b.getPlayers().length; i++) {
             v.displayPlayerStats(b.getPlayer(i));
         }
-        startDay();
+        startDay(); 
         return;
     }
 
@@ -82,10 +82,10 @@ class Deadwood {
         if(day != 1){
             Board b = Board.getBoard();
             Player[] players = b.getPlayers();
-            for(Player curPlayer: players){
+             for(Player curPlayer: players){
                 v.placePlayerInRoom(curPlayer.getName(), "Trailer");
             }
-        } else {
+        } else  {  
             v.setPlayerImages();
         }
         System.out.println("It's a bright new day with endless possibilities!");
