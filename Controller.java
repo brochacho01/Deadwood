@@ -32,7 +32,6 @@ class Controller {
 
     // Alerts a player that it is their turn and begins the turn
     public static void doTurn(Player curPlayer) throws IOException {
-        System.out.println("\n" + curPlayer.getName().toUpperCase() + ", it is your turn!");
         Controller.getAction(curPlayer);
     }
 
@@ -42,15 +41,8 @@ class Controller {
     public static void getAction(Player curPlayer) throws IOException {
         String action = "";
         while (curPlayer.isTurn()) {
-            System.out.print("\nYou can: ");
             ArrayList<String> actions = curPlayer.getAvailableActions();
-            System.out.println(actions.toString().replace("[", "").replace("]", ""));
-            System.out.println("\nWhat would you like to do?");
-            try {
-                action = br.readLine();
-            } catch (IOException ioe) {
-                System.out.println(ioe);
-            }
+            View.getPlayerAction(curPlayer, actions);
             if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
                 switch (action.toUpperCase()) {
                     case "MOVE":

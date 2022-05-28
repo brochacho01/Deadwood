@@ -29,6 +29,7 @@ class View {
     private static HashMap<String, JTable> playerStats = new HashMap<>();
     protected static Integer selection;
     protected static String name;
+    protected static boolean gotAction;
 
     public void setupView() throws IOException {
         // Initialize our outermost frame
@@ -366,5 +367,77 @@ class View {
         localName = name;
         name = null;
         return localName;
+    }
+
+    public static void getPlayerAction(Player curPlayer, ArrayList<String> actions) throws InterruptedException {
+        Board b = Board.getBoard();
+        int pLocation = curPlayer.getLocation();
+        int playerRank = curPlayer.getRank();
+        // Add all the ui elements
+        JLabel turnInfo = new JLabel(curPlayer.getName() + ", it is your turn!\nWhat would you lie to do?");
+        turnInfo.setBounds(0, 0, 500, 100);
+        turnInfo.setLocation(180, 100);
+        controlPanel.add(turnInfo);
+        final JButton moveButton = new JButton("Move");
+        // moveButton.setBounds(100, 100, 90, 20);
+        // moveButton.setLocation(180, 250);
+        moveButton.setEnabled(false);
+        controlPanel.add(moveButton);
+        JComboBox<String> moveOptions = new JComboBox<>(b.getRoom(pLocation).getNeighbors());
+        // moveOptions.setBounds(80, 50, 140, 20);
+        // moveOptions.setLocation(180, 200);
+        controlPanel.add(moveOptions);
+        if (actions.stream().anyMatch("move"::equalsIgnoreCase))
+        {
+            moveButton.setEnabled(true);
+            moveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent aActionEvent) {
+                    String moveChoice = moveOptions.getItemAt(moveOptions.getSelectedIndex());
+                    if (moveChoice != null && moveChoice != "") {
+                        try {
+                            gotAction = true;
+                            b.getRoom(pLocation).decrementOffSet();
+                            curPlayer.move(b.matchNameToIndex(moveChoice));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
+        final JButton roleButton = new JButton("Take Role");
+        roleButton.setEnabled(false);
+        JComboBox<String> extraRoles = new JComboBox<>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank));
+        JComboBox<String> starRoles = new JComboBox<>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank));
+        // String[] extraRoles = ((Set) b.getRoom(pLocation)).getExtraRoles(playerRank);
+        // String[] starRoles = ((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank);
+        controlPanel.add(roleButton);
+        controlPanel.add(extraRoles);
+        controlPanel.add(starRoles);
+        if (actions.stream().anyMatch("take role"::equalsIgnoreCase))
+        {
+            roleButton.setEnabled(true);
+            roleButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent aActionEvent) {
+                    String extraChoice = extraRoles.getItemAt(moveOptions.getSelectedIndex());
+                    String starChoice = starRoles.getItemAt(moveOptions.getSelectedIndex());
+                    if (extraChoice != null && extraChoice != "") {
+                        gotAction = true;
+                        curPlayer.takeExtraRole(extraChoice);
+                    }
+                    else if (starChoice != null && starChoice != "") {
+                        gotAction = true;
+                        curPlayer.takeStarRole(starChoice);
+                    }
+                }
+            });
+        }
+        controlPanel.revalidate();
+        controlPanel.repaint();
+        while (!gotAction) {
+            Thread.sleep(1);
+        }
     }
 }
