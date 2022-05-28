@@ -30,6 +30,7 @@ class View {
     protected static Integer selection;
     protected static String name;
     protected static boolean gotAction;
+    protected static boolean endTurn;
 
     public void setupView() throws IOException {
         // Initialize our outermost frame
@@ -192,35 +193,36 @@ class View {
     }
 
     // Display JTables showing the stats of each player
-    public void displayPlayerStats(Player curPlayer){
+    public void displayPlayerStats(Player curPlayer) {
         String pName = curPlayer.getName();
         // If a players' stats have been initialized, instead update them
-        if(playerStats.containsKey(pName)){
+        if (playerStats.containsKey(pName)) {
             updatePlayerStats(curPlayer);
         } else {
             String pRank = String.valueOf(curPlayer.getRank());
-        String pMoney = String.valueOf(curPlayer.getBalance());
-        String pCredits = String.valueOf(curPlayer.getCredits());
-        String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
-        String color = Character.toString(curPlayer.getColor());
-        String[] primMetaData = {"Name" , "Rank" , "Money" , "Credits", "Rehearsal Tokens", "Color"};
-        String[] primData = {pName, pRank, pMoney, pCredits, pRehearsalTokens, color};
-        String[][] pData = new String[6][2];
-        for(int i = 0; i < 6; i++) {
-            pData[i][0] = primMetaData[i];
-            pData[i][1] = primData[i];
-        }
-        String[] colNames = {"a", curPlayer.getName()};
-        JTable curPStats = new JTable(pData, colNames);
-        curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 96);
-        playerStats.put(curPlayer.getName(), curPStats);
-        statsPanel.add(curPStats);
-        statsPanel.revalidate();
-        statsPanel.repaint();
+            String pMoney = String.valueOf(curPlayer.getBalance());
+            String pCredits = String.valueOf(curPlayer.getCredits());
+            String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
+            String color = Character.toString(curPlayer.getColor());
+            String[] primMetaData = { "Name", "Rank", "Money", "Credits", "Rehearsal Tokens", "Color" };
+            String[] primData = { pName, pRank, pMoney, pCredits, pRehearsalTokens, color };
+            String[][] pData = new String[6][2];
+            for (int i = 0; i < 6; i++) {
+                pData[i][0] = primMetaData[i];
+                pData[i][1] = primData[i];
+            }
+            String[] colNames = { "a", curPlayer.getName() };
+            JTable curPStats = new JTable(pData, colNames);
+            curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 96);
+            playerStats.put(curPlayer.getName(), curPStats);
+            statsPanel.add(curPStats);
+            statsPanel.revalidate();
+            statsPanel.repaint();
         }
     }
 
-    // Once a players stars have been initialized they will need to be updated when various events occur
+    // Once a players stars have been initialized they will need to be updated when
+    // various events occur
     public void updatePlayerStats(Player curPlayer) {
         String pRank = String.valueOf(curPlayer.getRank());
         String pMoney = String.valueOf(curPlayer.getBalance());
@@ -233,7 +235,6 @@ class View {
         pStats.setValueAt(pRehearsalTokens, 4, 1);
         pStats.repaint();
     }
-
 
     public void takeStarRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();
@@ -374,18 +375,18 @@ class View {
         int pLocation = curPlayer.getLocation();
         int playerRank = curPlayer.getRank();
         // Add all the ui elements
-        JLabel turnInfo = new JLabel(curPlayer.getName() + ", it is your turn!\nWhat would you lie to do?");
+        JLabel turnInfo = new JLabel(curPlayer.getName() + ", it is your turn! What would you like to do?");
         turnInfo.setBounds(0, 0, 500, 100);
         turnInfo.setLocation(180, 100);
         controlPanel.add(turnInfo);
         final JButton moveButton = new JButton("Move");
-        // moveButton.setBounds(100, 100, 90, 20);
-        // moveButton.setLocation(180, 250);
+        moveButton.setBounds(100, 100, 90, 50);
+        moveButton.setLocation(180, 250);
         moveButton.setEnabled(false);
         controlPanel.add(moveButton);
         JComboBox<String> moveOptions = new JComboBox<>(b.getRoom(pLocation).getNeighbors());
-        // moveOptions.setBounds(80, 50, 140, 20);
-        // moveOptions.setLocation(180, 200);
+        moveOptions.setBounds(80, 50, 140, 20);
+        moveOptions.setLocation(270, 250);
         controlPanel.add(moveOptions);
         if (actions.stream().anyMatch("move"::equalsIgnoreCase))
         {
@@ -407,37 +408,164 @@ class View {
             });
         }
         final JButton roleButton = new JButton("Take Role");
+        roleButton.setBounds(100, 100, 90, 50);
+        roleButton.setLocation(180, 300);
         roleButton.setEnabled(false);
-        JComboBox<String> extraRoles = new JComboBox<>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank));
-        JComboBox<String> starRoles = new JComboBox<>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank));
-        // String[] extraRoles = ((Set) b.getRoom(pLocation)).getExtraRoles(playerRank);
-        // String[] starRoles = ((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank);
+        JComboBox<String> extraRoles = new JComboBox<>();
+        JComboBox<String> starRoles = new JComboBox<>();
+        if (b.getRoom(pLocation) instanceof Set)
+        {
+            extraRoles.setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
+            starRoles.setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank)));
+        }
+        extraRoles.addItem("");
+        starRoles.addItem("");
+        starRoles.setBounds(80, 50, 140, 20);
+        starRoles.setLocation(270, 300);
+        extraRoles.setBounds(80, 50, 140, 20);
+        extraRoles.setLocation(410, 300);
         controlPanel.add(roleButton);
         controlPanel.add(extraRoles);
         controlPanel.add(starRoles);
-        if (actions.stream().anyMatch("take role"::equalsIgnoreCase))
+        if (actions.stream().anyMatch("take role"::equalsIgnoreCase)) {
+            roleButton.setEnabled(true);
+            roleButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent aActionEvent) {
+                    String extraChoice = extraRoles.getItemAt(extraRoles.getSelectedIndex());
+                    String starChoice = starRoles.getItemAt(starRoles.getSelectedIndex());
+                    if (starChoice != null && starChoice != "") {
+                        gotAction = true;
+                        curPlayer.takeStarRole(starChoice);
+                    }
+                    else if (extraChoice != null && extraChoice != "") {
+                        gotAction = true;
+                        curPlayer.takeExtraRole(extraChoice);
+                    }
+                }
+            });
+        }
+        final JButton actButton = new JButton("Act");
+        actButton.setBounds(100, 100, 90, 50);
+        actButton.setLocation(180, 350);
+        actButton.setEnabled(false);
+        controlPanel.add(actButton);
+        if (actions.stream().anyMatch("act"::equalsIgnoreCase))
+        {
+            actButton.setEnabled(true);
+            actButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent aActionEvent) {
+                    gotAction = true;
+                    try {
+                        curPlayer.act();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        final JButton rehearseButton = new JButton("Rehearse");
+        rehearseButton.setBounds(100, 100, 90, 50);
+        rehearseButton.setLocation(270, 350);
+        rehearseButton.setEnabled(false);
+        controlPanel.add(rehearseButton);
+        if (actions.stream().anyMatch("rehearse"::equalsIgnoreCase))
+        {
+            rehearseButton.setEnabled(true);
+            rehearseButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent aActionEvent) {
+                    gotAction = true;
+                    curPlayer.rehearse();
+                }
+            });
+        }
+        final JButton endTurnButton = new JButton("End Turn");
+        endTurnButton.setBounds(100, 100, 90, 50);
+        endTurnButton.setLocation(180, 450);
+        endTurnButton.setEnabled(true);
+        controlPanel.add(endTurnButton);
+        endTurnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent aActionEvent) {
+                gotAction = true;
+                endTurn = true;
+            }
+        });
+        final JButton upgradeButton = new JButton("Upgrade");
+        upgradeButton.setBounds(100, 100, 90, 50);
+        upgradeButton.setLocation(180, 400);
+        upgradeButton.setEnabled(false);
+        Office o = ((Office) b.getRoom(1));
+        ArrayList<String> availableUpgradesList = o.getAvailableUpgrades(curPlayer.getRank(), curPlayer.getBalance(),
+                curPlayer.getCredits());
+        String[] availableUpgrades = new String[availableUpgradesList.size()];
+        availableUpgrades = availableUpgradesList.toArray(availableUpgrades);
+        JComboBox<String> upgradeLevels = new JComboBox<>(availableUpgrades);
+        String[] currencies = {"dollars", "credits"};
+        JComboBox<String> upgradeCurrencies = new JComboBox<>(currencies);
+        upgradeLevels.setBounds(80, 50, 140, 20);
+        upgradeLevels.setLocation(270, 400);
+        upgradeCurrencies.setBounds(80, 50, 140, 20);
+        upgradeCurrencies.setLocation(410, 400);
+        controlPanel.add(upgradeButton);
+        controlPanel.add(upgradeLevels);
+        controlPanel.add(upgradeCurrencies);
+        if (actions.stream().anyMatch("upgrade"::equalsIgnoreCase))
         {
             roleButton.setEnabled(true);
             roleButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
-                    String extraChoice = extraRoles.getItemAt(moveOptions.getSelectedIndex());
-                    String starChoice = starRoles.getItemAt(moveOptions.getSelectedIndex());
-                    if (extraChoice != null && extraChoice != "") {
-                        gotAction = true;
-                        curPlayer.takeExtraRole(extraChoice);
-                    }
-                    else if (starChoice != null && starChoice != "") {
-                        gotAction = true;
-                        curPlayer.takeStarRole(starChoice);
+                    String upgradeChoice = upgradeLevels.getItemAt(upgradeLevels.getSelectedIndex());
+                    String currencyChoice = upgradeCurrencies.getItemAt(upgradeCurrencies.getSelectedIndex());
+                    if (upgradeChoice != null && upgradeChoice != "") {
+                        ArrayList<String> upgradeTypes = o.getUpgradeTypes(Integer.parseInt(upgradeChoice),
+                        curPlayer.getBalance(), curPlayer.getCredits());
+                        if (currencyChoice != null && currencyChoice != "" && upgradeTypes.stream().anyMatch(currencyChoice::equalsIgnoreCase)) {
+                            gotAction = true;
+                            int dollars, credits;
+                            if (currencyChoice.toLowerCase().equals("credits")) {
+                                credits = o.getCost(Integer.parseInt(upgradeChoice), true);
+                                dollars = 0;
+                            } else {
+                                dollars = o.getCost(Integer.parseInt(upgradeChoice), false);
+                                credits = 0;
+                            }
+                            try {
+                                curPlayer.upgrade(Integer.parseInt(upgradeChoice), dollars, credits);
+                            } catch (NumberFormatException | IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             });
         }
         controlPanel.revalidate();
         controlPanel.repaint();
+        frame.setVisible(true);
         while (!gotAction) {
             Thread.sleep(1);
         }
+        if (endTurn)
+        {
+            curPlayer.endTurn();
+            endTurn = false;
+        }
+        controlPanel.remove(turnInfo);
+        controlPanel.remove(moveButton);
+        controlPanel.remove(moveOptions);
+        controlPanel.remove(roleButton);
+        controlPanel.remove(extraRoles);
+        controlPanel.remove(starRoles);
+        controlPanel.remove(actButton);
+        controlPanel.remove(rehearseButton);
+        controlPanel.remove(endTurnButton);
+        controlPanel.remove(upgradeButton);
+        controlPanel.remove(upgradeLevels);
+        controlPanel.remove(upgradeCurrencies);
+        gotAction = false;
     }
 }

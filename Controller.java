@@ -31,53 +31,53 @@ class Controller {
     }
 
     // Alerts a player that it is their turn and begins the turn
-    public static void doTurn(Player curPlayer) throws IOException {
+    public static void doTurn(Player curPlayer) throws IOException, InterruptedException {
         Controller.getAction(curPlayer);
     }
 
     // Prompts the player for their desired action from the set of actions they are
     // able to take, then upon valid input calls the respective method in the player
     // class
-    public static void getAction(Player curPlayer) throws IOException {
+    public static void getAction(Player curPlayer) throws IOException, InterruptedException {
         String action = "";
         while (curPlayer.isTurn()) {
             ArrayList<String> actions = curPlayer.getAvailableActions();
             View.getPlayerAction(curPlayer, actions);
-            if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
-                switch (action.toUpperCase()) {
-                    case "MOVE":
-                        Controller.getMove(curPlayer);
-                        break;
-                    case "TAKE ROLE":
-                        Controller.getRole(curPlayer);
-                        break;
-                    case "ACT":
-                        curPlayer.act();
-                        break;
-                    case "REHEARSE":
-                        curPlayer.rehearse();
-                        break;
-                    case "UPGRADE":
-                        Controller.getUpgrade(curPlayer);
-                        break;
-                    case "END TURN":
-                        curPlayer.endTurn();
-                        break;
-                    case "Controller SET":
-                        Controller.getSet(curPlayer);
-                        break;
-                    case "Controller PLAYER":
-                        Controller.getPlayer(curPlayer);
-                        break;
-                    case "EXIT":
-                        System.exit(0);
-                }
-                // break;
-            } else {
-                System.out.println("Not a valid action!");
-            }
+            // if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
+            //     switch (action.toUpperCase()) {
+            //         case "MOVE":
+            //             Controller.getMove(curPlayer);
+            //             break;
+            //         case "TAKE ROLE":
+            //             Controller.getRole(curPlayer);
+            //             break;
+            //         case "ACT":
+            //             curPlayer.act();
+            //             break;
+            //         case "REHEARSE":
+            //             curPlayer.rehearse();
+            //             break;
+            //         case "UPGRADE":
+            //             Controller.getUpgrade(curPlayer);
+            //             break;
+            //         case "END TURN":
+            //             curPlayer.endTurn();
+            //             break;
+            //         case "Controller SET":
+            //             Controller.getSet(curPlayer);
+            //             break;
+            //         case "Controller PLAYER":
+            //             Controller.getPlayer(curPlayer);
+            //             break;
+            //         case "EXIT":
+            //             System.exit(0);
+            //     }
+            //     // break;
+            // } else {
+            //     System.out.println("Not a valid action!");
+            // }
         }
-        System.out.println("\n----------------------------------------------");
+        //System.out.println("\n----------------------------------------------");
         // Set the taken action flag back to false for when it's that players next turn
         curPlayer.setTakenAction();
     }

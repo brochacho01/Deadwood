@@ -6,3 +6,8 @@ Implement player movement/locations
 
 Deal scene cards to the board upside down
 When player enters set, flip scene card face up
+
+new bugs to deal with:
+display results of acting
+
+nullpointer in getplayeraction when a scene is done
