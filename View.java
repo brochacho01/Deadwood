@@ -27,6 +27,7 @@ class View {
     private static HashMap<String, JLabel> playerRepresentation = new HashMap<>();
     private static HashMap<String, JLabel> sceneRepresentation = new HashMap<>();
     private static HashMap<String, JTable> playerStats = new HashMap<>();
+    private static HashMap<String, JLabel> shotCounters = new HashMap<>();
     protected static Integer selection;
     protected static String name;
     protected static boolean gotAction;
@@ -104,6 +105,8 @@ class View {
                 setImage.setSize(curSetArea[2] + 90, curSetArea[3] + 90);
                 sceneRepresentation.put(curSet.getName(), setImage);
                 boardLP.add(setImage, new Integer(1));
+                // Draw the shot counters for the set
+                drawShotCounter(curSet.getName(), ((Set)curSet).getShotsLeft(), ((Set)curSet).getMaxShots());
                 boardLP.revalidate();
                 boardLP.repaint();
             }
@@ -132,6 +135,39 @@ class View {
         boardLP.remove(sceneRepresentation.get(sceneName));
         sceneRepresentation.put(sceneName, setImage);
         boardLP.add(setImage);
+        boardLP.revalidate();
+        boardLP.repaint();
+    }
+
+    // Draws the shotCounter for each scene, as well as updates upon acting
+    public void drawShotCounter(String setName, int shotsLeft, int maxShots) {
+        Board b = Board.getBoard();
+        Set curSet = ((Set) b.getRoomFromName(setName));
+        int[][] shotArea = curSet.getShotArea();
+        JLabel shotCounter = new JLabel();
+        int shotArrayIndex = maxShots - shotsLeft;
+        // If the scene is wrapping
+        if (shotArrayIndex == maxShots){
+            boardLP.remove(shotCounters.get(setName));
+        }
+        // If the shotcounter has already been initialized
+        else if (shotCounters.containsKey(setName)) {
+            shotCounter = shotCounters.get(setName);
+            shotCounter.setBounds(shotArea[shotArrayIndex][0], shotArea[shotArrayIndex][1], shotArea[shotArrayIndex][2], shotArea[shotArrayIndex][3]);
+            shotCounter.setLocation(shotArea[shotArrayIndex][0], shotArea[shotArrayIndex][1]);
+            boardLP.remove(shotCounters.get(setName));
+            shotCounters.put(setName, shotCounter);
+            boardLP.add(shotCounter, new Integer(1));
+        } else {
+            // If it hasn't been initialized, make a new one
+            shotCounter = new JLabel(new ImageIcon("./images/shot.png"));
+            shotCounter.setBounds(shotArea[shotArrayIndex][0], shotArea[shotArrayIndex][1], shotArea[shotArrayIndex][2], shotArea[shotArrayIndex][3]);
+            shotCounter.setLocation(shotArea[shotArrayIndex][0], shotArea[shotArrayIndex][1]);
+            // JPG file says it's 42x42
+            shotCounter.setSize(42, 42);
+            shotCounters.put(setName, shotCounter);
+            boardLP.add(shotCounter, new Integer(1));
+        }
         boardLP.revalidate();
         boardLP.repaint();
     }
@@ -388,8 +424,7 @@ class View {
         moveOptions.setBounds(80, 50, 140, 20);
         moveOptions.setLocation(270, 250);
         controlPanel.add(moveOptions);
-        if (actions.stream().anyMatch("move"::equalsIgnoreCase))
-        {
+        if (actions.stream().anyMatch("move"::equalsIgnoreCase)) {
             moveButton.setEnabled(true);
             moveButton.addActionListener(new ActionListener() {
                 @Override
@@ -413,10 +448,11 @@ class View {
         roleButton.setEnabled(false);
         JComboBox<String> extraRoles = new JComboBox<>();
         JComboBox<String> starRoles = new JComboBox<>();
-        if (b.getRoom(pLocation) instanceof Set)
-        {
-            extraRoles.setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
-            starRoles.setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank)));
+        if (b.getRoom(pLocation) instanceof Set) {
+            extraRoles
+                    .setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
+            starRoles.setModel(
+                    new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank)));
         }
         extraRoles.addItem("");
         starRoles.addItem("");
@@ -437,8 +473,7 @@ class View {
                     if (starChoice != null && starChoice != "") {
                         gotAction = true;
                         curPlayer.takeStarRole(starChoice);
-                    }
-                    else if (extraChoice != null && extraChoice != "") {
+                    } else if (extraChoice != null && extraChoice != "") {
                         gotAction = true;
                         curPlayer.takeExtraRole(extraChoice);
                     }
@@ -450,8 +485,7 @@ class View {
         actButton.setLocation(180, 350);
         actButton.setEnabled(false);
         controlPanel.add(actButton);
-        if (actions.stream().anyMatch("act"::equalsIgnoreCase))
-        {
+        if (actions.stream().anyMatch("act"::equalsIgnoreCase)) {
             actButton.setEnabled(true);
             actButton.addActionListener(new ActionListener() {
                 @Override
@@ -470,8 +504,7 @@ class View {
         rehearseButton.setLocation(270, 350);
         rehearseButton.setEnabled(false);
         controlPanel.add(rehearseButton);
-        if (actions.stream().anyMatch("rehearse"::equalsIgnoreCase))
-        {
+        if (actions.stream().anyMatch("rehearse"::equalsIgnoreCase)) {
             rehearseButton.setEnabled(true);
             rehearseButton.addActionListener(new ActionListener() {
                 @Override
@@ -503,7 +536,7 @@ class View {
         String[] availableUpgrades = new String[availableUpgradesList.size()];
         availableUpgrades = availableUpgradesList.toArray(availableUpgrades);
         JComboBox<String> upgradeLevels = new JComboBox<>(availableUpgrades);
-        String[] currencies = {"dollars", "credits"};
+        String[] currencies = { "dollars", "credits" };
         JComboBox<String> upgradeCurrencies = new JComboBox<>(currencies);
         upgradeLevels.setBounds(80, 50, 140, 20);
         upgradeLevels.setLocation(270, 400);
@@ -512,8 +545,7 @@ class View {
         controlPanel.add(upgradeButton);
         controlPanel.add(upgradeLevels);
         controlPanel.add(upgradeCurrencies);
-        if (actions.stream().anyMatch("upgrade"::equalsIgnoreCase))
-        {
+        if (actions.stream().anyMatch("upgrade"::equalsIgnoreCase)) {
             roleButton.setEnabled(true);
             roleButton.addActionListener(new ActionListener() {
                 @Override
@@ -522,8 +554,9 @@ class View {
                     String currencyChoice = upgradeCurrencies.getItemAt(upgradeCurrencies.getSelectedIndex());
                     if (upgradeChoice != null && upgradeChoice != "") {
                         ArrayList<String> upgradeTypes = o.getUpgradeTypes(Integer.parseInt(upgradeChoice),
-                        curPlayer.getBalance(), curPlayer.getCredits());
-                        if (currencyChoice != null && currencyChoice != "" && upgradeTypes.stream().anyMatch(currencyChoice::equalsIgnoreCase)) {
+                                curPlayer.getBalance(), curPlayer.getCredits());
+                        if (currencyChoice != null && currencyChoice != ""
+                                && upgradeTypes.stream().anyMatch(currencyChoice::equalsIgnoreCase)) {
                             gotAction = true;
                             int dollars, credits;
                             if (currencyChoice.toLowerCase().equals("credits")) {
@@ -549,8 +582,7 @@ class View {
         while (!gotAction) {
             Thread.sleep(1);
         }
-        if (endTurn)
-        {
+        if (endTurn) {
             curPlayer.endTurn();
             endTurn = false;
         }

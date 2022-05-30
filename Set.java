@@ -41,6 +41,19 @@ public class Set extends Room {
         return this.offCardRoles;
     }
 
+    // Returns the area values for the shot counters
+    public int[][] getShotArea() {
+        return this.shotArea;
+    }
+
+    public int getShotsLeft() {
+        return this.shotsLeft;
+    }
+
+    public int getMaxShots() {
+        return this.maxShots;
+    }
+
     // Flips the sceneCard
     public void flip() throws IOException {
         isFlipped = !isFlipped;
