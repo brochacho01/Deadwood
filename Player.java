@@ -153,10 +153,12 @@ class Player {
                 ((Set) b.getRoom(location)).decrementShotCounters();
                 v.updatePlayerStats(this);
             }
+            // Update shotCounter
+            v.drawShotCounter(b.getRoom(location).getName(), ((Set)b.getRoom(location)).getShotsLeft(), ((Set)b.getRoom(location)).getMaxShots());
             // Failure
         } else {
             System.out.println("Your roll plus practice chips resulted in a: " + rollResult + ", Fail!");
-            if (curRole.getRoleName().equals("Extra")) {
+            if (curRole.getRoleType().equals("Extra")) {
                 View v = View.getView();
                 this.balance++;
                 v.updatePlayerStats(this);
