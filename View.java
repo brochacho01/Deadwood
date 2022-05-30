@@ -605,6 +605,9 @@ class View {
         controlPanel.remove(upgradeButton);
         controlPanel.remove(upgradeLevels);
         controlPanel.remove(upgradeCurrencies);
+        controlPanel.revalidate();
+        controlPanel.repaint();
+        frame.setVisible(true);
         gotAction = false;
     }
 }
