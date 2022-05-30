@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.channels.ScatteringByteChannel;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle.Control;
@@ -448,12 +449,6 @@ class View {
         roleButton.setEnabled(false);
         JComboBox<String> extraRoles = new JComboBox<>();
         JComboBox<String> starRoles = new JComboBox<>();
-        if (b.getRoom(pLocation) instanceof Set) {
-            extraRoles
-                    .setModel(new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
-            starRoles.setModel(
-                    new DefaultComboBoxModel<String>(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank)));
-        }
         extraRoles.addItem("");
         starRoles.addItem("");
         starRoles.setBounds(80, 50, 140, 20);
@@ -464,6 +459,18 @@ class View {
         controlPanel.add(extraRoles);
         controlPanel.add(starRoles);
         if (actions.stream().anyMatch("take role"::equalsIgnoreCase)) {
+            if (b.getRoom(pLocation) instanceof Set) {
+                ArrayList<String> extraList = new ArrayList<>(Arrays.asList(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
+                ArrayList<String> starList = new ArrayList<>(Arrays.asList(((Set) b.getRoom(pLocation)).getScene().getStarRoles(playerRank)));
+                for(int i = 0; i < extraList.size(); i++)
+                {
+                    extraRoles.addItem(extraList.get(i));
+                }
+                for(int i = 0; i < starList.size(); i++)
+                {
+                    starRoles.addItem(starList.get(i));
+                }
+            }
             roleButton.setEnabled(true);
             roleButton.addActionListener(new ActionListener() {
                 @Override
