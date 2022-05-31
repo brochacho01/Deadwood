@@ -11,3 +11,8 @@ new bugs to deal with:
 display results of acting
 
 nullpointer in getplayeraction when a scene is done
+
+When a player successfully acts and wraps a set, they are then able to move on the same turn
+Upgrading also appears to be broken. It displays the proper options but doesn't allow a player to actually upgrade
+Also possibly add something that tells a player the result of their roll for acting
+Final notification announcing the winner of the game
