@@ -39,7 +39,6 @@ class Controller {
     // able to take, then upon valid input calls the respective method in the player
     // class
     public static void getAction(Player curPlayer) throws IOException, InterruptedException {
-        String action = "";
         while (curPlayer.isTurn()) {
             ArrayList<String> actions = curPlayer.getAvailableActions();
             View.getPlayerAction(curPlayer, actions);
