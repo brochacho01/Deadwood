@@ -93,6 +93,7 @@ class Player {
         }
         // Update moved flag for turn logic
         this.hasMoved = true;
+        System.out.print(name + " has moved!");
     }
 
     // Take an available role

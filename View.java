@@ -430,12 +430,14 @@ class View {
             moveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
+                    System.out.println("got an action!");
                     String moveChoice = moveOptions.getItemAt(moveOptions.getSelectedIndex());
                     if (moveChoice != null && moveChoice != "") {
                         try {
-                            gotAction = true;
                             b.getRoom(pLocation).decrementOffSet();
+                            System.out.println("test!");
                             curPlayer.move(b.matchNameToIndex(moveChoice));
+                            gotAction = true;
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -478,11 +480,11 @@ class View {
                     String extraChoice = extraRoles.getItemAt(extraRoles.getSelectedIndex());
                     String starChoice = starRoles.getItemAt(starRoles.getSelectedIndex());
                     if (starChoice != null && starChoice != "") {
-                        gotAction = true;
                         curPlayer.takeStarRole(starChoice);
-                    } else if (extraChoice != null && extraChoice != "") {
                         gotAction = true;
+                    } else if (extraChoice != null && extraChoice != "") {
                         curPlayer.takeExtraRole(extraChoice);
+                        gotAction = true;
                     }
                 }
             });
@@ -497,9 +499,9 @@ class View {
             actButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
-                    gotAction = true;
                     try {
                         curPlayer.act();
+                        gotAction = true;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -516,8 +518,8 @@ class View {
             rehearseButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
-                    gotAction = true;
                     curPlayer.rehearse();
+                    gotAction = true;
                 }
             });
         }
@@ -529,8 +531,8 @@ class View {
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent aActionEvent) {
-                gotAction = true;
                 endTurn = true;
+                gotAction = true;
             }
         });
         final JButton upgradeButton = new JButton("Upgrade");
@@ -553,8 +555,8 @@ class View {
         controlPanel.add(upgradeLevels);
         controlPanel.add(upgradeCurrencies);
         if (actions.stream().anyMatch("upgrade"::equalsIgnoreCase)) {
-            roleButton.setEnabled(true);
-            roleButton.addActionListener(new ActionListener() {
+            upgradeButton.setEnabled(true);
+            upgradeButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
                     String upgradeChoice = upgradeLevels.getItemAt(upgradeLevels.getSelectedIndex());
@@ -564,7 +566,6 @@ class View {
                                 curPlayer.getBalance(), curPlayer.getCredits());
                         if (currencyChoice != null && currencyChoice != ""
                                 && upgradeTypes.stream().anyMatch(currencyChoice::equalsIgnoreCase)) {
-                            gotAction = true;
                             int dollars, credits;
                             if (currencyChoice.toLowerCase().equals("credits")) {
                                 credits = o.getCost(Integer.parseInt(upgradeChoice), true);
@@ -575,6 +576,7 @@ class View {
                             }
                             try {
                                 curPlayer.upgrade(Integer.parseInt(upgradeChoice), dollars, credits);
+                                gotAction = true;
                             } catch (NumberFormatException | IOException e) {
                                 e.printStackTrace();
                             }

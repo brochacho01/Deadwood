@@ -41,6 +41,7 @@ class Controller {
     public static void getAction(Player curPlayer) throws IOException, InterruptedException {
         while (curPlayer.isTurn()) {
             ArrayList<String> actions = curPlayer.getAvailableActions();
+            System.out.println(actions);
             View.getPlayerAction(curPlayer, actions);
             // if (actions.stream().anyMatch(action::equalsIgnoreCase)) {
             //     switch (action.toUpperCase()) {
