@@ -91,8 +91,13 @@ class View {
         return view;
     }
 
-    // TODO Somehow this is actually displaying the card. It only worked when adding
-    // in the new Integer(1) clause however
+    // Popup message declaring the winner
+    public void declareWinner(String winnerName) {
+        JOptionPane winnerMessage = new JOptionPane();
+        JOptionPane.showMessageDialog(frame, "The game has ended. Congratulations to " + winnerName + " for winning the game!");
+    }
+
+    // Draws the scene cards
     public void drawSceneCards() throws IOException {
         Board b = Board.getBoard();
         Room[] rooms = b.getRooms();
@@ -241,16 +246,17 @@ class View {
             String pCredits = String.valueOf(curPlayer.getCredits());
             String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
             String color = Character.toString(curPlayer.getColor());
-            String[] primMetaData = { "Name", "Rank", "Money", "Credits", "Rehearsal Tokens", "Color" };
-            String[] primData = { pName, pRank, pMoney, pCredits, pRehearsalTokens, color };
-            String[][] pData = new String[6][2];
-            for (int i = 0; i < 6; i++) {
+            String rollResult = String.valueOf(curPlayer.getLastRollResult());
+            String[] primMetaData = { "Name", "Rank", "Money", "Credits", "Rehearsal Tokens", "Color", "Last Roll Result"};
+            String[] primData = { pName, pRank, pMoney, pCredits, pRehearsalTokens, color, rollResult};
+            String[][] pData = new String[7][2];
+            for (int i = 0; i < 7; i++) {
                 pData[i][0] = primMetaData[i];
                 pData[i][1] = primData[i];
             }
             String[] colNames = { "a", curPlayer.getName() };
             JTable curPStats = new JTable(pData, colNames);
-            curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 96);
+            curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 112);
             playerStats.put(curPlayer.getName(), curPStats);
             statsPanel.add(curPStats);
             statsPanel.revalidate();
@@ -265,11 +271,13 @@ class View {
         String pMoney = String.valueOf(curPlayer.getBalance());
         String pCredits = String.valueOf(curPlayer.getCredits());
         String pRehearsalTokens = String.valueOf(curPlayer.getRehearalTokens());
+        String rollResult = String.valueOf(curPlayer.getLastRollResult());
         JTable pStats = playerStats.get(curPlayer.getName());
         pStats.setValueAt(pRank, 1, 1);
         pStats.setValueAt(pMoney, 2, 1);
         pStats.setValueAt(pCredits, 3, 1);
         pStats.setValueAt(pRehearsalTokens, 4, 1);
+        pStats.setValueAt(rollResult, 6, 1);
         pStats.repaint();
     }
 

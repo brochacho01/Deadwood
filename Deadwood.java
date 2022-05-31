@@ -63,6 +63,8 @@ class Deadwood {
         Player p = calculateWinner();
         System.out.println("\nThe game has ended...");
         System.out.println("Congratulations to " + p.getName() + " for winning the game!");
+        View v = View.getView();
+        v.declareWinner(p.getName());
         System.exit(0);
         return;
     }

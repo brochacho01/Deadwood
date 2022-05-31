@@ -16,6 +16,7 @@ class Player {
     private char color;
     // Offset refers to where their stats should appear on the statsPanel
     private int statOffset;
+    private int lastRollResult;
 
     // Constructor
     public Player(int num, int i) {
@@ -48,6 +49,7 @@ class Player {
         this.isTurn = false;
         this.color = Controller.getColor(i);
         this.statOffset = (i - 1) * 232;
+        this.lastRollResult = 0;
     }
 
     // resets the taken action of a player
@@ -135,6 +137,7 @@ class Player {
         Board b = Board.getBoard();
         hasTakenAction = true;
         int rollResult = Dice.actRoll(rehearsalTokens);
+        this.lastRollResult = rollResult;
         Role curRole = ((Set) b.getRoom(location)).getRole(role);
         // For success
         if (rollResult >= ((Set) b.getRoom(location)).getSceneBudget()) {
@@ -242,6 +245,10 @@ class Player {
 
     public int getStatOffset() {
         return this.statOffset;
+    }
+
+    public int getLastRollResult(){
+        return this.lastRollResult;
     }
 
     // Gets all the actions currently available to a player and returns it as an
