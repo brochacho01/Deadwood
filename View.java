@@ -66,7 +66,8 @@ class View {
         boardPicLabel.setSize(boardPicLabel.getPreferredSize());
         boardLP.add(boardPicLabel, 0);
 
-        controlPanel.setBounds(1200, 0, 720, 1000);
+        // TODO used to be 1000
+        controlPanel.setBounds(1200, 0, 720, 900);
         statsPanel.setBounds(0, 900, 1920, 140);
 
         container.add(boardLP);
