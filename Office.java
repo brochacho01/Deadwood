@@ -4,7 +4,6 @@ import java.util.Arrays;
 public class Office extends Room {
     private int[][] upgrades;
     private int[] area;
-    private int[][] offSetPoints;
 
     public Office(String name, String[] neighbors, int[][] upgrades, int[] area) {
         super(name, neighbors, area);

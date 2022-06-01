@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 abstract class Room {
     private String name;
     private String[] neighbors;
