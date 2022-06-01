@@ -1,1 +1,1 @@
-make player stats not selectable
+remove defunct methods from controller related to player actions
