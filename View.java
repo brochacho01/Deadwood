@@ -34,18 +34,20 @@ class View {
     protected static boolean gotAction;
     protected static boolean endTurn;
 
+    // Sets up the view itself
     public void setupView() throws IOException {
         // Initialize our outermost frame
         frame = new JFrame("Deadwood");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
+        // Container panel
         Container c = frame.getContentPane();
         container = new JPanel();
         container.setLayout(null);
         container.setSize(1920, 1080);
         container.setVisible(true);
-        // Initialize our 3 mane panes
+        // Initialize our 3 main panes
         boardLP = new JLayeredPane();
         controlPanel = new JPanel();
         statsPanel = new JScrollPane();
@@ -65,14 +67,7 @@ class View {
         boardLP.add(boardPicLabel, 0);
 
         controlPanel.setBounds(1200, 0, 720, 1000);
-        JLabel controlLabel = new JLabel("Controls");
-        controlLabel.setBounds(0, 0, 720, 1000);
-        controlPanel.add(controlLabel);
-
         statsPanel.setBounds(0, 900, 1920, 140);
-        // JLabel statsLabel = new JLabel("Stats");
-        // statsLabel.setBounds(0, 0, 1920, 140);
-        // statsPanel.add(statsLabel);
 
         container.add(boardLP);
         container.add(controlPanel);
@@ -84,6 +79,7 @@ class View {
         frame.setVisible(true);
     }
 
+    // Implementation of the singleton class, gets view if it exists, if not, constructs one.
     public static View getView() {
         if (view == null)
             view = new View();
@@ -119,6 +115,7 @@ class View {
         }
     }
 
+    // Removes a sceneCard from the board view
     public void removeSceneCard(String setName) {
         Board b = Board.getBoard();
         JLabel setImage = sceneRepresentation.get(setName);
@@ -241,6 +238,7 @@ class View {
         if (playerStats.containsKey(pName)) {
             updatePlayerStats(curPlayer);
         } else {
+            // Prep the stats to be added as they all need to be entered as strings
             String pRank = String.valueOf(curPlayer.getRank());
             String pMoney = String.valueOf(curPlayer.getBalance());
             String pCredits = String.valueOf(curPlayer.getCredits());
@@ -250,6 +248,7 @@ class View {
             String[] primMetaData = { "Name", "Rank", "Money", "Credits", "Rehearsal Tokens", "Color", "Last Roll Result"};
             String[] primData = { pName, pRank, pMoney, pCredits, pRehearsalTokens, color, rollResult};
             String[][] pData = new String[7][2];
+            // Populate the playerData 2D array with the correct strings to be passed into JTable constructor
             for (int i = 0; i < 7; i++) {
                 pData[i][0] = primMetaData[i];
                 pData[i][1] = primData[i];
@@ -258,6 +257,8 @@ class View {
             JTable curPStats = new JTable(pData, colNames);
             curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 112);
             playerStats.put(curPlayer.getName(), curPStats);
+            // Make sure table cannot be edited
+            curPStats.setEnabled(false);
             statsPanel.add(curPStats);
             statsPanel.revalidate();
             statsPanel.repaint();
@@ -330,6 +331,7 @@ class View {
         // Dice images are 40x40 pixels
         playerImageJLabel.setSize(40, 40);
         b.getRoomFromName(roomName).incrememntOffSet();
+        // Every time a player is moved, need to remove the old placement from the JLP
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
         boardLP.add(playerImageJLabel, new Integer(2));
@@ -337,6 +339,7 @@ class View {
         boardLP.repaint();
     }
 
+    // Prompts the user for the number of players and receives input
     public static int getNumPlayersInput() throws InterruptedException {
         // Add all the ui elements
         JLabel askPlayers = new JLabel("How many players are playing?");
@@ -375,6 +378,7 @@ class View {
         return selection;
     }
 
+    // Prompts each user for their name and receives input
     public static String getPlayerName(int i) throws InterruptedException {
         String localName;
         // Add all the ui elements
@@ -415,6 +419,7 @@ class View {
         return localName;
     }
 
+    // Prompts a player for an action out of prevalidated options and receives input
     public static void getPlayerAction(Player curPlayer, ArrayList<String> actions) throws InterruptedException {
         Board b = Board.getBoard();
         int pLocation = curPlayer.getLocation();
@@ -433,17 +438,16 @@ class View {
         moveOptions.setBounds(80, 50, 140, 20);
         moveOptions.setLocation(270, 250);
         controlPanel.add(moveOptions);
+        // Move case
         if (actions.stream().anyMatch("move"::equalsIgnoreCase)) {
             moveButton.setEnabled(true);
             moveButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent aActionEvent) {
-                    System.out.println("got an action!");
                     String moveChoice = moveOptions.getItemAt(moveOptions.getSelectedIndex());
                     if (moveChoice != null && moveChoice != "") {
                         try {
                             b.getRoom(pLocation).decrementOffSet();
-                            System.out.println("test!");
                             curPlayer.move(b.matchNameToIndex(moveChoice));
                             gotAction = true;
                         } catch (IOException e) {
@@ -468,6 +472,7 @@ class View {
         controlPanel.add(roleButton);
         controlPanel.add(extraRoles);
         controlPanel.add(starRoles);
+        // Take Role case
         if (actions.stream().anyMatch("take role"::equalsIgnoreCase)) {
             if (b.getRoom(pLocation) instanceof Set) {
                 ArrayList<String> extraList = new ArrayList<>(Arrays.asList(((Set) b.getRoom(pLocation)).getExtraRoles(playerRank)));
@@ -502,6 +507,7 @@ class View {
         actButton.setLocation(180, 350);
         actButton.setEnabled(false);
         controlPanel.add(actButton);
+        // Act case
         if (actions.stream().anyMatch("act"::equalsIgnoreCase)) {
             actButton.setEnabled(true);
             actButton.addActionListener(new ActionListener() {
@@ -521,6 +527,7 @@ class View {
         rehearseButton.setLocation(270, 350);
         rehearseButton.setEnabled(false);
         controlPanel.add(rehearseButton);
+        // Rehearse case
         if (actions.stream().anyMatch("rehearse"::equalsIgnoreCase)) {
             rehearseButton.setEnabled(true);
             rehearseButton.addActionListener(new ActionListener() {
@@ -536,6 +543,7 @@ class View {
         endTurnButton.setLocation(180, 450);
         endTurnButton.setEnabled(true);
         controlPanel.add(endTurnButton);
+        // End turn case
         endTurnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent aActionEvent) {
@@ -562,6 +570,7 @@ class View {
         controlPanel.add(upgradeButton);
         controlPanel.add(upgradeLevels);
         controlPanel.add(upgradeCurrencies);
+        // Upgrade case
         if (actions.stream().anyMatch("upgrade"::equalsIgnoreCase)) {
             upgradeButton.setEnabled(true);
             upgradeButton.addActionListener(new ActionListener() {
@@ -603,6 +612,7 @@ class View {
             curPlayer.endTurn();
             endTurn = false;
         }
+        // Remove all buttons at the end of an action so the next set of actions can be validated and displayed
         controlPanel.remove(turnInfo);
         controlPanel.remove(moveButton);
         controlPanel.remove(moveOptions);
