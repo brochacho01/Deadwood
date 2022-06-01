@@ -46,7 +46,7 @@ class Board {
         // Need to also reset each set on the board
         for (int j = 0; j < rooms.length; j++) {
             // Reset the offset of each room
-            rooms[j].resetOffset();
+            rooms[j].resetOffsetPoints();
             if (rooms[j] instanceof Set) {
                 // On a new day one set still has a sceneCard, remove this before it gets a new card
                 if(((Set) rooms[j]).hasScene() == true) {
@@ -119,6 +119,25 @@ class Board {
     // player
     public int getPlayerIndex(Player p) {
         return Arrays.asList(players).indexOf(p);
+    }
+
+    // Return the index of a player in the player array based on their name
+    public int getPlayerIndexFromName(String playerName){
+        for(int i = 0; i < players.length; i++){
+            if(playerName.toLowerCase().equals(players[i].getName().toLowerCase())){
+                return i;
+            }
+        }
+        return -1; 
+    }
+
+    public int getPlayerSigFromName(String playerName) {
+        for(int i = 0; i < players.length; i++) {
+            if(playerName.toLowerCase().equals(players[i].getName().toLowerCase())){
+                return players[i].getSignature();
+            }
+        }
+        return -1;
     }
 
     // Returns the name of a room based on its index in the room array

@@ -66,7 +66,6 @@ class View {
         boardPicLabel.setSize(boardPicLabel.getPreferredSize());
         boardLP.add(boardPicLabel, 0);
 
-        // TODO used to be 1000
         controlPanel.setBounds(1200, 0, 720, 900);
         statsPanel.setBounds(0, 900, 1920, 140);
 
@@ -182,15 +181,11 @@ class View {
         String playerName = curPlayer.getName();
         // Define where the Label should be
         int[] roomArea = b.getRoom(curPlayer.getLocation()).getArea();
-        // Need to do some incrementing and decrementing so that when a player upgrades,
-        // they still respect the offset but appear in the same place as they were
-        // before upgrading
-        b.getRoom(curPlayer.getLocation()).decrementOffSet();
-        int[] offSet = b.getRoom(curPlayer.getLocation()).getOffSet();
+        int[] offSetPoints = b.getRoom(curPlayer.getLocation()).getCurOffSetPoints(curPlayer.getSignature());
         JLabel playerImageJLabel = playerRepresentation.get(playerName);
         playerImageJLabel.setIcon(new ImageIcon(getPImage(curPlayer)));
         playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
-        playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1] + 120);
+        playerImageJLabel.setLocation(roomArea[0] + offSetPoints[1], roomArea[1] + offSetPoints[2] + 120);
         // Dice images are 40x40 pixels
         playerImageJLabel.setSize(40, 40);
         boardLP.remove(playerRepresentation.get(playerName));
@@ -198,7 +193,6 @@ class View {
         boardLP.add(playerImageJLabel, new Integer(2));
         boardLP.revalidate();
         boardLP.repaint();
-        b.getRoom(curPlayer.getLocation()).incrememntOffSet();
     }
 
     // Get die image associated to specific player/their rank
@@ -215,14 +209,11 @@ class View {
         Board b = Board.getBoard();
         Player[] p = b.getPlayers();
         for (int i = 0; i < p.length; i++) {
-            // placePlayerInRoom(playerImages.get(i), "Trailer");
             int[] roomArea = b.getRoomFromName("Trailer").getArea();
-            b.getRoomFromName("Trailer").incrememntOffSet();
-            int[] offSet = b.getRoomFromName("Trailer").getOffSet();
-            // JLabel playerImageJLabel = new JLabel(new ImageIcon(playerImages.get(i)));
+            int[] offSetPoints = b.getRoomFromName("Trailer").getOffSetPoints(p[i].getSignature());
             JLabel playerImageJLabel = new JLabel(new ImageIcon(getPImage(p[i])));
             playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
-            playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1]);
+            playerImageJLabel.setLocation(roomArea[0] + offSetPoints[1], roomArea[1] + offSetPoints[2]);
             // Dice images are 40x40 pixels
             playerImageJLabel.setSize(40, 40);
             playerRepresentation.put(p[i].getName(), playerImageJLabel);
@@ -291,9 +282,7 @@ class View {
         playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
         playerImageJLabel.setLocation(roleArea[0] + curSetArea[0] + 1, roleArea[1] + curSetArea[1] + 1);
         playerImageJLabel.setSize(40, 40);
-        // Decrement offset because player is going from "waiting area" to a role
-        // therefore the offset needs to be changed
-        b.getRoomFromName(roomName).decrementOffSet();
+        b.getRoomFromName(roomName).removePlayerFromWaiting(b.getPlayerSigFromName(playerName));
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
         boardLP.add(playerImageJLabel, new Integer(3));
@@ -310,9 +299,7 @@ class View {
         playerImageJLabel.setBounds(roleArea[0], roleArea[1], roleArea[2], roleArea[3]);
         playerImageJLabel.setLocation(roleArea[0] + 3, roleArea[1] + 3);
         playerImageJLabel.setSize(40, 40);
-        // Decrement offset because player is going from "waiting area" to a role
-        // therefore the offset needs to be changed
-        b.getRoomFromName(roomName).decrementOffSet();
+        b.getRoomFromName(roomName).removePlayerFromWaiting(b.getPlayerSigFromName(playerName));
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
         boardLP.add(playerImageJLabel, new Integer(2));
@@ -325,13 +312,12 @@ class View {
     public void placePlayerInRoom(String playerName, String roomName) {
         Board b = Board.getBoard();
         int[] roomArea = b.getRoomFromName(roomName).getArea();
-        int[] offSet = b.getRoomFromName(roomName).getOffSet();
+        int[] offSetPoints = b.getRoomFromName(roomName).getOffSetPoints(b.getPlayerSigFromName(playerName));
         JLabel playerImageJLabel = playerRepresentation.get(playerName);
         playerImageJLabel.setBounds(roomArea[0], roomArea[1], roomArea[2], roomArea[3]);
-        playerImageJLabel.setLocation(roomArea[0] + offSet[0], roomArea[1] + offSet[1] + 120);
+        playerImageJLabel.setLocation(roomArea[0] + offSetPoints[1], roomArea[1] + offSetPoints[2] + 120);
         // Dice images are 40x40 pixels
         playerImageJLabel.setSize(40, 40);
-        b.getRoomFromName(roomName).incrememntOffSet();
         // Every time a player is moved, need to remove the old placement from the JLP
         boardLP.remove(playerRepresentation.get(playerName));
         playerRepresentation.put(playerName, playerImageJLabel);
@@ -448,7 +434,7 @@ class View {
                     String moveChoice = moveOptions.getItemAt(moveOptions.getSelectedIndex());
                     if (moveChoice != null && moveChoice != "") {
                         try {
-                            b.getRoom(pLocation).decrementOffSet();
+                            b.getRoom(pLocation).removePlayerFromWaiting(curPlayer.getSignature());
                             curPlayer.move(b.matchNameToIndex(moveChoice));
                             gotAction = true;
                         } catch (IOException e) {

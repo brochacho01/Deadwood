@@ -17,6 +17,8 @@ class Player {
     // Offset refers to where their stats should appear on the statsPanel
     private int statOffset;
     private int lastRollResult;
+    // Represents their unique number when they were instantiated, important for offset indexing
+    private int signature;
 
     // Constructor
     public Player(int num, int i) {
@@ -50,6 +52,7 @@ class Player {
         this.color = Controller.getColor(i);
         this.statOffset = (i - 1) * 232;
         this.lastRollResult = 0;
+        this.signature = i;
     }
 
     // resets the taken action of a player
@@ -225,6 +228,10 @@ class Player {
     // Moves the player back to the trailer
     public void resetLocation() {
         this.location = 0;
+    }
+
+    public int getSignature() {
+        return this.signature;
     }
 
     // returns the players location as an int for the index of the room in the

@@ -4,16 +4,72 @@ abstract class Room {
     private String name;
     private String[] neighbors;
     private int[] area;
-    // This offsets the rendering of a player image on a room so players don't cover eachother
-    private int[] offSet;
+    // Each row has 3 vals, first one represents if space is empty or num of player on space, then the next two are the x and y coords for the offset
+    private int[][] offSetPoints;
 
     // Constructor
     public Room(String name, String[] neighbors, int[] area) {
         this.name = name;
         this.neighbors = neighbors;
         this.area = area;
-        this.offSet = new int[2];
-        Arrays.fill(this.offSet, 0);
+        this.offSetPoints = createOffSetPoints();
+    }
+
+    // Creates a structure that stores where players are on the offsetPoints
+    public int[][] createOffSetPoints() {
+        int[][] offSetPoints = new int[8][3];
+        int xIncrementor = 0;
+        int yIncrementor = 0;
+        for(int i = 0; i < 8; i++){
+            offSetPoints[i][0] = -1;
+            offSetPoints[i][1] = xIncrementor * 40;
+            offSetPoints[i][2] = yIncrementor * 40;
+            xIncrementor++;
+            if(i == 4){
+                xIncrementor = 0;
+                yIncrementor = 1;
+            }
+        }
+        return offSetPoints;
+    }
+
+    // Gets the coordinates with which to place the current player, and updates the structure to match
+    public int[] getOffSetPoints(int pSignature) {
+        for(int i = 0; i < offSetPoints.length; i++){
+            if(offSetPoints[i][0] == -1){
+                offSetPoints[i][0] = pSignature;
+                return offSetPoints[i];
+            }
+        }
+        return null;
+    }
+
+    public int[] getCurOffSetPoints(int pSignature) {
+        for(int i = 0; i < offSetPoints.length; i++){
+            if(offSetPoints[i][0] == pSignature){
+                return offSetPoints[i];
+            }
+        }
+        return null;
+    }
+
+    public void removePlayerFromWaiting(int pSignature){
+        for(int i = 0; i < offSetPoints.length; i++){
+            if(offSetPoints[i][0] == pSignature){
+                offSetPoints[i][0] = -1;
+                break;
+            }
+        }
+    }    
+
+    public void resetOffsetPoints() {
+        for(int i = 0; i < offSetPoints.length; i++){
+            offSetPoints[i][0] = -1;
+        }
+    }
+
+    public int getPlayersInRoomWaiting() {
+        return this.getPlayersInRoomWaiting();
     }
 
     public int[] getArea(){
@@ -31,32 +87,5 @@ abstract class Room {
     }
 
     public void printSet(){
-    }
-
-    public void incrememntOffSet(){
-        if(offSet[0] == 160){
-            offSet[0] = 0;
-            offSet[1] += 40;
-        } else {
-            offSet[0] += 40;
-        }
-    }
-
-    public void decrementOffSet(){
-        if(offSet[0] == 0){
-            offSet[0] = 160;
-            offSet[1] -= 40;
-        } else {
-            offSet[0] -= 40;
-        }
-    }
-
-    public void resetOffset(){
-        offSet[0] = 0;
-        offSet[0] = 0;
-    }
-
-    public int[] getOffSet(){
-        return this.offSet;
     }
 }

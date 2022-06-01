@@ -267,8 +267,6 @@ class Controller {
             if (Arrays.asList(neighbors).stream().anyMatch(desiredLocation::equalsIgnoreCase)) {
                 int location = b.matchNameToIndex(desiredLocation);
                 if (location > -1) {
-                    // decrement the offset of the room that the player is leaving
-                    b.getRoom(curPlayer.getLocation()).decrementOffSet();
                     curPlayer.move(location);
                 } else {
                     System.out.println("\nNot a valid move!");
