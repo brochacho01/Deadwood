@@ -116,6 +116,7 @@ class Player {
         endTurn();
     }
 
+    // take a star role on a scenecard
     public void takeStarRole(String role) {
         Board b = Board.getBoard();
         this.role = role.toLowerCase();

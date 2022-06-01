@@ -2,7 +2,6 @@ import java.util.Arrays;
 
 public class Trailer extends Room {
     private int[] area;
-    private int playersInRoomWaiting;
 
     // Constructor
     public Trailer(String name, String[] neighbors, int[] area) {

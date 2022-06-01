@@ -43,10 +43,12 @@ public class Set extends Room {
         return this.shotArea;
     }
 
+    // Returns number of shots left
     public int getShotsLeft() {
         return this.shotsLeft;
     }
 
+    // Returns the max number of shots for the set
     public int getMaxShots() {
         return this.maxShots;
     }
@@ -278,6 +280,7 @@ public class Set extends Room {
         System.out.println("\n");
     }
 
+    // Get the image of the set's scenecard, either front or back depending if the card is flipped
     public BufferedImage getCardImage() throws IOException {
         if (isFlipped) {
             return scene.getCardFront();

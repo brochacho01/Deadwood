@@ -268,6 +268,7 @@ class View {
         pStats.repaint();
     }
 
+    // Place a player on a scenecard role
     public void takeStarRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();
         int[] curSetArea = b.getRoomFromName(roomName).getArea();
@@ -284,8 +285,7 @@ class View {
         boardLP.repaint();
     }
 
-    // Place a player on their desired role on the set, decrement room offset and
-    // make sure the image moves
+    // Place a player on their desired role on the set
     public void takeExtraRole(String playerName, String roomName, String roleName) {
         Board b = Board.getBoard();
         int[] roleArea = ((Set) b.getRoomFromName(roomName)).getRole(roleName).getArea();

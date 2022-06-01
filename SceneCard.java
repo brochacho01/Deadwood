@@ -38,6 +38,7 @@ public class SceneCard {
         return this.budget;
     }
 
+    // Gets the image associated with the sceneCard
     public BufferedImage getCardFront(){
         return this.cardFront;
     }

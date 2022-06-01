@@ -10,6 +10,7 @@ public class Role {
         return this.roleName;
     }
 
+    // returns the type of role. either "extra" or "star"
     public String getRoleType(){
         return this.roleType;
     }

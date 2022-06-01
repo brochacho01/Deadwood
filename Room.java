@@ -42,6 +42,7 @@ abstract class Room {
         return null;
     }
 
+    // Returns the current offset that a player is on
     public int[] getCurOffSetPoints(int pSignature) {
         for(int i = 0; i < offSetPoints.length; i++){
             if(offSetPoints[i][0] == pSignature){
@@ -51,6 +52,7 @@ abstract class Room {
         return null;
     }
 
+    // When a player leaves the waiting area of a room, remove them from that rooms offsetpoints index
     public void removePlayerFromWaiting(int pSignature){
         for(int i = 0; i < offSetPoints.length; i++){
             if(offSetPoints[i][0] == pSignature){
@@ -60,16 +62,14 @@ abstract class Room {
         }
     }    
 
+    // resets all the offsetpoints for a room
     public void resetOffsetPoints() {
         for(int i = 0; i < offSetPoints.length; i++){
             offSetPoints[i][0] = -1;
         }
     }
 
-    public int getPlayersInRoomWaiting() {
-        return this.getPlayersInRoomWaiting();
-    }
-
+    // Returns the area of the room
     public int[] getArea(){
         return this.area;
     }
@@ -82,8 +82,5 @@ abstract class Room {
     // Returns a string[] containing the neighbors of the room
     public String[] getNeighbors() {
         return this.neighbors;
-    }
-
-    public void printSet(){
     }
 }
