@@ -107,6 +107,9 @@ class View {
                 boardLP.repaint();
             }
         }
+        // Placing sceneCards on the bottom of the board messes with playerStats so the entire container must be revalidated
+        container.repaint();
+        container.revalidate();
     }
 
     // Removes a sceneCard from the board view
@@ -241,7 +244,7 @@ class View {
             }
             String[] colNames = { "a", curPlayer.getName() };
             JTable curPStats = new JTable(pData, colNames);
-            curPStats.setBounds(curPlayer.getStatOffset(), 1, 232, 112);
+            curPStats.setBounds(curPlayer.getStatOffset(), 1, 231, 112);
             playerStats.put(curPlayer.getName(), curPStats);
             // Make sure table cannot be edited
             curPStats.setEnabled(false);
